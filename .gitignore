@@ -45,6 +45,11 @@ xcuserdata
 *.pdb
 *.ilk
 *.aps
+*.sln
+*.vcxproj
+*.vcxproj.filters
+*.vcxproj.user
+.vs/
 ipch/
 
 # Eclipse
@@ -88,6 +93,7 @@ Desktop.ini
 # be ignored
 
 # XCode
+
 # XCode 4
 
 # Code::Blocks
