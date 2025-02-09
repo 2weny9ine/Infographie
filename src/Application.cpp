@@ -5,15 +5,36 @@
 void Application::setup() {
     ofSetWindowTitle("Infographie");
     ofLog() << "Application démarre...";
-    ofBackground(50, 50, 50);
+
+    is_key_press_up = false;
+    is_key_press_down = false;
+    is_key_press_right = false;
+    is_key_press_left = false;
+
+    rend.setup();
 }
 
 void Application::update() {
+    time_current = ofGetElapsedTimef();
+    time_elapsed = time_current - time_last;
+    time_last = time_current;
 
+    //déplacement sur le plan XZ
+    if (is_key_press_up)
+        rend.offset_z += rend.delta_z * time_elapsed;
+    if (is_key_press_down)
+        rend.offset_z -= rend.delta_z * time_elapsed;
+    if (is_key_press_left)
+        rend.offset_x += rend.delta_x * time_elapsed;
+    if (is_key_press_right)
+        rend.offset_x -= rend.delta_x * time_elapsed;
+
+    rend.update();
 }
 
 void Application::draw() {
     img.showImage();
+    rend.draw();
 }
 
 
@@ -22,11 +43,49 @@ void Application::windowResized(int w, int h) {
     ofLog() << "Fenêtre redimensionnée : " << w << "x" << h;
 }
 
+void Application::keyPressed(int key)
+{
+    switch (key)
+    {
+    case OF_KEY_LEFT:
+        is_key_press_left = true;
+        break;
+    case OF_KEY_UP:
+        is_key_press_up = true;
+        break;
+    case OF_KEY_RIGHT:
+        is_key_press_right = true;
+        break;
+    case OF_KEY_DOWN:
+        is_key_press_down = true;
+        break;
+    default:
+        break;
+    }
+}
+
 void Application::keyReleased(int key)
 {
-    if (key == ' ') {
-        img.imageExport("exportImage", "png");
-       }
+    switch (key)
+    {
+        case OF_KEY_LEFT:
+            is_key_press_left = false;
+            break;
+        case OF_KEY_UP:
+            is_key_press_up = false;
+            break;
+        case OF_KEY_RIGHT:
+            is_key_press_right = false;
+            break;
+        case OF_KEY_DOWN:
+            is_key_press_down = false;
+            break;
+        case ' ':
+            img.imageExport("exportImage", "png");
+            break;
+        default:
+            break;
+    }
 }
 
 void Application::dragEvent(ofDragInfo dragInfo) {
