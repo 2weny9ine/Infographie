@@ -55,6 +55,9 @@
     <ClCompile Include="src\modules\Image\Image.cpp">
       <Filter>src\modules\Image</Filter>
     </ClCompile>
+    <ClCompile Include="src\modules\Scene\Scene.cpp">
+      <Filter>src\modules\Scene</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="src">
@@ -101,6 +104,9 @@
     </Filter>
     <Filter Include="src\modules\Image">
       <UniqueIdentifier>{433fbb8c-a89d-4115-8676-779901a11e37}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="src\modules\Scene">
+      <UniqueIdentifier>{59ec1fea-7a0d-4a4f-8f86-e77504d556dd}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -409,6 +415,9 @@
     </ClInclude>
     <ClInclude Include="src\modules\Image\Image.h">
       <Filter>src\modules\Image</Filter>
+    </ClInclude>
+    <ClInclude Include="src\modules\Scene\Scene.h">
+      <Filter>src\modules\Scene</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

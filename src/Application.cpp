@@ -11,7 +11,7 @@ void Application::setup() {
     is_key_press_right = false;
     is_key_press_left = false;
 
-    rend.setup();
+    scene.setup();
 }
 
 void Application::update() {
@@ -21,20 +21,20 @@ void Application::update() {
 
     //déplacement sur le plan XZ
     if (is_key_press_up)
-        rend.offset_z += rend.delta_z * time_elapsed;
+        scene.offset_z += scene.delta_z * time_elapsed;
     if (is_key_press_down)
-        rend.offset_z -= rend.delta_z * time_elapsed;
+        scene.offset_z -= scene.delta_z * time_elapsed;
     if (is_key_press_left)
-        rend.offset_x += rend.delta_x * time_elapsed;
+        scene.offset_x += scene.delta_x * time_elapsed;
     if (is_key_press_right)
-        rend.offset_x -= rend.delta_x * time_elapsed;
+        scene.offset_x -= scene.delta_x * time_elapsed;
 
-    rend.update();
+    scene.update();
 }
 
 void Application::draw() {
     img.showImage();
-    rend.draw();
+    scene.draw();
 }
 
 
