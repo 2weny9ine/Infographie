@@ -60,6 +60,12 @@ void Application::keyPressed(int key)
 	case 's':
 		user_camera_movement.move_backwards = true;
 		break;
+	case 'e':
+		user_camera_movement.move_upwards = true;
+		break;
+	case 'q':
+		user_camera_movement.move_downwards = true;
+		break;
 
 	default:
 		break;
@@ -94,6 +100,12 @@ void Application::keyReleased(int key)
 		break;
 	case 's':
 		user_camera_movement.move_backwards = false;
+		break;
+	case 'e':
+		user_camera_movement.move_upwards = false;
+		break;
+	case 'q':
+		user_camera_movement.move_downwards = false;
 		break;
 
 	case ' ':

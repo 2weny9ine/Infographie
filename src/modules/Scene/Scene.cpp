@@ -12,9 +12,11 @@ void Scene::setup()
 	is_active_proportion = false;
 
 	offset_x = 0.0f;
+	offset_y = 0.0f;
 	offset_z = 0.0f;
 
 	delta_x = speed;
+	delta_y = speed;
 	delta_z = speed;
 
 	locator_buffer_head = 0;
@@ -35,7 +37,7 @@ void Scene::draw()
 {
 	ofPushMatrix();
 
-	ofTranslate(center_x + offset_x, center_y, offset_z);
+	ofTranslate(center_x + offset_x, center_y + offset_y, offset_z);
 	//Boucle servant d'exemple pour extraire des valeurs de position, rotation et scale
 	for (int index = 0; index < locator_buffer_head; ++index)
 	{

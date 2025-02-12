@@ -22,9 +22,9 @@ public :
 
 	float center_x, center_y;
 
-	float offset_x, offset_z;
+	float offset_x, offset_y, offset_z;
 
-	float delta_x, delta_z;
+	float delta_x, delta_y, delta_z;
 
 	float speed;
 
