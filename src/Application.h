@@ -3,12 +3,14 @@
 #include "Renderer.h"
 #include "modules/Scene/Scene.h"
 #include "modules/Image/Image.h"
+#include "modules/User_Camera_Movement/User_Camera_Movement.h"
 
 class Application : public ofBaseApp {
 public:
     Image img;
     Scene scene;
-    bool is_key_press_up, is_key_press_down, is_key_press_left, is_key_press_right;
+    User_Camera_Movement user_camera_movement;
+
     float time_current, time_elapsed, time_last;
     
     void setup();
