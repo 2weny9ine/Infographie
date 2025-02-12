@@ -4,9 +4,11 @@
 #include "modules/Scene/Scene.h"
 #include "modules/Image/Image.h"
 #include "modules/User_Camera_Movement/User_Camera_Movement.h"
+#include "modules/GUI/GUI.h"
 
 class Application : public ofBaseApp {
 public:
+    GUI gui;
     Image img;
     Scene scene;
     User_Camera_Movement user_camera_movement;
