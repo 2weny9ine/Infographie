@@ -117,13 +117,15 @@ void Application::keyReleased(int key)
 }
 
 void Application::dragEvent(ofDragInfo dragInfo) {
-	if (!dragInfo.files.empty()) {
-		for (const auto& file : dragInfo.files) {
-			img.importImage(file);
-		}
+	ofLogNotice("Application::dragEvent") << "Drag Event: "
+		<< "Files: " << dragInfo.files.size()
+		<< ", Position: (" << dragInfo.position.x << ", " << dragInfo.position.y << ")";
 
-	}
+	DragEvent dragEventHandler;
+
+	dragEventHandler.processDragEvent(dragInfo, &scene);
 }
+
 
 
 void Application::exit()
