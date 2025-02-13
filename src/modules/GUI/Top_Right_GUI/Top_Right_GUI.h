@@ -9,8 +9,5 @@ public:
 	Top_Right_GUI();
 
 private:
-	ofxDatGuiFolder* position_folder;
-	ofxDatGuiTextInput* x_position;
-	ofxDatGuiTextInput* y_position;
-	ofxDatGuiTextInput* z_position;
+
 };
