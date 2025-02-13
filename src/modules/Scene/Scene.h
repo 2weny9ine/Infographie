@@ -2,8 +2,10 @@
 #include "ofAppRunner.h"
 #include "ofGraphics.h"
 #include "ofMain.h"
+#include <vector>
 
-//Structure d'un localisateur de transformation
+#include "objects/Object3D.h"
+
 struct Locator
 {
 	float position[3];
@@ -13,7 +15,7 @@ struct Locator
 
 class Scene
 {
-public :
+public:
 	Locator* locators;
 
 	ofNode node;
@@ -42,7 +44,11 @@ public :
 	void update();
 	void draw();
 
+	void addObject(Object3D* obj);
+	void removeObject(Object3D* obj);
+
 	~Scene();
 
+private:
+	std::vector<Object3D*> objects;
 };
-

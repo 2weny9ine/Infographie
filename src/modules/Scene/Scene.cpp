@@ -69,9 +69,11 @@ void Scene::draw()
 
 	//Dessine l'origine de la scène
 	draw_locator(10.0f);
-
+	for (auto obj : objects)
+	{
+		obj->draw();
+	}
 	ofPopMatrix();
-
 }
 
 ///Cette méthode a pour but de servir d'exemple pour effectuer des transformations sur des localisateurs
@@ -134,8 +136,26 @@ void Scene::draw_locator(float scale)
 	ofPopMatrix();
 }
 
+void Scene::addObject(Object3D* obj) {
+	objects.push_back(obj);
+	ofLogNotice("Scene::addObject") << "Object added to scene.";
+}
+
+void Scene::removeObject(Object3D* obj)
+{
+	auto it = std::find(objects.begin(), objects.end(), obj);
+	if (it != objects.end())
+	{
+		objects.erase(it);
+	}
+}
+
 Scene::~Scene()
 {
+	for (auto obj : objects)
+	{
+		delete obj;
+	}
 	std::free(locators);
 }
 

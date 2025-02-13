@@ -6,6 +6,8 @@
 #include "modules/User_Camera_Movement/User_Camera_Movement.h"
 #include "modules/GUI/GUI.h"
 
+#include "events/DragEvent/DragEvent.h"
+
 class Application : public ofBaseApp {
 public:
     GUI gui;

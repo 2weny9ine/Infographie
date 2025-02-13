@@ -1,6 +1,5 @@
 #pragma once
 #include "ofxDatGui.h"
-#include "Application.h"
 
 class Top_Left_GUI
 {
