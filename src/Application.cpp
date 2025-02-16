@@ -5,7 +5,7 @@ void Application::setup() {
 	ofSetWindowTitle("Infographie");
 	ofLog() << "Application démarre...";
 
-	scene.setup();
+	scene.setup(&user_camera_movement.camera);
 
 	user_camera_movement.setup(scene);
 }
@@ -107,7 +107,9 @@ void Application::keyReleased(int key)
 	case 'q':
 		user_camera_movement.move_downwards = false;
 		break;
-
+	case 'l':
+		scene.dispatch_locators(scene.locator_count, std::min(ofGetWidth(), ofGetHeight()));
+		break;
 	case ' ':
 		img.imageExport("exportImage", "png");
 		break;
@@ -126,7 +128,76 @@ void Application::dragEvent(ofDragInfo dragInfo) {
 	dragEventHandler.processDragEvent(dragInfo, &scene);
 }
 
+void Application::mouseMoved(int x, int y)
+{
+	scene.mouse_current_x = x;
+	scene.mouse_current_y = y;
+}
 
+void Application::mouseDragged(int x, int y, int button)
+{
+	scene.mouse_current_x = x;
+	scene.mouse_current_y = y;
+}
+
+void Application::mousePressed(int x, int y, int button)
+{
+	scene.resetSelection();
+
+
+	scene.is_mouse_button_pressed = true;
+
+	scene.mouse_current_x = x;
+	scene.mouse_current_y = y;
+
+	scene.mouse_press_x = x;
+	scene.mouse_press_y = y;
+
+	//Test en envoyant un rayon partant de la caméra vers l'avant à l'infini, renvoyant le premier objet "hit".
+	
+	//glm::vec3 rayOrigin = user_camera_movement.camera.getPosition();
+	//glm::vec3 rayDir = user_camera_movement.camera.screenToWorld(glm::vec3(x, y, 0)) - rayOrigin;
+
+	//rayDir = glm::normalize(rayDir);
+
+	for (int index = 0; index < scene.locator_buffer_head; ++index)
+	{
+
+		glm::vec3 locatorPos = glm::vec3(scene.locators[index].position[0], scene.locators[index].position[1], scene.locators[index].position[2]);
+		glm::vec3 screenPos = scene.camera->worldToScreen(locatorPos);
+
+		float tolerance = 20.0f;
+		if (glm::distance(glm::vec2(x, y), glm::vec2(screenPos.x, screenPos.y)) < tolerance) {
+			scene.locators[index].isSelected = !scene.locators[index].isSelected;//Toggle la selection
+		}
+	}
+}
+
+void Application::mouseReleased(int x, int y, int button)
+{
+	scene.is_mouse_button_pressed = false;
+
+	scene.mouse_current_x = x;
+	scene.mouse_current_y = y;
+	
+	//Sélection tout ce qui est dans la boite de sélection si celle-ci est assez grande
+	float distance = sqrt(pow(x - scene.mouse_press_x, 2) + pow(y - scene.mouse_press_y, 2));
+
+	if(distance > 20.0f)
+	scene.selectAllInBounds(scene.mouse_press_x, scene.mouse_press_y, x, y);
+}
+
+void Application::mouseEntered(int x, int y)
+{
+	scene.mouse_current_x = x;
+	scene.mouse_current_y = y;
+}
+
+void Application::mouseExited(int x, int y)
+{
+	scene.mouse_current_x = x;
+	scene.mouse_current_y = y;
+}
 
 void Application::exit()
 {

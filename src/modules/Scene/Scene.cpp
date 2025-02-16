@@ -1,12 +1,22 @@
 #include "Scene.h"
 #include "ofMain.h"
 
-void Scene::setup()
+void Scene::setup(ofCamera* cam)
 {
+	camera = cam;
+
 	locator_count = 100;
 
 	speed = 100.0f;
 
+	radius = 3.0f;
+
+	mouse_press_x = 0;
+	mouse_press_y = 0;
+	mouse_current_x = 0;
+	mouse_current_y = 0;
+
+	is_mouse_button_pressed = false;
 	is_active_translation = false;
 	is_active_rotation = false;
 	is_active_proportion = false;
@@ -23,8 +33,6 @@ void Scene::setup()
 
 	//allocation d'un espace mémoire suffisamment grand pour contenir les données de l'ensemble des localisateurs
 	locators = (Locator*)std::malloc(locator_count * sizeof(Locator));
-
-	//dispatch_locators(locator_count, std::min(ofGetWidth(), ofGetHeight()));
 }
 
 void Scene::update()
@@ -35,12 +43,18 @@ void Scene::update()
 
 void Scene::draw()
 {
+	//ESPACE POUR DESSINER LE 3D
+	camera->begin();
 	ofPushMatrix();
 
-	ofTranslate(center_x + offset_x, center_y + offset_y, offset_z);
+	//ofTranslate(center_x + offset_x, center_y + offset_y, offset_z);
+
 	//Boucle servant d'exemple pour extraire des valeurs de position, rotation et scale
 	for (int index = 0; index < locator_buffer_head; ++index)
 	{
+		ofSetLineWidth(4);
+		ofSetColor(127);
+		ofFill();
 		ofPushMatrix();
 		//extraction des attributs de translation
 		vector_position.x = locators[index].position[0];
@@ -64,6 +78,14 @@ void Scene::draw()
 
 		node.draw();
 
+		// Dessine une outline blanche si le node est sélectionné
+		if (locators[index].isSelected) {
+			ofSetColor(255);
+			ofNoFill();
+			ofSetLineWidth(6);
+			node.draw();
+		}
+
 		ofPopMatrix();
 	}
 
@@ -73,7 +95,22 @@ void Scene::draw()
 	{
 		obj->draw();
 	}
+
 	ofPopMatrix();
+	camera->end();
+	// | ESPACE POUR DESSINER LES VECTEURS 2D |
+	// V									  V
+
+	//Dessine la zone de sélection
+	if (is_mouse_button_pressed)
+	{
+		// dessiner la zone de sélection
+		draw_zone(
+			mouse_press_x,
+			mouse_press_y,
+			mouse_current_x,
+			mouse_current_y);
+	}
 }
 
 ///Cette méthode a pour but de servir d'exemple pour effectuer des transformations sur des localisateurs
@@ -121,6 +158,45 @@ void Scene::dispatch_locators(int count, float range)
 		locators[index].proportion[0] = vector_proportion.x;
 		locators[index].proportion[1] = vector_proportion.y;
 		locators[index].proportion[2] = vector_proportion.z;
+		//Reset du boolean isSelected
+		locators[index].isSelected = false;
+	}
+}
+
+void Scene::draw_zone(float x1, float y1, float x2, float y2) const
+{
+	float x2_clamp = min(max(0.0f, x2), (float)ofGetWidth());
+	float y2_clamp = min(max(0.0f, y2), (float)ofGetHeight());
+	//Dessine la boite de sélection
+	ofSetLineWidth(radius);
+	ofSetColor(255);
+	ofNoFill();
+	ofDrawRectangle(x1, y1, x2_clamp - x1, y2_clamp - y1);
+	ofFill();
+	ofDrawEllipse(x1, y1, radius, radius);
+	ofDrawEllipse(x1, y2_clamp, radius, radius);
+	ofDrawEllipse(x2_clamp, y1, radius, radius);
+	ofDrawEllipse(x2_clamp, y2_clamp, radius, radius);
+}
+
+void Scene::selectAllInBounds(float x1, float y1, float x2, float y2)
+{
+	float minX = min(x1, x2);
+	float maxX = max(x1, x2);
+	float minY = min(y1, y2);
+	float maxY = max(y1, y2);
+
+	for (int index = 0; index < locator_buffer_head; ++index)
+	{
+		glm::vec3 locatorPos = glm::vec3(locators[index].position[0], locators[index].position[1], locators[index].position[2]);
+		glm::vec3 screenPos = camera->worldToScreen(locatorPos);
+
+		if (screenPos.x >= minX && screenPos.x <= maxX && screenPos.y >= minY && screenPos.y <= maxY) {
+			locators[index].isSelected = true;  // Select the node
+		}
+		else {
+			locators[index].isSelected = false; // Deselect it
+		}
 	}
 }
 
@@ -130,10 +206,19 @@ void Scene::draw_locator(float scale)
 	ofSetColor(127);
 	ofFill();
 	ofPushMatrix();
-	ofScale(scale, -scale, scale);
 	node.setPosition(0.0f, 0.0f, 0.0f);
+	node.setOrientation(ofVec3f(0,0,0));
+	node.setScale(ofVec3f(10,-10,10));
 	node.draw();
 	ofPopMatrix();
+}
+
+void Scene::resetSelection()
+{
+	for (int index = 0; index < locator_buffer_head; ++index)
+	{
+		locators[index].isSelected = false;//Toggle la selection
+	}
 }
 
 void Scene::addObject(Object3D* obj) {

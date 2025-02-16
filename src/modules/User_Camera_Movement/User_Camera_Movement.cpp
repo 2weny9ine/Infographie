@@ -13,21 +13,24 @@ User_Camera_Movement::User_Camera_Movement()
 
 void User_Camera_Movement::setup(Scene& s) {
     scene = &s;
+    camera.setPosition(0, 0, 800);
+    camera.lookAt(glm::vec3(0, 0, 0));
 }
 
 void User_Camera_Movement::update(float time_elapsed) {
     if (!scene) return;
+    float moveSpeed = 5.0f; // Movement speed
 
     if (move_forward)
-        scene->offset_z += scene->delta_z * time_elapsed;
+        camera.setPosition(camera.getPosition() + glm::vec3(0, 0, -moveSpeed));
     if (move_backwards)
-        scene->offset_z -= scene->delta_z * time_elapsed;
+        camera.setPosition(camera.getPosition() - glm::vec3(0, 0, -moveSpeed));
     if (move_left)
-        scene->offset_x += scene->delta_x * time_elapsed;
+        camera.setPosition(camera.getPosition() - glm::vec3(moveSpeed, 0, 0));
     if (move_right)
-        scene->offset_x -= scene->delta_x * time_elapsed;
+        camera.setPosition(camera.getPosition() + glm::vec3(moveSpeed, 0, 0));
     if (move_upwards)
-        scene->offset_y += scene->delta_y * time_elapsed;
+        camera.setPosition(camera.getPosition() + glm::vec3(0, moveSpeed, 0));
     if (move_downwards)
-        scene->offset_y -= scene->delta_y * time_elapsed;
+        camera.setPosition(camera.getPosition() - glm::vec3(0, moveSpeed, 0));
 }

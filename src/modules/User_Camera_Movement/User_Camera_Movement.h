@@ -1,10 +1,12 @@
 #pragma once
 #include "ofMain.h"
-#include "Scene.h"
+#include "modules/Scene/Scene.h"
 
 class User_Camera_Movement {
 public:
     Scene* scene;
+
+    ofCamera camera;
 
     bool move_forward;
     bool move_backwards;
