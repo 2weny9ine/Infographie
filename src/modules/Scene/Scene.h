@@ -2,6 +2,7 @@
 #include "ofAppRunner.h"
 #include "ofGraphics.h"
 #include "ofMain.h"
+#include "Image.h"
 #include <vector>
 
 #include "objects/Object3D.h"
@@ -14,11 +15,12 @@ struct Locator
 	bool isSelected;
 };
 
+class Image;
 class Scene
 {
 public:
 	Locator* locators;
-
+    Image* img;
 	ofNode node;
 
 	ofVec3f vector_position, vector_rotation, vector_proportion;
@@ -59,7 +61,8 @@ public:
 
 	void addObject(Object3D* obj);
 	void removeObject(Object3D* obj);
-
+    
+    Scene();
 	~Scene();
 
 private:

@@ -8,19 +8,32 @@ ImageObject::~ImageObject() {
     ofLogNotice("ImageObject::~ImageObject") << "ImageObject destructor called.";
 }
 
+
 bool ImageObject::loadImage(const std::string& path) {
     ofLogNotice("ImageObject::loadImage") << "Loading image from path: " << path;
     bool success = image.load(path);
     if (success) {
-        ofLogNotice("ImageObject::loadImage") << "Image loaded successfully with dimensions: " << image.getWidth() << "x" << image.getHeight();
-        plane.set(image.getWidth(), image.getHeight(), 2, 2);
-        plane.mapTexCoords(0, image.getHeight(), image.getWidth(), 0);
+        int imgWidth = image.getWidth();
+        int imgHeight = image.getHeight();
+        
+        float maxCellWidth = 400.0f;
+        float maxCellHeight = 300.0f;
+        float scaleFactor = 1.0f;
+        
+        if (imgWidth > maxCellWidth || imgHeight > maxCellHeight) {
+            scaleFactor = std::min(maxCellWidth / (float)imgWidth, maxCellHeight / (float)imgHeight);
+        }
+        
+
+        plane.set(imgWidth * scaleFactor, imgHeight * scaleFactor, 2, 2);
+        plane.mapTexCoords(0, 0, imgWidth, imgHeight);
     }
     else {
         ofLogError("ImageObject::loadImage") << "Failed to load image.";
     }
     return success;
 }
+
 
 void ImageObject::setup() {
     ofLogNotice("ImageObject::setup") << "Setting up ImageObject.";
@@ -32,6 +45,8 @@ void ImageObject::update(float dt) {
 
 void ImageObject::draw() {
     ofPushMatrix();
+    ofTranslate(position);
+    
     if (image.isAllocated()) {
         image.getTexture().bind();
         plane.draw();

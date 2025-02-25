@@ -25,18 +25,11 @@ void DragEvent::processDragEvent(const ofDragInfo& dragInfo, Scene* scene) {
         ofLogNotice("DragEvent::processDragEvent") << "File extension: " << extension;
 
         if (extension == "jpg" || extension == "jpeg" || extension == "png" || extension == "bmp") {
-            ImageObject* imgObj = new ImageObject();
             ofLogNotice("DragEvent::processDragEvent") << "Attempting to load image: " << file;
 
-            if (imgObj->loadImage(file)) {
-                imgObj->position.set(0, 0, 0);
-                scene->addObject(imgObj);
-                ofLogNotice("DragEvent::processDragEvent") << "Image loaded and added to scene: " << file;
-            }
-            else {
-                ofLogError("DragEvent::processDragEvent") << "Failed to load image: " << file;
-                delete imgObj;
-            }
+            scene->img->importImage(file);
+
+            
         }
         else if (extension == "obj" || extension == "dae" || extension == "3ds") {
             ModelObject* modelObj = new ModelObject();
