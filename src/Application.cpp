@@ -6,7 +6,8 @@ void Application::setup() {
     ofLog() << "Application démarre...";
     
     scene.setup(&user_camera_movement.camera);
-    
+    gui.top_left.setImage(scene.img);
+
     user_camera_movement.setup(scene);
 }
 
@@ -23,8 +24,10 @@ void Application::update() {
 void Application::draw() {
     scene.draw();
     scene.img->createHistogram();
+    gui.top_left.draw();
     
-    scene.img->drawHistogram(50, ofGetHeight() - 300, 256, 200);
+    //topLeftGui.setImage(scene.img);
+    //scene.img->drawHistogram(50, ofGetHeight() - 300, 256, 200);
     scene.img->imageExport("exportImage", "png");
 }
 

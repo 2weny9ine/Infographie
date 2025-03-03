@@ -25,28 +25,37 @@ void Image::setExportTriggered(bool triggered) {
 
 void Image::imageExport(const std::string& name, const std::string& extension) {
     if (!exportTriggered) return;
-    static bool sequenceStarted = false;
-    static float sequenceStartTime = 0.0f;
+    
     static int captureCount = 0;
+    static float lastCaptureTime = 0.0f;
     float currentTime = ofGetElapsedTimef();
-    if (!sequenceStarted) {
-        sequenceStarted = true;
-        sequenceStartTime = currentTime;
-        captureCount = 0;
+    
+
+    if (captureCount == 0) {
+        std::string timeStamp = ofGetTimestampString("-%y%m%d-%H%M%S-%i");
+        std::string fileName = name + "_0" + timeStamp + "." + extension;
+        ofSaveScreen(fileName);
+
+        captureCount++;
+        lastCaptureTime = currentTime;
     }
-    float elapsed = currentTime - sequenceStartTime;
-    if (captureCount < 5 && elapsed >= captureCount + 1) {
+
+    else if (captureCount < 5 && (currentTime - lastCaptureTime) >= 1.0f) {
         std::string timeStamp = ofGetTimestampString("-%y%m%d-%H%M%S-%i");
         std::string fileName = name + "_" + ofToString(captureCount) + timeStamp + "." + extension;
         ofSaveScreen(fileName);
         ofLog() << "<export scene frame: " << fileName << ">";
         captureCount++;
+        lastCaptureTime = currentTime;
     }
+    
+
     if (captureCount >= 5) {
-        sequenceStarted = false;
+        captureCount = 0;
         exportTriggered = false;
     }
 }
+
 
 void Image::showImage() {
     if (images.empty()) return;
@@ -74,11 +83,17 @@ void Image::showImage() {
         
         images[i]->setPosition({x, y, z});
         
-        ofLogNotice("showImage()")
-        << "Image " << i << " => position("
-        << x << ", " << y << ", " << z << ")";
     }
 }
+
+void Image::clearImages() {
+    for (auto imgObj : images) {
+        scene.removeObject(imgObj);
+        delete imgObj;
+    }
+    images.clear();
+}
+
 
 void Image::createHistogram() {
     histogramR.assign(256, 0);
@@ -87,10 +102,10 @@ void Image::createHistogram() {
 
     if (images.empty()) return;
 
-    const auto& imgObject = images[0]; 
-    const ofPixels& pixels = imgObject->getImage().getPixels();
-    
-    for (size_t i = 0; i < pixels.size(); i += pixels.getNumChannels()) {
+    ofPixels pixels = images[0]->getImage().getPixels();
+    int channels = pixels.getNumChannels();
+
+    for (int i = 0; i < pixels.size(); i += channels) {
         histogramR[pixels[i]]++;
         histogramG[pixels[i + 1]]++;
         histogramB[pixels[i + 2]]++;
@@ -98,32 +113,38 @@ void Image::createHistogram() {
 }
 
 
+
 void Image::drawHistogram(int x, int y, int width, int height) {
-    int maxVal = std::max({
-        *std::max_element(histogramR.begin(), histogramR.end()),
-        *std::max_element(histogramG.begin(), histogramG.end()),
-        *std::max_element(histogramB.begin(), histogramB.end())
-    });
+    int maxVal = 0;
+    for (int i = 0; i < 256; i++) {
+        if (histogramR[i] > maxVal) maxVal = histogramR[i];
+        if (histogramG[i] > maxVal) maxVal = histogramG[i];
+        if (histogramB[i] > maxVal) maxVal = histogramB[i];
+    }
     
-    int barWidth = std::max(1, width / 256);
-    
+    int bw = width / 256;
     ofPushMatrix();
     ofTranslate(x, y);
     ofSetColor(30, 30, 30);
     ofDrawRectangle(0, 0, width, height);
     
     for (int i = 0; i < 256; i++) {
-        float barHeightR = ofMap(histogramR[i], 0, maxVal, 0, height);
-        float barHeightG = ofMap(histogramG[i], 0, maxVal, 0, height);
-        float barHeightB = ofMap(histogramB[i], 0, maxVal, 0, height);
+        float rH = (histogramR[i] * height) / (float)maxVal;
+        float gH = (histogramG[i] * height) / (float)maxVal;
+        float bH = (histogramB[i] * height) / (float)maxVal;
         
-        ofSetColor(255, 0, 0, 150);
-        ofDrawRectangle(i * barWidth, height - barHeightR, barWidth, barHeightR);
-        ofSetColor(0, 255, 0, 150);
-        ofDrawRectangle(i * barWidth, height - barHeightG, barWidth, barHeightG);
-        ofSetColor(0, 0, 255, 150);
-        ofDrawRectangle(i * barWidth, height - barHeightB, barWidth, barHeightB);
+        ofSetColor(255, 0, 0, 100);
+        ofDrawRectangle(i * bw, height - rH, bw, rH);
+        
+        ofSetColor(0, 255, 0, 100);
+        ofDrawRectangle(i * bw, height - gH, bw, gH);
+        
+        ofSetColor(0, 0, 255, 100);
+        ofDrawRectangle(i * bw, height - bH, bw, bH);
     }
     ofPopMatrix();
 }
+
+
+
 

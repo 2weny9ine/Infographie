@@ -15,11 +15,12 @@ public:
     void importImage(const std::string& path);
     void imageExport(const std::string& name, const std::string& extension);
     void showImage();
+    void clearImages();
     void createHistogram();
     void drawHistogram(int x, int y, int width, int height);
     
     void setExportTriggered(bool triggered);
-    
+    bool hasImage() const { return !images.empty(); }
 private:
     bool exportTriggered = false;
     
