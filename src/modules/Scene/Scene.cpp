@@ -1,4 +1,5 @@
 #include "Scene.h"
+#include "Image.h"
 #include "ofMain.h"
 
 void Scene::setup(ofCamera* cam)
@@ -40,6 +41,12 @@ void Scene::update()
 	center_x = ofGetWidth() / 2.0f;
 	center_y = ofGetHeight() / 2.0f;
 }
+
+Scene::Scene() {
+    img = new Image(*this);  
+}
+
+
 
 void Scene::draw()
 {

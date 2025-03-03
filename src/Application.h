@@ -11,7 +11,6 @@
 class Application : public ofBaseApp {
 public:
     GUI gui;
-    Image img;
     Scene scene;
     User_Camera_Movement user_camera_movement;
 
