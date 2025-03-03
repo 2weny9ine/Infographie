@@ -3,47 +3,50 @@
 
 Top_Left_GUI::Top_Left_GUI()
 {
-	gui = new ofxDatGui(ofxDatGuiAnchor::TOP_LEFT);
-	
-	position_folder = gui->addFolder("Camera Position", ofColor::white);
-	position_folder->expand();
+    gui = new ofxDatGui(ofxDatGuiAnchor::TOP_LEFT);
 
-	x_position = position_folder->addTextInput("X", "N/A");
-	x_position->setInputType(ofxDatGuiInputType::NUMERIC);
+    position_folder = gui->addFolder("Camera Position", ofColor::white);
+    position_folder->expand();
 
-	y_position = position_folder->addTextInput("Y", "N/A");
-	y_position->setInputType(ofxDatGuiInputType::NUMERIC);
+    x_position = position_folder->addTextInput("X", "N/A");
+    x_position->setInputType(ofxDatGuiInputType::NUMERIC);
 
-	z_position = position_folder->addTextInput("Z", "N/A");
-	z_position->setInputType(ofxDatGuiInputType::NUMERIC);
-	
-	gui->addFRM();
+    y_position = position_folder->addTextInput("Y", "N/A");
+    y_position->setInputType(ofxDatGuiInputType::NUMERIC);
+
+    z_position = position_folder->addTextInput("Z", "N/A");
+    z_position->setInputType(ofxDatGuiInputType::NUMERIC);
+
+    gui->addFRM();
 
     histogram_folder = gui->addFolder("Image", ofColor::white);
     deleteImagesButton = histogram_folder->addButton("Supprimer toutes les images");
-       deleteImagesButton->onButtonEvent([this](ofxDatGuiButtonEvent e) {
-           if (imagePtr) {
-               imagePtr->clearImages();
-           }
-       });
+    deleteImagesButton->onButtonEvent([this](ofxDatGuiButtonEvent e) {
+        if (imagePtr) {
+            imagePtr->clearImages();
+        }
+        });
     histogramButton = histogram_folder->addButton("Afficher l'histogramme de la première image");
-    
+
     histogramButton->onButtonEvent([this](ofxDatGuiButtonEvent e) {
         showHistogram = !showHistogram;
-        
-        if(showHistogram){
+
+        if (showHistogram) {
             histogramButton->setLabel("Masquer histogramme");
-        } else {
+        }
+        else {
             histogramButton->setLabel("Afficher l'histogramme de la première image");
         }
-    });
-    showHistogram= false;
-    
-    
-   
+        });
+    showHistogram = false;
+
     imagePtr = nullptr;
 }
 
 void Top_Left_GUI::setup(GUI* gui_manager) {
-	this->gui_manager = gui_manager;
+    this->gui_manager = gui_manager;
+}
+
+void Top_Left_GUI::draw() {
+
 }
