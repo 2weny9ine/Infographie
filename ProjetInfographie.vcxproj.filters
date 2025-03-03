@@ -94,6 +94,9 @@
     <ClCompile Include="..\..\..\addons\ofxGui\src\ofxToggle.cpp">
       <Filter>addons\ofxGui\src</Filter>
     </ClCompile>
+    <ClCompile Include="src\modules\GUI\Bottom_Left_GUI\Bottom_Left_GUI.cpp" />
+    <ClCompile Include="src\objects\ModelObject\Templates\Cube\Cube.cpp" />
+    <ClCompile Include="src\objects\ModelObject\Templates\Sphere\Sphere.cpp" />
   </ItemGroup>
   <ItemGroup>
     <Filter Include="src">
@@ -590,6 +593,9 @@
     <ClInclude Include="..\..\..\addons\ofxGui\src\ofxToggle.h">
       <Filter>addons\ofxGui\src</Filter>
     </ClInclude>
+    <ClInclude Include="src\modules\GUI\Bottom_Left_GUI\Bottom_Left_GUI.h" />
+    <ClInclude Include="src\objects\ModelObject\Templates\Cube\Cube.h" />
+    <ClInclude Include="src\objects\ModelObject\Templates\Sphere\Sphere.h" />
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="icon.rc" />

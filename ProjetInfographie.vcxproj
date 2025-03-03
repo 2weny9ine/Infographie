@@ -104,8 +104,11 @@
     <PostBuildEvent />
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="src\objects\ModelObject\Templates\Cube\Cube.cpp" />
     <ClCompile Include="src\main.cpp" />
     <ClCompile Include="src\Application.cpp" />
+    <ClCompile Include="src\modules\GUI\Bottom_Left_GUI\Bottom_Left_GUI.cpp" />
+    <ClCompile Include="src\objects\ModelObject\Templates\Sphere\Sphere.cpp" />
     <ClCompile Include="src\Renderer.cpp" />
     <ClCompile Include="src\events\DragEvent\DragEvent.cpp" />
     <ClCompile Include="src\modules\GUI\GUI.cpp" />
@@ -136,7 +139,10 @@
     <ClCompile Include="..\..\..\addons\ofxGui\src\ofxToggle.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="src\objects\ModelObject\Templates\Cube\Cube.h" />
     <ClInclude Include="src\Application.h" />
+    <ClInclude Include="src\modules\GUI\Bottom_Left_GUI\Bottom_Left_GUI.h" />
+    <ClInclude Include="src\objects\ModelObject\Templates\Sphere\Sphere.h" />
     <ClInclude Include="src\Renderer.h" />
     <ClInclude Include="src\events\DragEvent\DragEvent.h" />
     <ClInclude Include="src\modules\GUI\GUI.h" />

@@ -1,14 +1,25 @@
 #pragma once
 
 #include "ofxDatGui.h"
-#include "Top_Left_GUI/Top_Left_GUI.h"
-#include "Top_Right_GUI/Top_Right_GUI.h"
+#include "Scene.h"
 
-class GUI
-{
+class Top_Left_GUI;
+class Top_Right_GUI;
+class Bottom_Left_GUI;
+
+class GUI {
 public:
-	GUI();
+    GUI();
+    ~GUI();
+    void setup(Scene* scene);
+    Scene* getScene();
 
-	Top_Left_GUI top_left;
-	Top_Right_GUI top_right;
+private:
+    Scene* scene;
+
+    std::unique_ptr<Top_Left_GUI> top_left;
+    std::unique_ptr<Top_Right_GUI> top_right;
+    std::unique_ptr<Bottom_Left_GUI> bottom_left;
+
+    void initializeGUIs();
 };

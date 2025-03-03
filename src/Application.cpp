@@ -8,6 +8,8 @@ void Application::setup() {
 	scene.setup(&user_camera_movement.camera);
 
 	user_camera_movement.setup(scene);
+
+	gui.setup(&scene);
 }
 
 void Application::update() {
