@@ -8,7 +8,9 @@ void Application::setup() {
     scene.setup(&user_camera_movement.camera);
     gui.top_left.setImage(scene.img);
 
-    user_camera_movement.setup(scene);
+	user_camera_movement.setup(scene);
+
+	gui.setup(&scene);
 }
 
 void Application::update() {
