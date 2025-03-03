@@ -19,6 +19,18 @@ Bottom_Left_GUI::Bottom_Left_GUI()
 	shape_dropdown = gui->addDropdown("Shape", shape_options);
 	shape_dropdown->setStripeColor(ofColor::red);
 
+	shape_color_picker = gui->addColorPicker("COLOR", ofColor::grey);
+	shape_color_picker->setStripeColor(ofColor::red);
+
+	shape_scale_slider = gui->addSlider("SCALE", 1.0f, 100.0f);
+	shape_scale_slider->setValue(50.0f),
+	shape_scale_slider->setPrecision(0);
+	shape_scale_slider->setStripeColor(ofColor::red);
+
+	shape_opacity_slider = gui->addSlider("OPACITY", 0.0f, 1.0f);
+	shape_opacity_slider->setValue(1.0f),
+	shape_opacity_slider->setStripeColor(ofColor::red);
+
 	create_shape_btn = gui->addButton("Add to workspace");
 	create_shape_btn->setStripeColor(ofColor::darkRed);
 	create_shape_btn->onButtonEvent(this, &Bottom_Left_GUI::createShape);
@@ -41,6 +53,16 @@ void Bottom_Left_GUI::createShape(ofxDatGuiButtonEvent e) {
 	}
 
 	if (modelObj) {
+		ofColor model_color = shape_color_picker->getColor();
+		modelObj->setColor(model_color);
+
+		float model_size = shape_scale_slider->getValue();
+		ofVec3f model_scale(model_size, model_size, model_size);
+		modelObj->setScale(model_scale);
+
+		float model_opacity = shape_opacity_slider->getValue();
+		modelObj->setOpacity(model_opacity);
+
 		gui_manager->getScene()->addObject(modelObj);
 	}
 }

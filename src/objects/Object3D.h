@@ -13,8 +13,15 @@ public:
     ofVec3f position;
     ofVec3f rotation;
     ofVec3f scale;
+    ofColor color;
+    float opacity;
 
     bool selected;
 
     virtual void drawBoundingBox();
+
+    void setScale(ofVec3f size);
+    void setColor(ofColor color);
+    void setOpacity(float opacity);
+
 };

@@ -21,6 +21,9 @@ private:
     ofxDatGuiLabel* create_category_label;
     std::vector<std::string> shape_options;
     ofxDatGuiDropdown* shape_dropdown;
+    ofxDatGuiColorPicker* shape_color_picker;
+    ofxDatGuiSlider* shape_scale_slider;
+    ofxDatGuiSlider* shape_opacity_slider;
     ofxDatGuiButton* create_shape_btn;
 
     void createShape(ofxDatGuiButtonEvent e);
