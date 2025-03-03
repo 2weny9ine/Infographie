@@ -6,6 +6,19 @@
 
 #include "objects/Object3D.h"
 
+#include "../../../Cursor.h"
+#include "Top_Right_GUI.h"
+
+//2.3
+struct Shape {
+	PrimitiveType type;
+	ofVec2f startPos;
+	ofVec2f endPos;
+	ofColor strokeColor;
+	ofColor fillColor;
+	float lineWidth;
+};
+
 struct Locator
 {
 	float position[3];
@@ -43,6 +56,11 @@ public:
 
 	bool is_mouse_button_pressed;
 
+	//yacine
+	Cursor cursor; //yacine
+	bool isMouseOverObject(int mouseX, int mouseY); //yacine
+
+
 	void dispatch_locators(int count, float range);
 
 	void draw_locator(float scale);
@@ -62,6 +80,27 @@ public:
 
 	~Scene();
 
+	//2.2
+	void updateDrawingProperties(const ofColor& stroke, const ofColor& fill, float width);
+
+	void drawCursor();
+
+
+	//2.3
+	void setPrimitiveType(PrimitiveType primitive);
+
+	// Drawing logic
+	void startDrawing(int x, int y);
+	void updateCurrentDrawing(int x, int y);
+	void finalizeDrawing();
 private:
 	std::vector<Object3D*> objects;
+
+	//2.3
+	std::vector<Shape> shapes;
+	Shape currentShape;
+	bool isDrawing = false;
+	PrimitiveType activePrimitive = PrimitiveType::RECTANGLE;
+
+	void drawShape(const Shape& shape);
 };

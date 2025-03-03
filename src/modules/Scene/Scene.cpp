@@ -33,12 +33,18 @@ void Scene::setup(ofCamera* cam)
 
 	//allocation d'un espace mémoire suffisamment grand pour contenir les données de l'ensemble des localisateurs
 	locators = (Locator*)std::malloc(locator_count * sizeof(Locator));
+
+	//yacine
+	cursor.setup();
 }
 
 void Scene::update()
 {
 	center_x = ofGetWidth() / 2.0f;
 	center_y = ofGetHeight() / 2.0f;
+
+	//yacine
+	cursor.update(mouse_current_x, mouse_current_y, is_mouse_button_pressed);
 }
 
 void Scene::draw()
@@ -111,7 +117,35 @@ void Scene::draw()
 			mouse_current_x,
 			mouse_current_y);
 	}
+
+
+	//2.3
+	for (auto& shape : shapes) drawShape(shape);
+	if (isDrawing) drawShape(currentShape);
+	//cursor.draw();
+	
 }
+
+//2.2
+void Scene::drawCursor() {
+	glPushAttrib(GL_ALL_ATTRIB_BITS); // Save all OpenGL states
+	ofDisableDepthTest();             // Disable depth to draw on top
+	cursor.draw();                    // Draw custom cursor
+	glPopAttrib();
+}
+
+//yacine
+bool Scene::isMouseOverObject(int mouseX, int mouseY) {
+	for (auto obj : objects) {
+		ofRectangle bbox = obj->getScreenBoundingBox(camera);
+		if (bbox.inside(mouseX, mouseY)) {
+			return true;
+		}
+	}
+	return false;
+}
+
+
 
 ///Cette méthode a pour but de servir d'exemple pour effectuer des transformations sur des localisateurs
 void Scene::dispatch_locators(int count, float range)
@@ -232,6 +266,66 @@ void Scene::removeObject(Object3D* obj)
 	if (it != objects.end())
 	{
 		objects.erase(it);
+	}
+}
+
+//2.2
+void Scene::updateDrawingProperties(const ofColor& stroke, const ofColor& fill, float width) {
+	currentShape.strokeColor = stroke;
+	currentShape.fillColor = fill;
+	currentShape.lineWidth = width;
+}
+
+
+//2.3
+void Scene::setPrimitiveType(PrimitiveType primitive) {
+	activePrimitive = primitive;
+}
+
+void Scene::startDrawing(int x, int y) {
+	isDrawing = true;
+	currentShape.type = activePrimitive;
+	currentShape.startPos.set(x, y);
+	currentShape.endPos.set(x, y);
+}
+
+void Scene::updateCurrentDrawing(int x, int y) {
+	if (isDrawing) currentShape.endPos.set(x, y);
+}
+
+void Scene::finalizeDrawing() {
+	if (isDrawing) {
+		shapes.push_back(currentShape);
+		isDrawing = false;
+	}
+}
+
+void Scene::drawShape(const Shape& shape) {
+	ofSetColor(shape.fillColor);
+	ofSetLineWidth(shape.lineWidth);
+	ofFill();
+
+	switch (shape.type) {
+	case PrimitiveType::POINT:
+		ofDrawCircle(shape.startPos, shape.lineWidth);
+		break;
+	case PrimitiveType::LINE:
+		ofSetColor(shape.strokeColor);
+		ofSetLineWidth(shape.lineWidth);
+		ofDrawLine(shape.startPos, shape.endPos);
+		break;
+	case PrimitiveType::RECTANGLE:
+		ofDrawRectangle(shape.startPos.x, shape.startPos.y, shape.endPos.x - shape.startPos.x, shape.endPos.y - shape.startPos.y);
+		break;
+	case PrimitiveType::CIRCLE: {
+		float radius = shape.startPos.distance(shape.endPos);
+		ofDrawCircle(shape.startPos, radius);
+		break;
+	}
+	case PrimitiveType::ELLIPSE:
+		ofDrawEllipse((shape.startPos.x + shape.endPos.x) / 2, (shape.startPos.y + shape.endPos.y) / 2,
+			abs(shape.endPos.x - shape.startPos.x), abs(shape.endPos.y - shape.startPos.y));
+		break;
 	}
 }
 

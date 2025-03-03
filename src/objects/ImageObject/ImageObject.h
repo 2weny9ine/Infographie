@@ -14,6 +14,9 @@ public:
 
     virtual void drawBoundingBox() override;
 
+    //yacine
+    virtual ofRectangle getScreenBoundingBox(ofCamera* cam) override;
+
 private:
     ofImage image;
     ofPlanePrimitive plane;

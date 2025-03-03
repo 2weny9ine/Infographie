@@ -5,7 +5,6 @@ class Top_Left_GUI
 {
 public:
 	ofxDatGui* gui;
-
 	Top_Left_GUI();
 
 private:
