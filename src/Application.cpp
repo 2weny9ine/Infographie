@@ -6,12 +6,13 @@ void Application::setup() {
     ofLog() << "Application démarre...";
     
     scene.setup(&user_camera_movement.camera);
-
-	user_camera_movement.setup(scene);
-
-	gui.setup(&scene);
+    user_camera_movement.setup(scene);
+    
+    gui.setup(&scene);
     gui.top_left->setImage(scene.img);
-
+    
+    sceneFbo.allocate(ofGetWidth(), ofGetHeight(), GL_RGBA);
+    
 }
 
 void Application::update() {
@@ -27,12 +28,35 @@ void Application::update() {
 void Application::draw() {
     scene.draw();
     scene.img->createHistogram();
-    gui.top_left->draw();
     
-    //topLeftGui.setImage(scene.img);
-    //scene.img->drawHistogram(50, ofGetHeight() - 300, 256, 200);
+    if (gui.top_left->histogramEnabled()) {
+        int posX = gui.top_left->getX() + 10;
+        int posY = gui.top_left->getY() + gui.top_left->getHeight() + 10;
+        int widthImg = 256;
+        int heightImg = 100;
+        if (scene.img && scene.img->hasImage()) {
+            scene.img->drawHistogram(posX, posY, widthImg, heightImg);
+        } else {
+            ofPushStyle();
+            ofSetColor(50, 50, 50);
+            ofDrawRectangle(posX, posY, widthImg, heightImg);
+            ofSetColor(255);
+            ofDrawBitmapString("Importer une image pour Voir!", posX + 10, posY + heightImg / 2);
+        }
+    }
+    
+    
+    if (gui.top_left->colorFilterEnabled()) {
+        ofColor rgbColor = gui.top_left->getRGBColor();
+        ofColor hsbColor = gui.top_left->getHSBColor();
+        scene.img->colorFilter(rgbColor, hsbColor);
+    }
+    
     scene.img->imageExport("exportImage", "png");
+    
 }
+
+
 
 
 

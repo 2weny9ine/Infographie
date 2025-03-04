@@ -1,5 +1,8 @@
 #include "ImageObject.h"
 
+bool ImageObject::applyUserColor = false;
+ofColor ImageObject::customUserColor = ofColor(255, 255, 255);
+
 ImageObject::ImageObject() {
     ofLogNotice("ImageObject::ImageObject") << "ImageObject constructor called.";
 }
@@ -16,15 +19,15 @@ bool ImageObject::loadImage(const std::string& path) {
         int imgWidth = image.getWidth();
         int imgHeight = image.getHeight();
         
-        float maxCellWidth = 400.0f;
-        float maxCellHeight = 300.0f;
+        float maxCellWidth = 800.0f;
+        float maxCellHeight = 600.0f;
         float scaleFactor = 1.0f;
         
         if (imgWidth > maxCellWidth || imgHeight > maxCellHeight) {
             scaleFactor = std::min(maxCellWidth / (float)imgWidth, maxCellHeight / (float)imgHeight);
         }
         
-
+        
         plane.set(imgWidth * scaleFactor, imgHeight * scaleFactor, 2, 2);
         plane.mapTexCoords(0, 0, imgWidth, imgHeight);
     }
@@ -47,13 +50,27 @@ void ImageObject::draw() {
     ofPushMatrix();
     ofTranslate(position);
     
-    if (image.isAllocated()) {
-        image.getTexture().bind();
-        plane.draw();
-        image.getTexture().unbind();
-    }
-    else {
-        ofLogWarning("ImageObject::draw") << "Image is not allocated.";
+    
+    if(applyUserColor){
+        ofPushStyle();
+        ofSetColor(customUserColor, 255);
+        if (image.isAllocated()){
+            
+            float scaledW = plane.getWidth();
+                    float scaledH = plane.getHeight();
+                    image.draw(-scaledW/2, -scaledH/2, scaledW, scaledH);
+        }
+        ofPopStyle();
+    } else {
+        ofSetColor(255,255, 255);
+
+        if (image.isAllocated()){
+            image.getTexture().bind();
+            float scaledW = plane.getWidth();
+                    float scaledH = plane.getHeight();
+                    image.draw(-scaledW/2, -scaledH/2, scaledW, scaledH);
+            image.getTexture().unbind();
+        }
     }
     if (selected) {
         ofLogNotice("ImageObject::draw") << "Drawing bounding box for selected ImageObject.";
@@ -69,3 +86,10 @@ void ImageObject::drawBoundingBox() {
     ofDrawRectangle(-plane.getWidth() / 2, -plane.getHeight() / 2, plane.getWidth(), plane.getHeight());
     ofSetColor(255);
 }
+
+void ImageObject::applyFilter(const ofColor &filter) {
+    applyUserColor = true;
+    customUserColor = filter;
+}
+
+

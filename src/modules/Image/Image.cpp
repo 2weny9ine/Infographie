@@ -27,34 +27,37 @@ void Image::imageExport(const std::string& name, const std::string& extension) {
     if (!exportTriggered) return;
     
     static int captureCount = 0;
+    static float startTime = 0.0f;
     static float lastCaptureTime = 0.0f;
     float currentTime = ofGetElapsedTimef();
     
-
     if (captureCount == 0) {
-        std::string timeStamp = ofGetTimestampString("-%y%m%d-%H%M%S-%i");
-        std::string fileName = name + "_0" + timeStamp + "." + extension;
-        ofSaveScreen(fileName);
-
-        captureCount++;
-        lastCaptureTime = currentTime;
-    }
-
-    else if (captureCount < 5 && (currentTime - lastCaptureTime) >= 1.0f) {
-        std::string timeStamp = ofGetTimestampString("-%y%m%d-%H%M%S-%i");
-        std::string fileName = name + "_" + ofToString(captureCount) + timeStamp + "." + extension;
-        ofSaveScreen(fileName);
-        ofLog() << "<export scene frame: " << fileName << ">";
-        captureCount++;
+        startTime = currentTime;
         lastCaptureTime = currentTime;
     }
     
-
-    if (captureCount >= 5) {
+    
+    if ((currentTime - startTime) < exportDuration) {
+        
+        if (currentTime - lastCaptureTime >= 1.0f || captureCount == 0) {
+            std::string timeStamp = ofGetTimestampString("-%y%m%d-%H%M%S-%i");
+            std::string fileName = name + "_" + ofToString(captureCount) + timeStamp + "." + extension;
+            ofSaveScreen(fileName);
+            ofLog() << "<export scene frame: " << fileName << ">";
+            captureCount++;
+            lastCaptureTime = currentTime;
+        }
+    } else {
+        
         captureCount = 0;
         exportTriggered = false;
     }
 }
+
+void Image::setExportDuration(float duration) {
+    exportDuration = duration;
+}
+
 
 
 void Image::showImage() {
@@ -65,8 +68,8 @@ void Image::showImage() {
     int rows = ceil((float)numImages / cols);
     
     
-    float spacingX = 600;
-    float spacingY = 400;
+    float spacingX = 1000;
+    float spacingY = 700;
     float depthZ = -800;
     
     
@@ -99,12 +102,12 @@ void Image::createHistogram() {
     histogramR.assign(256, 0);
     histogramG.assign(256, 0);
     histogramB.assign(256, 0);
-
+    
     if (images.empty()) return;
-
+    
     ofPixels pixels = images[0]->getImage().getPixels();
     int channels = pixels.getNumChannels();
-
+    
     for (int i = 0; i < pixels.size(); i += channels) {
         histogramR[pixels[i]]++;
         histogramG[pixels[i + 1]]++;
@@ -116,34 +119,49 @@ void Image::createHistogram() {
 
 void Image::drawHistogram(int x, int y, int width, int height) {
     int maxVal = 0;
-    for (int i = 0; i < 256; i++) {
-        if (histogramR[i] > maxVal) maxVal = histogramR[i];
-        if (histogramG[i] > maxVal) maxVal = histogramG[i];
-        if (histogramB[i] > maxVal) maxVal = histogramB[i];
-    }
-    
-    int bw = width / 256;
-    ofPushMatrix();
-    ofTranslate(x, y);
-    ofSetColor(30, 30, 30);
-    ofDrawRectangle(0, 0, width, height);
-    
-    for (int i = 0; i < 256; i++) {
-        float rH = (histogramR[i] * height) / (float)maxVal;
-        float gH = (histogramG[i] * height) / (float)maxVal;
-        float bH = (histogramB[i] * height) / (float)maxVal;
+        for (int i = 0; i < 256; i++) {
+            if (histogramR[i] > maxVal) maxVal = histogramR[i];
+            if (histogramG[i] > maxVal) maxVal = histogramG[i];
+            if (histogramB[i] > maxVal) maxVal = histogramB[i];
+        }
         
-        ofSetColor(255, 0, 0, 100);
-        ofDrawRectangle(i * bw, height - rH, bw, rH);
+        int bw = width / 256;
+        ofPushMatrix();
+        ofTranslate(x, y);
+        ofSetColor(50, 50, 50);
+        ofDrawRectangle(0, 0, width, height);
         
-        ofSetColor(0, 255, 0, 100);
-        ofDrawRectangle(i * bw, height - gH, bw, gH);
-        
-        ofSetColor(0, 0, 255, 100);
-        ofDrawRectangle(i * bw, height - bH, bw, bH);
-    }
-    ofPopMatrix();
+        for (int i = 0; i < 256; i++) {
+            float rH = (histogramR[i] * height) / (float)maxVal;
+            float gH = (histogramG[i] * height) / (float)maxVal;
+            float bH = (histogramB[i] * height) / (float)maxVal;
+            
+            ofSetColor(255, 0, 0, 100);
+            ofDrawRectangle(i * bw, height - rH, bw, rH);
+            
+            ofSetColor(0, 255, 0, 100);
+            ofDrawRectangle(i * bw, height - gH, bw, gH);
+            
+            ofSetColor(0, 0, 255, 100);
+            ofDrawRectangle(i * bw, height - bH, bw, bH);
+        }
+        ofPopMatrix();
 }
+
+void Image::colorFilter(const ofColor& rgbColor, const ofColor& hsbColor){
+    ofColor combinedColor;
+    combinedColor.r = (rgbColor.r + hsbColor.r) / 2;
+    combinedColor.g = (rgbColor.g + hsbColor.g) / 2;
+    combinedColor.b = (rgbColor.b + hsbColor.b) / 2;
+    combinedColor.a = 255;
+    
+    for (auto& imgObj : images) {
+        imgObj->applyFilter(combinedColor);
+    }
+}
+
+
+
 
 
 
