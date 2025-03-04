@@ -13,6 +13,10 @@ public:
     GUI gui;
     Scene scene;
     User_Camera_Movement user_camera_movement;
+    
+    ofFbo sceneFbo;
+    ofPixels fboPixels;
+
 
     float time_current, time_elapsed, time_last;
     

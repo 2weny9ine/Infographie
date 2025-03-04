@@ -4,49 +4,94 @@
 Top_Left_GUI::Top_Left_GUI()
 {
     gui = new ofxDatGui(ofxDatGuiAnchor::TOP_LEFT);
-
+    
     position_folder = gui->addFolder("Camera Position", ofColor::white);
     position_folder->expand();
-
+    
     x_position = position_folder->addTextInput("X", "N/A");
     x_position->setInputType(ofxDatGuiInputType::NUMERIC);
-
+    
     y_position = position_folder->addTextInput("Y", "N/A");
     y_position->setInputType(ofxDatGuiInputType::NUMERIC);
-
+    
     z_position = position_folder->addTextInput("Z", "N/A");
     z_position->setInputType(ofxDatGuiInputType::NUMERIC);
-
+    
     gui->addFRM();
+    
 
     histogram_folder = gui->addFolder("Image", ofColor::white);
+
     deleteImagesButton = histogram_folder->addButton("Supprimer toutes les images");
     deleteImagesButton->onButtonEvent([this](ofxDatGuiButtonEvent e) {
         if (imagePtr) {
             imagePtr->clearImages();
         }
-        });
-    histogramButton = histogram_folder->addButton("Afficher l'histogramme de la première image");
+    });
 
+    histogramButton = histogram_folder->addButton("Afficher l'histogramme de la première image");
     histogramButton->onButtonEvent([this](ofxDatGuiButtonEvent e) {
         showHistogram = !showHistogram;
-
         if (showHistogram) {
             histogramButton->setLabel("Masquer histogramme");
-        }
-        else {
+        } else {
             histogramButton->setLabel("Afficher l'histogramme de la première image");
         }
-        });
+    });
     showHistogram = false;
 
+    exportDurationSlider = histogram_folder->addSlider("Durée Export", 1, 10, 5);
+    exportDurationSlider->setPrecision(0);
+    exportButton = histogram_folder->addButton("Exporter la séquence");
+    exportButton->onButtonEvent([this](ofxDatGuiButtonEvent e) {
+        if (imagePtr) {
+            imagePtr->setExportDuration(exportDurationSlider->getValue());
+            imagePtr->setExportTriggered(true);
+        }
+    });
+
+
+    color_folder = gui->addFolder("Image Color", ofColor::white);
+
+    toggleColorButton = color_folder->addButton("Activer Couleurs");
+    toggleColorButton->onButtonEvent([this](ofxDatGuiButtonEvent e) {
+        applyColors = !applyColors;
+        if (applyColors) {
+            toggleColorButton->setLabel("Désactiver Couleurs");
+        } else {
+            toggleColorButton->setLabel("Activer Couleurs");
+        }
+    });
+    applyColors = false;
+
+    colorPickerRGB = color_folder->addColorPicker("Couleur (RGB)", ofColor::white);
+    hueValue = color_folder->addSlider("Hue", 0, 255, 127);
+    satValue = color_folder->addSlider("Saturation", 0, 255, 127);
+    briValue = color_folder->addSlider("Brightness", 0, 255, 127);
+
     imagePtr = nullptr;
+
 }
 
 void Top_Left_GUI::setup(GUI* gui_manager) {
     this->gui_manager = gui_manager;
 }
 
-void Top_Left_GUI::draw() {
 
+ofColor Top_Left_GUI::getRGBColor() {
+    return colorPickerRGB->getColor();
 }
+
+ofColor Top_Left_GUI::getHSBColor() {
+    float hValue = hueValue->getValue();
+    float sValue = satValue->getValue();
+    float bValue = briValue->getValue();
+    ofColor c;
+    c.setHsb(hValue, sValue, bValue);
+    return c;
+}
+
+bool Top_Left_GUI::histogramEnabled() const {
+    return showHistogram;
+}
+

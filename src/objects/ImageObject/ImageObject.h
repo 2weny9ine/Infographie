@@ -5,13 +5,13 @@ class ImageObject : public Object3D {
 public:
     ImageObject();
     virtual ~ImageObject();
-    ofVec3f position;
-    bool loadImage(const std::string& path);
 
+    bool loadImage(const std::string& path);
+    void drawFilm(const ofColor &film);
     virtual void setup() override;
     virtual void update(float dt) override;
     virtual void draw() override;
-    
+    void applyFilter(const ofColor &filter);
     virtual void drawBoundingBox() override;
     
     ofImage& getImage() { return image; }
@@ -19,8 +19,12 @@ public:
     void setPosition(const ofVec3f& pos) {
         position = pos;
     }
+    
+    static bool applyUserColor;
+    static ofColor customUserColor;
 
 private:
+    ofVec3f position;
     ofImage image;
     ofPlanePrimitive plane;
 };
