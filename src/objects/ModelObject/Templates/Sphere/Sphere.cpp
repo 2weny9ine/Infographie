@@ -11,7 +11,7 @@ Sphere::~Sphere() {
 
 void Sphere::setup() {
     int resolution = 32;
-    sphere.set(1.0, resolution);
+    sphere.set(10.0, resolution);
     sphere.setPosition(0, 0, 0);
 }
 
