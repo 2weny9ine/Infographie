@@ -97,6 +97,7 @@
     <ClCompile Include="src\modules\GUI\Bottom_Left_GUI\Bottom_Left_GUI.cpp" />
     <ClCompile Include="src\objects\ModelObject\Templates\Cube\Cube.cpp" />
     <ClCompile Include="src\objects\ModelObject\Templates\Sphere\Sphere.cpp" />
+    <ClCompile Include="src\modules\Scene\Grid\Grid.cpp" />
   </ItemGroup>
   <ItemGroup>
     <Filter Include="src">
@@ -596,6 +597,7 @@
     <ClInclude Include="src\modules\GUI\Bottom_Left_GUI\Bottom_Left_GUI.h" />
     <ClInclude Include="src\objects\ModelObject\Templates\Cube\Cube.h" />
     <ClInclude Include="src\objects\ModelObject\Templates\Sphere\Sphere.h" />
+    <ClInclude Include="src\modules\Scene\Grid\Grid.h" />
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="icon.rc" />

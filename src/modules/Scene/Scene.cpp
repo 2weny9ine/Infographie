@@ -4,6 +4,8 @@
 
 void Scene::setup(ofCamera* cam)
 {
+	grid = new Grid();
+
 	camera = cam;
 
 	locator_count = 100;
@@ -53,6 +55,8 @@ void Scene::draw()
 	//ESPACE POUR DESSINER LE 3D
 	camera->begin();
 	ofPushMatrix();
+	
+	grid->draw();
 
 	//ofTranslate(center_x + offset_x, center_y + offset_y, offset_z);
 

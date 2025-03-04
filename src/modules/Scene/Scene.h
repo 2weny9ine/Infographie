@@ -6,6 +6,7 @@
 #include <vector>
 
 #include "objects/Object3D.h"
+#include "Grid/Grid.h"
 
 struct Locator
 {
@@ -26,6 +27,7 @@ public:
 	ofVec3f vector_position, vector_rotation, vector_proportion;
 
 	ofCamera* camera;
+	Grid* grid;
 
 	float center_x, center_y;
 	float offset_x, offset_y, offset_z;
