@@ -51,6 +51,12 @@ void Application::draw() {
         ofColor hsbColor = gui.top_left->getHSBColor();
         scene.img->colorFilter(rgbColor, hsbColor);
     }
+    else {
+        
+        for (auto& imgObj : scene.img->images) {
+            imgObj->applyUserColor = false;
+        }
+    }
     
     scene.img->imageExport("exportImage", "png");
     
