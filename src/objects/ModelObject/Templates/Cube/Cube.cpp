@@ -23,7 +23,7 @@ void Cube::draw() {
     ofRotateZDeg(rotation.z);
     ofScale(scale);
 
-    ofSetColor(255);
+    ofSetColor(color, opacity * 255);
     cube.draw();
 
     if (selected) {

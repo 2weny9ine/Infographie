@@ -24,7 +24,7 @@ void Sphere::draw() {
     ofRotateZDeg(rotation.z);
     ofScale(scale);
 
-    ofSetColor(255);
+    ofSetColor(color, opacity * 255);
     sphere.draw();
 
     if (selected) {
