@@ -104,6 +104,7 @@
     <PostBuildEvent />
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="src\modules\Scene\Grid\Grid.cpp" />
     <ClCompile Include="src\objects\ModelObject\Templates\Cube\Cube.cpp" />
     <ClCompile Include="src\main.cpp" />
     <ClCompile Include="src\Application.cpp" />
@@ -139,6 +140,7 @@
     <ClCompile Include="..\..\..\addons\ofxGui\src\ofxToggle.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="src\modules\Scene\Grid\Grid.h" />
     <ClInclude Include="src\objects\ModelObject\Templates\Cube\Cube.h" />
     <ClInclude Include="src\Application.h" />
     <ClInclude Include="src\modules\GUI\Bottom_Left_GUI\Bottom_Left_GUI.h" />
