@@ -11,9 +11,16 @@ void Application::setup() {
 
 	//yacine
 	//ofHideCursor();
+	/**************************************************************************/
+	/**************************************************************************/
+	/**************************************************************************/
 	scene.cursor.setState(CursorState::DEFAULT);
 
 	backgroundColor = ofColor(31); // Task 2.2: Initial background
+
+	/**************************************************************************/
+	/**************************************************************************/
+	/**************************************************************************/
 }
 
 void Application::update() {
@@ -26,21 +33,31 @@ void Application::update() {
 	scene.update();
 
 
+	/**************************************************************************/
+	/**************************************************************************/
+	/**************************************************************************/
 	// Task 2.2: Apply Top_Right_GUI values
 	backgroundColor = gui.top_right.getBackgroundColor();
 	//2.3
-	scene.updateDrawingProperties(gui.top_right.getStrokeColor(), gui.top_right.getFillColor(), gui.top_right.getLineWidth());
+	scene.updateDrawingProperties(gui.top_right.getStrokeColor(), gui.top_right.getFillColor(), gui.top_right.getLineWidth(), gui.top_right.isOutlineEnabled());
 	scene.setPrimitiveType(gui.top_right.getSelectedPrimitive());
+
+	// Sync drawing mode with GUI toggle
+    isDrawingMode = gui.top_right.isDrawingEnabled();
+    scene.isDrawingMode = isDrawingMode;
+	/**************************************************************************/
+	/**************************************************************************/
+	/**************************************************************************/
 }
 
 void Application::draw() {
-	ofSetBackgroundColor(backgroundColor); //2.2
+	ofSetBackgroundColor(backgroundColor); //2.2 /**************************************************************************/
 	img.showImage();
 	scene.draw();
 	gui.top_right.gui->draw();
 	gui.top_left.gui->draw();
 
-	scene.drawCursor();
+	scene.drawCursor(); /**************************************************************************/
 }
 
 
@@ -85,6 +102,8 @@ void Application::keyPressed(int key)
 		user_camera_movement.move_downwards = true;
 		break;
 
+	/**************************************************************************/
+	/**************************************************************************/
 	//yacine
 	case 'r': // Toggle RESIZE
 		if (scene.cursor.getState() == CursorState::RESIZE)
@@ -99,7 +118,8 @@ void Application::keyPressed(int key)
 		else
 			scene.cursor.setState(CursorState::MOVE);
 		break;
-
+		/**************************************************************************/
+		/**************************************************************************/
 
 	default:
 		break;
@@ -174,6 +194,9 @@ void Application::mouseMoved(int x, int y)
 	scene.mouse_current_y = y;
 
 
+	/**************************************************************************/
+	/**************************************************************************/
+	/**************************************************************************/
 	//yacine 2.1
 	if (!scene.is_mouse_button_pressed &&
 		scene.cursor.getState() != CursorState::MOVE &&
@@ -186,6 +209,9 @@ void Application::mouseMoved(int x, int y)
 			scene.cursor.setState(CursorState::DEFAULT);
 		}
 	}
+	/**************************************************************************/
+	/**************************************************************************/
+	/**************************************************************************/
 
 	
 }
@@ -195,11 +221,19 @@ void Application::mouseDragged(int x, int y, int button)
 	scene.mouse_current_x = x;
 	scene.mouse_current_y = y;
 
+
+	/**************************************************************************/
+	/**************************************************************************/
 	//yacine
 	scene.cursor.setState(CursorState::DRAGGING);
 
 	//2.3
-	scene.updateCurrentDrawing(x, y);
+	if (scene.isDrawingMode) {
+		scene.updateCurrentDrawing(x, y);
+	}
+
+	/**************************************************************************/
+	/**************************************************************************/
 }
 
 void Application::mousePressed(int x, int y, int button)
@@ -215,9 +249,14 @@ void Application::mousePressed(int x, int y, int button)
 	scene.mouse_press_x = x;
 	scene.mouse_press_y = y;
 
-
+	/**************************************************************************/
+	/**************************************************************************/
+	/**************************************************************************/
 	//yacine
 	scene.cursor.setState(CursorState::PRESSED);
+	/**************************************************************************/
+	/**************************************************************************/
+	/**************************************************************************/
 
 
 	//Test en envoyant un rayon partant de la caméra vers l'avant à l'infini, renvoyant le premier objet "hit".
@@ -240,7 +279,14 @@ void Application::mousePressed(int x, int y, int button)
 	}
 
 	//2.3
-	scene.startDrawing(x, y);
+	/**************************************************************************/
+	/**************************************************************************/
+	/**************************************************************************/
+	if (scene.isDrawingMode) {
+		scene.startDrawing(x, y);
+	}
+	/**************************************************************************/
+	/**************************************************************************/
 }
 
 void Application::mouseReleased(int x, int y, int button)
@@ -250,6 +296,8 @@ void Application::mouseReleased(int x, int y, int button)
 	scene.mouse_current_x = x;
 	scene.mouse_current_y = y;
 
+	/**************************************************************************/
+	/**************************************************************************/
 	//yacine
 	if (scene.isMouseOverObject(x, y)) {
 		scene.cursor.setState(CursorState::HOVER);
@@ -258,6 +306,8 @@ void Application::mouseReleased(int x, int y, int button)
 		scene.cursor.setState(CursorState::DEFAULT);
 
 	}
+	/**************************************************************************/
+	/**************************************************************************/
 	
 	//Sélection tout ce qui est dans la boite de sélection si celle-ci est assez grande
 	float distance = sqrt(pow(x - scene.mouse_press_x, 2) + pow(y - scene.mouse_press_y, 2));
@@ -266,7 +316,11 @@ void Application::mouseReleased(int x, int y, int button)
 	scene.selectAllInBounds(scene.mouse_press_x, scene.mouse_press_y, x, y);
 
 	//2.3
-	scene.finalizeDrawing();
+	/**************************************************************************/
+	if (scene.isDrawingMode) {
+		scene.finalizeDrawing();
+	}
+	/**************************************************************************/
 }
 
 void Application::mouseEntered(int x, int y)
@@ -274,8 +328,12 @@ void Application::mouseEntered(int x, int y)
 	scene.mouse_current_x = x;
 	scene.mouse_current_y = y;
 
+	/**************************************************************************/
+	/**************************************************************************/
 	//yacine
 	scene.cursor.setState(CursorState::DEFAULT);
+	/**************************************************************************/
+	/**************************************************************************/
 }
 
 void Application::mouseExited(int x, int y)
@@ -283,8 +341,10 @@ void Application::mouseExited(int x, int y)
 	scene.mouse_current_x = x;
 	scene.mouse_current_y = y;
 
+	/**************************************************************************/
 	//yacine
 	scene.cursor.setState(CursorState::HIDDEN);
+	/**************************************************************************/
 }
 
 void Application::exit()

@@ -13,10 +13,13 @@ public:
     GUI gui;
     Image img;
     Scene scene;
-    Renderer renderer; //2.2
+    Renderer renderer; //2.2 /**************************************************************************/
     User_Camera_Movement user_camera_movement;
 
     float time_current, time_elapsed, time_last;
+
+    /**********************************************************/
+    bool isDrawingMode = false;
     
     void setup();
     void draw();
@@ -34,5 +37,5 @@ public:
     void exit();
 
 private:
-    ofColor backgroundColor; //2.2
+    ofColor backgroundColor; //2.2 /**************************************************************************/
 };

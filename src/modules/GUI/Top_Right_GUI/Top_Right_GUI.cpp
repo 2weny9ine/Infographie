@@ -14,12 +14,16 @@ Top_Right_GUI::Top_Right_GUI()
     fillColorPicker = toolsFolder->addColorPicker("Fill", ofColor(127, 127, 127, 127));
     lineWidthSlider = toolsFolder->addSlider("Line Width", 0.5f, 10.0f, 2.0f);
 
+    drawingToggle = gui->addToggle("Enable Drawing", false);
+
     //2.3
     pointToggle = toolsFolder->addToggle("Point");
+    outlineToggle = toolsFolder->addToggle("No Fill", false);
     lineToggle = toolsFolder->addToggle("Line");
     rectangleToggle = toolsFolder->addToggle("Rectangle");
     circleToggle = toolsFolder->addToggle("Circle");
     ellipseToggle = toolsFolder->addToggle("Ellipse");
+    triangleToggle = toolsFolder->addToggle("Triangle");
     rectangleToggle->setChecked(true);
 
     // Event listeners
@@ -28,6 +32,8 @@ Top_Right_GUI::Top_Right_GUI()
     rectangleToggle->onToggleEvent(this, &Top_Right_GUI::onPrimitiveSelected);
     circleToggle->onToggleEvent(this, &Top_Right_GUI::onPrimitiveSelected);
     ellipseToggle->onToggleEvent(this, &Top_Right_GUI::onPrimitiveSelected);
+    triangleToggle->onToggleEvent(this, &Top_Right_GUI::onPrimitiveSelected);
+    outlineToggle->onToggleEvent(this, &Top_Right_GUI::onOutlineToggle);
 
 }
 
@@ -35,44 +41,22 @@ Top_Right_GUI::Top_Right_GUI()
 //2.3
 void Top_Right_GUI::onPrimitiveSelected(ofxDatGuiToggleEvent e) {
     // Deselect all other toggles when one is selected
-    if (e.target == pointToggle) {
-        pointToggle->setChecked(true);
-        lineToggle->setChecked(false);
-        rectangleToggle->setChecked(false);
-        circleToggle->setChecked(false);
-        ellipseToggle->setChecked(false);
-        selectedPrimitive = PrimitiveType::POINT;
-    }
-    else if (e.target == lineToggle) {
-        pointToggle->setChecked(false);
-        lineToggle->setChecked(true);
-        rectangleToggle->setChecked(false);
-        circleToggle->setChecked(false);
-        ellipseToggle->setChecked(false);
-        selectedPrimitive = PrimitiveType::LINE;
-    }
-    else if (e.target == rectangleToggle) {
-        pointToggle->setChecked(false);
-        lineToggle->setChecked(false);
-        rectangleToggle->setChecked(true);
-        circleToggle->setChecked(false);
-        ellipseToggle->setChecked(false);
-        selectedPrimitive = PrimitiveType::RECTANGLE;
-    }
-    else if (e.target == circleToggle) {
-        pointToggle->setChecked(false);
-        lineToggle->setChecked(false);
-        rectangleToggle->setChecked(false);
-        circleToggle->setChecked(true);
-        ellipseToggle->setChecked(false);
-        selectedPrimitive = PrimitiveType::CIRCLE;
-    }
-    else if (e.target == ellipseToggle) {
-        pointToggle->setChecked(false);
-        lineToggle->setChecked(false);
-        rectangleToggle->setChecked(false);
-        circleToggle->setChecked(false);
-        ellipseToggle->setChecked(true);
-        selectedPrimitive = PrimitiveType::ELLIPSE;
-    }
+    pointToggle->setChecked(e.target == pointToggle);
+    lineToggle->setChecked(e.target == lineToggle);
+    rectangleToggle->setChecked(e.target == rectangleToggle);
+    circleToggle->setChecked(e.target == circleToggle);
+    ellipseToggle->setChecked(e.target == ellipseToggle);
+    triangleToggle->setChecked(e.target == triangleToggle);
+
+    if (e.target == pointToggle) selectedPrimitive = PrimitiveType::POINT;
+    else if (e.target == lineToggle) selectedPrimitive = PrimitiveType::LINE;
+    else if (e.target == rectangleToggle) selectedPrimitive = PrimitiveType::RECTANGLE;
+    else if (e.target == circleToggle) selectedPrimitive = PrimitiveType::CIRCLE;
+    else if (e.target == ellipseToggle) selectedPrimitive = PrimitiveType::ELLIPSE;
+    else if (e.target == triangleToggle) selectedPrimitive = PrimitiveType::TRIANGLE;
+
+}
+
+void Top_Right_GUI::onOutlineToggle(ofxDatGuiToggleEvent e) {
+    outlineEnabled = e.checked; 
 }

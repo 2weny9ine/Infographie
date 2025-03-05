@@ -4,7 +4,7 @@
 
 
 //2.3
-enum class PrimitiveType { POINT, LINE, RECTANGLE, CIRCLE, ELLIPSE };
+enum class PrimitiveType { POINT, LINE, RECTANGLE, CIRCLE, ELLIPSE, TRIANGLE};
 
 class Top_Right_GUI
 {
@@ -18,6 +18,11 @@ public:
     float getLineWidth() const { return lineWidthSlider->getValue(); }
     //2.3
     PrimitiveType getSelectedPrimitive() const { return selectedPrimitive; }
+    bool isDrawingEnabled() const { return drawingToggle->getChecked(); } // New function to check if drawing mode is enabled
+    bool isOutlineEnabled() const { return outlineToggle->getChecked(); }
+
+
+
 
 private:
     ofxDatGuiFolder* toolsFolder;
@@ -26,12 +31,20 @@ private:
     ofxDatGuiColorPicker* fillColorPicker;
     ofxDatGuiSlider* lineWidthSlider;
 
+    bool outlineEnabled = false;
+
+
     //2.3
+    ofxDatGuiToggle* drawingToggle;
+
     ofxDatGuiToggle* pointToggle;
     ofxDatGuiToggle* lineToggle;
     ofxDatGuiToggle* rectangleToggle;
     ofxDatGuiToggle* circleToggle;
     ofxDatGuiToggle* ellipseToggle;
+    ofxDatGuiToggle* triangleToggle;
+    ofxDatGuiToggle* outlineToggle;
     PrimitiveType selectedPrimitive = PrimitiveType::RECTANGLE;
     void onPrimitiveSelected(ofxDatGuiToggleEvent e);
+    void onOutlineToggle(ofxDatGuiToggleEvent e);
 };

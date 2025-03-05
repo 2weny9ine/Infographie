@@ -25,7 +25,7 @@ void ModelObject::draw() {
     ofRotateZDeg(rotation.z);
     ofScale(scale);
 
-    ofSetColor(fillColor); // Task 2.2: Apply fill color
+    ofSetColor(fillColor); // Task 2.2: Apply fill color /**************************************************************************/
     model.drawFaces();
 
     if (selected) {
@@ -48,6 +48,9 @@ void ModelObject::drawBoundingBox() {
         (model.getSceneMin().z + model.getSceneMax().z) / 2);
     box.drawWireframe();
 }
+
+/**************************************************************************/
+/**************************************************************************/
 //yacine
 ofRectangle ModelObject::getScreenBoundingBox(ofCamera* cam) {
     glm::vec3 min = model.getSceneMin();
@@ -68,4 +71,6 @@ ofRectangle ModelObject::getScreenBoundingBox(ofCamera* cam) {
     }
     return ofRectangle(minX, minY, maxX - minX, maxY - minY);
 }
+/**************************************************************************/
+/**************************************************************************/
 

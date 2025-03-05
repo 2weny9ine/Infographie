@@ -53,12 +53,13 @@ void ImageObject::drawBoundingBox() {
     ofNoFill();
     ofSetColor(strokeColor); // Task 2.2: Use strokeColor
     ofSetLineWidth(lineWidth); // Task 2.2: Use lineWidth
-    ofDrawRectangle(-plane.getWidth() / 2, -plane.getHeight() / 2, plane.getWidth(), plane.getHeight());
-    //2.2 ofSetColor(255);
+    ofDrawRectangle(-plane.getWidth() / 2, -plane.getHeight() / 2, plane.getWidth(), plane.getHeight());  //2.2 ofSetColor(255);
 }
 
 
 //yacine
+/**************************************************************************/
+/**************************************************************************/
 ofRectangle ImageObject::getScreenBoundingBox(ofCamera* cam) {
     glm::vec3 corners[4] = {
         glm::vec3(-plane.getWidth() / 2, -plane.getHeight() / 2, 0),
@@ -77,4 +78,6 @@ ofRectangle ImageObject::getScreenBoundingBox(ofCamera* cam) {
     }
     return ofRectangle(minX, minY, maxX - minX, maxY - minY);
 }
+/**************************************************************************/
+/**************************************************************************/
 

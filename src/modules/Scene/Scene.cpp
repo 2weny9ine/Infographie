@@ -35,7 +35,9 @@ void Scene::setup(ofCamera* cam)
 	locators = (Locator*)std::malloc(locator_count * sizeof(Locator));
 
 	//yacine
+	/**************************************************************************/
 	cursor.setup();
+	/**************************************************************************/
 }
 
 void Scene::update()
@@ -44,7 +46,9 @@ void Scene::update()
 	center_y = ofGetHeight() / 2.0f;
 
 	//yacine
+	/**************************************************************************/
 	cursor.update(mouse_current_x, mouse_current_y, is_mouse_button_pressed);
+	/**************************************************************************/
 }
 
 void Scene::draw()
@@ -120,13 +124,19 @@ void Scene::draw()
 
 
 	//2.3
+	/**************************************************************************/
+	/**************************************************************************/
 	for (auto& shape : shapes) drawShape(shape);
 	if (isDrawing) drawShape(currentShape);
 	//cursor.draw();
+	/**************************************************************************/
+	/**************************************************************************/
 	
 }
 
 //2.2
+/**************************************************************************/
+/**************************************************************************/
 void Scene::drawCursor() {
 	glPushAttrib(GL_ALL_ATTRIB_BITS); // Save all OpenGL states
 	ofDisableDepthTest();             // Disable depth to draw on top
@@ -134,7 +144,6 @@ void Scene::drawCursor() {
 	glPopAttrib();
 }
 
-//yacine
 bool Scene::isMouseOverObject(int mouseX, int mouseY) {
 	for (auto obj : objects) {
 		ofRectangle bbox = obj->getScreenBoundingBox(camera);
@@ -144,6 +153,8 @@ bool Scene::isMouseOverObject(int mouseX, int mouseY) {
 	}
 	return false;
 }
+/**************************************************************************/
+/**************************************************************************/
 
 
 
@@ -270,14 +281,18 @@ void Scene::removeObject(Object3D* obj)
 }
 
 //2.2
-void Scene::updateDrawingProperties(const ofColor& stroke, const ofColor& fill, float width) {
+/**************************************************************************/
+/**************************************************************************/
+void Scene::setOutlineEnabled(bool enabled) {
+	outlineEnabled = enabled;
+}
+void Scene::updateDrawingProperties(const ofColor& stroke, const ofColor& fill, float width, bool outline) {
 	currentShape.strokeColor = stroke;
 	currentShape.fillColor = fill;
 	currentShape.lineWidth = width;
+	currentShape.outline = outline;
 }
 
-
-//2.3
 void Scene::setPrimitiveType(PrimitiveType primitive) {
 	activePrimitive = primitive;
 }
@@ -287,6 +302,7 @@ void Scene::startDrawing(int x, int y) {
 	currentShape.type = activePrimitive;
 	currentShape.startPos.set(x, y);
 	currentShape.endPos.set(x, y);
+	currentShape.outline = outlineEnabled;
 }
 
 void Scene::updateCurrentDrawing(int x, int y) {
@@ -301,18 +317,36 @@ void Scene::finalizeDrawing() {
 }
 
 void Scene::drawShape(const Shape& shape) {
-	ofSetColor(shape.fillColor);
 	ofSetLineWidth(shape.lineWidth);
-	ofFill();
+
+	if (shape.outline) { 
+		ofSetColor(shape.strokeColor);
+		ofNoFill();
+	}
+	else {
+		ofSetColor(shape.fillColor);
+		ofFill();
+	}
 
 	switch (shape.type) {
 	case PrimitiveType::POINT:
+		ofSetColor(shape.fillColor);
+		ofFill();
 		ofDrawCircle(shape.startPos, shape.lineWidth);
 		break;
 	case PrimitiveType::LINE:
+	{
+		ofFill();
 		ofSetColor(shape.strokeColor);
-		ofSetLineWidth(shape.lineWidth);
-		ofDrawLine(shape.startPos, shape.endPos);
+		glm::vec2 dir = glm::normalize(glm::vec2(shape.endPos - shape.startPos));
+		glm::vec2 perp = glm::vec2(-dir.y, dir.x) * shape.lineWidth * 0.5f;
+		ofBeginShape();
+		ofVertex(shape.startPos + perp);
+		ofVertex(shape.startPos - perp);
+		ofVertex(shape.endPos - perp);
+		ofVertex(shape.endPos + perp);
+		ofEndShape(true);
+	}
 		break;
 	case PrimitiveType::RECTANGLE:
 		ofDrawRectangle(shape.startPos.x, shape.startPos.y, shape.endPos.x - shape.startPos.x, shape.endPos.y - shape.startPos.y);
@@ -326,8 +360,18 @@ void Scene::drawShape(const Shape& shape) {
 		ofDrawEllipse((shape.startPos.x + shape.endPos.x) / 2, (shape.startPos.y + shape.endPos.y) / 2,
 			abs(shape.endPos.x - shape.startPos.x), abs(shape.endPos.y - shape.startPos.y));
 		break;
+	case PrimitiveType::TRIANGLE:{ 
+		glm::vec2 p1 = shape.startPos;
+		glm::vec2 p2 = shape.endPos;
+		glm::vec2 p3 = glm::vec2((p1.x + p2.x) / 2, p1.y - abs(p2.x - p1.x)); 
+
+		ofDrawTriangle(p1, p2, p3);
+		break;
+	}
 	}
 }
+/**************************************************************************/
+/**************************************************************************/
 
 Scene::~Scene()
 {
