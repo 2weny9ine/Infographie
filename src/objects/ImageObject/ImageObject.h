@@ -22,9 +22,9 @@ public:
     
     static bool applyUserColor;
     static ofColor customUserColor;
-
-private:
-    ofVec3f position;
-    ofImage image;
     ofPlanePrimitive plane;
+    
+private:
+    ofImage image;
+
 };
