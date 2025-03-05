@@ -9,6 +9,9 @@ public:
     void setup() override;
     void draw() override;
 
+
+    void drawBoundingBox() override;
+
 private:
     ofSpherePrimitive sphere;
 };

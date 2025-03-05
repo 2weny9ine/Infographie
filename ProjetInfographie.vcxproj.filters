@@ -16,6 +16,9 @@
     <ClCompile Include="src\main.cpp">
       <Filter>src</Filter>
     </ClCompile>
+    <ClCompile Include="src\modules\GUI\Bottom_Left_GUI\Bottom_Left_GUI.cpp">
+      <Filter>src\modules\GUI\Bottom_Left_GUI</Filter>
+    </ClCompile>
     <ClCompile Include="src\modules\GUI\GUI.cpp">
       <Filter>src\modules\GUI</Filter>
     </ClCompile>
@@ -28,6 +31,9 @@
     <ClCompile Include="src\modules\Image\Image.cpp">
       <Filter>src\modules\Image</Filter>
     </ClCompile>
+    <ClCompile Include="src\modules\Scene\Grid\Grid.cpp">
+      <Filter>src\modules\Scene\Grid</Filter>
+    </ClCompile>
     <ClCompile Include="src\modules\Scene\Scene.cpp">
       <Filter>src\modules\Scene</Filter>
     </ClCompile>
@@ -39,6 +45,12 @@
     </ClCompile>
     <ClCompile Include="src\objects\ModelObject\ModelObject.cpp">
       <Filter>src\objects\ModelObject</Filter>
+    </ClCompile>
+    <ClCompile Include="src\objects\ModelObject\Templates\Cube\Cube.cpp">
+      <Filter>src\objects\ModelObject\Templates\Cube</Filter>
+    </ClCompile>
+    <ClCompile Include="src\objects\ModelObject\Templates\Sphere\Sphere.cpp">
+      <Filter>src\objects\ModelObject\Templates\Sphere</Filter>
     </ClCompile>
     <ClCompile Include="src\objects\Object3D.cpp">
       <Filter>src\objects</Filter>
@@ -94,107 +106,118 @@
     <ClCompile Include="..\..\..\addons\ofxGui\src\ofxToggle.cpp">
       <Filter>addons\ofxGui\src</Filter>
     </ClCompile>
-    <ClCompile Include="src\modules\GUI\Bottom_Left_GUI\Bottom_Left_GUI.cpp" />
-    <ClCompile Include="src\objects\ModelObject\Templates\Cube\Cube.cpp" />
-    <ClCompile Include="src\objects\ModelObject\Templates\Sphere\Sphere.cpp" />
-    <ClCompile Include="src\modules\Scene\Grid\Grid.cpp" />
   </ItemGroup>
   <ItemGroup>
     <Filter Include="src">
       <UniqueIdentifier>{d8376475-7454-4a24-b08a-aac121d3ad6f}</UniqueIdentifier>
     </Filter>
     <Filter Include="src\events">
-      <UniqueIdentifier>{23037552--CC0-4-49-08-8-265-8B0B4B0BDA63}</UniqueIdentifier>
+      <UniqueIdentifier>{AEEB8D76--AE5-9-43-60-8-2DF-3B1BA40AC2AB}</UniqueIdentifier>
     </Filter>
     <Filter Include="src\events\DragEvent">
-      <UniqueIdentifier>{FF732F5D--6ED-6-41-3E-8-228-C1E505B1BB1F}</UniqueIdentifier>
+      <UniqueIdentifier>{1128FFBC--78C-1-40-ED-8-B2F-D36695F79107}</UniqueIdentifier>
     </Filter>
     <Filter Include="src\modules">
-      <UniqueIdentifier>{A452D57F--F34-3-49-01-8-905-5A300A104761}</UniqueIdentifier>
+      <UniqueIdentifier>{F70DD584--B28-C-44-E5-B-412-2C8B1D32537F}</UniqueIdentifier>
     </Filter>
     <Filter Include="src\modules\GUI">
-      <UniqueIdentifier>{BE302089--967-3-4C-44-8-DF8-6903CAA48400}</UniqueIdentifier>
+      <UniqueIdentifier>{6A03F2E7--D97-6-45-10-8-91B-2ACE3C5FC24B}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="src\modules\GUI\Bottom_Left_GUI">
+      <UniqueIdentifier>{776642C0--F91-4-4D-63-A-2E1-C025A6D96D13}</UniqueIdentifier>
     </Filter>
     <Filter Include="src\modules\GUI\Top_Left_GUI">
-      <UniqueIdentifier>{966D5449--4F9-2-4D-F2-B-D0C-12E8667E9EFF}</UniqueIdentifier>
+      <UniqueIdentifier>{0E62A977--CCB-E-41-CE-A-8F1-686B5FAD0AF6}</UniqueIdentifier>
     </Filter>
     <Filter Include="src\modules\GUI\Top_Right_GUI">
-      <UniqueIdentifier>{9682DDA6--ABD-5-4B-92-A-B8E-CB3199915F43}</UniqueIdentifier>
+      <UniqueIdentifier>{06B4C2A8--1EE-E-43-6A-B-190-C4AD29B722B4}</UniqueIdentifier>
     </Filter>
     <Filter Include="src\modules\Image">
-      <UniqueIdentifier>{D98831C8--2EA-D-46-B4-8-E44-9CAC96E54A89}</UniqueIdentifier>
+      <UniqueIdentifier>{FF3736C9--CAB-E-47-95-A-571-0A60FAC9BB09}</UniqueIdentifier>
     </Filter>
     <Filter Include="src\modules\Scene">
-      <UniqueIdentifier>{21AD2761--765-9-4D-C7-A-95D-19814E09D907}</UniqueIdentifier>
+      <UniqueIdentifier>{83E2BBC7--15D-0-45-49-A-A24-AF3E0D6E707B}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="src\modules\Scene\Grid">
+      <UniqueIdentifier>{631CA2BE--F9F-1-43-9F-9-A26-7FE1DF945004}</UniqueIdentifier>
     </Filter>
     <Filter Include="src\modules\User_Camera_Movement">
-      <UniqueIdentifier>{ED9326BD--D46-E-4A-03-A-14C-1B4435EFCA74}</UniqueIdentifier>
+      <UniqueIdentifier>{CCE67512--280-2-45-01-8-7EE-9665A2F54EF0}</UniqueIdentifier>
     </Filter>
     <Filter Include="src\objects">
-      <UniqueIdentifier>{4DF854DF--CD7-D-42-86-B-28C-757CA7891E15}</UniqueIdentifier>
+      <UniqueIdentifier>{E32165CD--485-E-49-DF-9-856-4F1337984BA2}</UniqueIdentifier>
     </Filter>
     <Filter Include="src\objects\ImageObject">
-      <UniqueIdentifier>{8DCF5AB5--EDD-9-41-12-8-A04-98C5ED9CDCDB}</UniqueIdentifier>
+      <UniqueIdentifier>{E24C6FBC--600-4-44-9A-A-840-5FC21248C0BF}</UniqueIdentifier>
     </Filter>
     <Filter Include="src\objects\ModelObject">
-      <UniqueIdentifier>{0693E2B3--D8B-2-4D-CE-B-930-C16C41AA946A}</UniqueIdentifier>
+      <UniqueIdentifier>{1DC1A4F7--258-B-49-CD-A-DEE-010B553376BF}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="src\objects\ModelObject\Templates">
+      <UniqueIdentifier>{2A278660--067-7-4E-3E-B-2FE-32623167AF17}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="src\objects\ModelObject\Templates\Cube">
+      <UniqueIdentifier>{4C899984--328-A-4F-7C-A-49C-0489F01C0D9E}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="src\objects\ModelObject\Templates\Sphere">
+      <UniqueIdentifier>{CC54AB28--AC2-7-49-9D-B-AE5-A3555818ECBF}</UniqueIdentifier>
     </Filter>
     <Filter Include="addons">
-      <UniqueIdentifier>{59FDD825--C6C-0-43-5F-B-473-3840F426C30A}</UniqueIdentifier>
+      <UniqueIdentifier>{1CBE6A26--9EC-1-44-5B-8-E36-FFFF39C43028}</UniqueIdentifier>
     </Filter>
     <Filter Include="addons\ofxAssimpModelLoader">
-      <UniqueIdentifier>{2EEF5BFD--8D7-6-44-D1-A-27D-1F41F1186527}</UniqueIdentifier>
+      <UniqueIdentifier>{060EF92B--9B0-7-49-F1-9-EC8-6BB736844AFE}</UniqueIdentifier>
     </Filter>
     <Filter Include="addons\ofxAssimpModelLoader\src">
-      <UniqueIdentifier>{C516D2AF--7A6-4-4A-70-B-C33-61B9A3264E73}</UniqueIdentifier>
+      <UniqueIdentifier>{98931B81--44E-5-45-2A-9-A48-1254E6175673}</UniqueIdentifier>
     </Filter>
     <Filter Include="addons\ofxAssimpModelLoader\libs">
-      <UniqueIdentifier>{0DDE12EB--C8C-0-4A-28-A-185-8DF55DDEDE51}</UniqueIdentifier>
+      <UniqueIdentifier>{527033BF--D95-4-43-0B-9-56B-619CFA97B6F4}</UniqueIdentifier>
     </Filter>
     <Filter Include="addons\ofxAssimpModelLoader\libs\assimp">
-      <UniqueIdentifier>{6C9B6137--007-8-44-3F-8-3D7-F2F95C47C07D}</UniqueIdentifier>
+      <UniqueIdentifier>{99EF6175--DBB-3-43-74-A-D25-9CD51E239A39}</UniqueIdentifier>
     </Filter>
     <Filter Include="addons\ofxAssimpModelLoader\libs\assimp\include">
-      <UniqueIdentifier>{6BC045CA--35D-5-40-33-B-213-C3C22D700447}</UniqueIdentifier>
+      <UniqueIdentifier>{8C0EB224--CAE-B-48-97-B-B5C-992CCEAC00AE}</UniqueIdentifier>
     </Filter>
     <Filter Include="addons\ofxAssimpModelLoader\libs\assimp\include\assimp">
-      <UniqueIdentifier>{AF1522C2--AAB-A-44-CD-B-DE8-4319C0C33B05}</UniqueIdentifier>
+      <UniqueIdentifier>{D8CBD206--992-9-4C-48-A-692-5128E9DBFD9C}</UniqueIdentifier>
     </Filter>
     <Filter Include="addons\ofxAssimpModelLoader\libs\assimp\include\assimp\Compiler">
-      <UniqueIdentifier>{E71FD2B9--F48-C-46-88-9-E11-EA38A71933EB}</UniqueIdentifier>
+      <UniqueIdentifier>{8CC81F02--246-9-4B-3C-9-416-B30F64A0A627}</UniqueIdentifier>
     </Filter>
     <Filter Include="addons\ofxAssimpModelLoader\libs\assimp\include\assimp\port">
-      <UniqueIdentifier>{D123E6DC--9CF-C-40-74-A-9E5-01CA242D8B07}</UniqueIdentifier>
+      <UniqueIdentifier>{11E2633C--FEA-F-40-61-A-F5F-9BC2EA2050D4}</UniqueIdentifier>
     </Filter>
     <Filter Include="addons\ofxAssimpModelLoader\libs\assimp\include\assimp\port\AndroidJNI">
-      <UniqueIdentifier>{74F6BBEF--614-0-42-4E-9-C05-89CE6768B80F}</UniqueIdentifier>
+      <UniqueIdentifier>{3D35472D--9D0-C-47-27-9-853-2312D771380A}</UniqueIdentifier>
     </Filter>
     <Filter Include="addons\ofxDatGui">
-      <UniqueIdentifier>{D0A98C19--54D-8-48-24-B-502-4F6C2068C8B7}</UniqueIdentifier>
+      <UniqueIdentifier>{0DC9AA34--48A-7-47-E0-8-A98-B090D8634E0B}</UniqueIdentifier>
     </Filter>
     <Filter Include="addons\ofxDatGui\src">
-      <UniqueIdentifier>{DAB55D41--DD5-C-43-C0-B-9DF-5A848D857032}</UniqueIdentifier>
+      <UniqueIdentifier>{1B4A1E16--79E-5-4D-C7-A-D9D-627A126E14CA}</UniqueIdentifier>
     </Filter>
     <Filter Include="addons\ofxDatGui\src\components">
-      <UniqueIdentifier>{E02EDF76--C66-8-48-60-9-8E1-C84C3F6584FC}</UniqueIdentifier>
+      <UniqueIdentifier>{1997015F--65F-F-40-1A-B-6CB-1BF3B5076B9F}</UniqueIdentifier>
     </Filter>
     <Filter Include="addons\ofxDatGui\src\core">
-      <UniqueIdentifier>{032A7CA8--D5A-D-40-44-9-CD3-0CA0284947B1}</UniqueIdentifier>
+      <UniqueIdentifier>{91F98AE7--4DA-6-48-41-9-1A1-982CE7F68544}</UniqueIdentifier>
     </Filter>
     <Filter Include="addons\ofxDatGui\src\libs">
-      <UniqueIdentifier>{26DEBA09--69B-E-4A-E1-B-8DF-DD54E7493788}</UniqueIdentifier>
+      <UniqueIdentifier>{B6B6E55E--63B-0-4F-A7-9-477-3B7FBC60C16B}</UniqueIdentifier>
     </Filter>
     <Filter Include="addons\ofxDatGui\src\libs\ofxSmartFont">
-      <UniqueIdentifier>{3A9E4F97--14E-C-4C-3E-9-B73-B8D83746D9B6}</UniqueIdentifier>
+      <UniqueIdentifier>{642886C7--6C8-2-4F-E0-8-B5E-BB421F2AD2AC}</UniqueIdentifier>
     </Filter>
     <Filter Include="addons\ofxDatGui\src\themes">
-      <UniqueIdentifier>{C4884C46--ADA-5-40-E5-B-634-2E78A3CA5D9E}</UniqueIdentifier>
+      <UniqueIdentifier>{F3FC4338--082-F-4C-35-8-0DF-6509B6736EE9}</UniqueIdentifier>
     </Filter>
     <Filter Include="addons\ofxGui">
-      <UniqueIdentifier>{0BD0051F--74E-A-40-5B-9-3D7-1F79B36F2C5B}</UniqueIdentifier>
+      <UniqueIdentifier>{25AA4005--7E3-F-46-26-B-EAC-C9A4772E3CBE}</UniqueIdentifier>
     </Filter>
     <Filter Include="addons\ofxGui\src">
-      <UniqueIdentifier>{744ABA3C--3C8-D-4B-7C-A-23A-DC2982758F6F}</UniqueIdentifier>
+      <UniqueIdentifier>{6C763FBB--D68-0-43-FA-9-620-E5C04217B9F4}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -206,6 +229,9 @@
     </ClInclude>
     <ClInclude Include="src\events\DragEvent\DragEvent.h">
       <Filter>src\events\DragEvent</Filter>
+    </ClInclude>
+    <ClInclude Include="src\modules\GUI\Bottom_Left_GUI\Bottom_Left_GUI.h">
+      <Filter>src\modules\GUI\Bottom_Left_GUI</Filter>
     </ClInclude>
     <ClInclude Include="src\modules\GUI\GUI.h">
       <Filter>src\modules\GUI</Filter>
@@ -219,6 +245,9 @@
     <ClInclude Include="src\modules\Image\Image.h">
       <Filter>src\modules\Image</Filter>
     </ClInclude>
+    <ClInclude Include="src\modules\Scene\Grid\Grid.h">
+      <Filter>src\modules\Scene\Grid</Filter>
+    </ClInclude>
     <ClInclude Include="src\modules\Scene\Scene.h">
       <Filter>src\modules\Scene</Filter>
     </ClInclude>
@@ -230,6 +259,12 @@
     </ClInclude>
     <ClInclude Include="src\objects\ModelObject\ModelObject.h">
       <Filter>src\objects\ModelObject</Filter>
+    </ClInclude>
+    <ClInclude Include="src\objects\ModelObject\Templates\Cube\Cube.h">
+      <Filter>src\objects\ModelObject\Templates\Cube</Filter>
+    </ClInclude>
+    <ClInclude Include="src\objects\ModelObject\Templates\Sphere\Sphere.h">
+      <Filter>src\objects\ModelObject\Templates\Sphere</Filter>
     </ClInclude>
     <ClInclude Include="src\objects\Object3D.h">
       <Filter>src\objects</Filter>
@@ -594,10 +629,6 @@
     <ClInclude Include="..\..\..\addons\ofxGui\src\ofxToggle.h">
       <Filter>addons\ofxGui\src</Filter>
     </ClInclude>
-    <ClInclude Include="src\modules\GUI\Bottom_Left_GUI\Bottom_Left_GUI.h" />
-    <ClInclude Include="src\objects\ModelObject\Templates\Cube\Cube.h" />
-    <ClInclude Include="src\objects\ModelObject\Templates\Sphere\Sphere.h" />
-    <ClInclude Include="src\modules\Scene\Grid\Grid.h" />
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="icon.rc" />

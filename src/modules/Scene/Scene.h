@@ -15,7 +15,7 @@ struct Locator
 	float proportion[3];
 	bool isSelected;
 };
-
+class GUI;
 class Image;
 class Scene
 {
@@ -23,7 +23,7 @@ public:
 	Locator* locators;
     Image* img;
 	ofNode node;
-
+	GUI* gui;
 	ofVec3f vector_position, vector_rotation, vector_proportion;
 
 	ofCamera* camera;
@@ -47,8 +47,6 @@ public:
 
 	bool is_mouse_button_pressed;
 
-	void dispatch_locators(int count, float range);
-
 	void draw_locator(float scale);
 
 	void resetSelection();
@@ -57,7 +55,9 @@ public:
 
 	void selectAllInBounds(float x1, float y1, float x2, float y2);
 
-	void setup(ofCamera* cam);
+	void apply_Transformations(ofVec3f position, ofVec3f rotation, ofVec3f scale);
+
+	void setup(ofCamera* cam, GUI* gui);
 	void update();
 	void draw();
 
@@ -66,7 +66,7 @@ public:
     
     Scene();
 	~Scene();
-
+	std::vector<Object3D*> selectedObjects;
 private:
 	std::vector<Object3D*> objects;
 };

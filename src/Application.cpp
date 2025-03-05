@@ -5,7 +5,7 @@ void Application::setup() {
     ofSetWindowTitle("Infographie");
     ofLog() << "Application démarre...";
     
-    scene.setup(&user_camera_movement.camera);
+    scene.setup(&user_camera_movement.camera,&gui);
     user_camera_movement.setup(scene);
     
     gui.setup(&scene);
@@ -146,9 +146,6 @@ void Application::keyReleased(int key)
         case 'q':
             user_camera_movement.move_downwards = false;
             break;
-        case 'l':
-            scene.dispatch_locators(scene.locator_count, std::min(ofGetWidth(), ofGetHeight()));
-            break;
         case ' ':
             scene.img->imageExport("exportImage", "png");
             scene.img->setExportTriggered(true);
@@ -181,10 +178,7 @@ void Application::mouseDragged(int x, int y, int button)
 }
 
 void Application::mousePressed(int x, int y, int button)
-{
-    scene.resetSelection();
-    
-    
+{ 
     scene.is_mouse_button_pressed = true;
     
     scene.mouse_current_x = x;
@@ -194,23 +188,22 @@ void Application::mousePressed(int x, int y, int button)
     scene.mouse_press_y = y;
     
     //Test en envoyant un rayon partant de la caméra vers l'avant à l'infini, renvoyant le premier objet "hit".
-    
-    //glm::vec3 rayOrigin = user_camera_movement.camera.getPosition();
-    //glm::vec3 rayDir = user_camera_movement.camera.screenToWorld(glm::vec3(x, y, 0)) - rayOrigin;
-    
-    //rayDir = glm::normalize(rayDir);
-    
-    for (int index = 0; index < scene.locator_buffer_head; ++index)
+
+    ofVec3f rayOrigin = scene.camera->getPosition();
+    ofVec3f mouseWorld = scene.camera->screenToWorld(ofVec3f(scene.mouse_press_x, scene.mouse_press_y, 0));
+    ofVec3f rayDir = (mouseWorld - rayOrigin).normalized();
+
+    // Check intersection À REVOIR
+    /*for (size_t i = 0; i < scene.objects.size(); i++)
     {
-        
-        glm::vec3 locatorPos = glm::vec3(scene.locators[index].position[0], scene.locators[index].position[1], scene.locators[index].position[2]);
-        glm::vec3 screenPos = scene.camera->worldToScreen(locatorPos);
-        
-        float tolerance = 20.0f;
-        if (glm::distance(glm::vec2(x, y), glm::vec2(screenPos.x, screenPos.y)) < tolerance) {
-            scene.locators[index].isSelected = !scene.locators[index].isSelected;//Toggle la selection
+        Cube* model = dynamic_cast<Cube*>(scene.objects[i]);
+        ofLog() << model->intersectsRay(rayOrigin, rayDir);
+        if(model->intersectsRay(rayOrigin, rayDir))
+        {
+            model->selected = !scene.objects[i]->selected;
+            ofLog() << "Cube hit ";
         }
-    }
+    }*/
 }
 
 void Application::mouseReleased(int x, int y, int button)

@@ -10,7 +10,7 @@ Sphere::~Sphere() {
 }
 
 void Sphere::setup() {
-    int resolution = 32;
+    int resolution = 16;
     sphere.set(10.0, resolution);
     sphere.setPosition(0, 0, 0);
 }
@@ -32,4 +32,14 @@ void Sphere::draw() {
     }
 
     ofPopMatrix();
+}
+
+void Sphere::drawBoundingBox()
+{
+    ofSetColor(255);
+
+    glEnable(GL_CULL_FACE); 
+    glCullFace(GL_FRONT);    
+    sphere.drawWireframe();   
+    glDisable(GL_CULL_FACE);
 }
