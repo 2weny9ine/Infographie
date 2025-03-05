@@ -6,11 +6,16 @@
 //2.3
 enum class PrimitiveType { POINT, LINE, RECTANGLE, CIRCLE, ELLIPSE, TRIANGLE};
 
+class GUI;
+
 class Top_Right_GUI
 {
 public:
     ofxDatGui* gui;
     Top_Right_GUI();
+	Top_Right_GUI();
+
+	void setup(GUI* gui_manager);
 
     ofColor getBackgroundColor() const { return backgroundColorPicker->getColor(); }
     ofColor getStrokeColor() const { return strokeColorPicker->getColor(); }
@@ -47,4 +52,8 @@ private:
     PrimitiveType selectedPrimitive = PrimitiveType::RECTANGLE;
     void onPrimitiveSelected(ofxDatGuiToggleEvent e);
     void onOutlineToggle(ofxDatGuiToggleEvent e);
+	
+	GUI* gui_manager;
+	ofxDatGui* gui;
+
 };

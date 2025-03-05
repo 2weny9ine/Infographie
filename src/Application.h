@@ -11,10 +11,13 @@
 class Application : public ofBaseApp {
 public:
     GUI gui;
-    Image img;
     Scene scene;
     Renderer renderer; //2.2 /**************************************************************************/
     User_Camera_Movement user_camera_movement;
+    
+    ofFbo sceneFbo;
+    ofPixels fboPixels;
+
 
     float time_current, time_elapsed, time_last;
 

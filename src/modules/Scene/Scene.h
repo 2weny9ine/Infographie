@@ -2,9 +2,11 @@
 #include "ofAppRunner.h"
 #include "ofGraphics.h"
 #include "ofMain.h"
+#include "Image.h"
 #include <vector>
 
 #include "objects/Object3D.h"
+#include "Grid/Grid.h"
 
 #include "../../../Cursor.h"
 #include "Top_Right_GUI.h"
@@ -31,17 +33,19 @@ struct Locator
 	float proportion[3];
 	bool isSelected;
 };
-
+class GUI;
+class Image;
 class Scene
 {
 public:
 	Locator* locators;
-
+    Image* img;
 	ofNode node;
-
+	GUI* gui;
 	ofVec3f vector_position, vector_rotation, vector_proportion;
 
 	ofCamera* camera;
+	Grid* grid;
 
 	float center_x, center_y;
 	float offset_x, offset_y, offset_z;
@@ -80,13 +84,16 @@ public:
 
 	void selectAllInBounds(float x1, float y1, float x2, float y2);
 
-	void setup(ofCamera* cam);
+	void apply_Transformations(ofVec3f position, ofVec3f rotation, ofVec3f scale);
+
+	void setup(ofCamera* cam, GUI* gui);
 	void update();
 	void draw();
 
 	void addObject(Object3D* obj);
 	void removeObject(Object3D* obj);
-
+    
+    Scene();
 	~Scene();
 
 	//2.2 /**************************************************************************/
@@ -101,6 +108,7 @@ public:
 	void setOutlineEnabled(bool enabled);
 	/**************************************************************************/
 	/**************************************************************************/
+	std::vector<Object3D*> selectedObjects;
 private:
 	std::vector<Object3D*> objects;
 	//2.3 /**************************************************************************/

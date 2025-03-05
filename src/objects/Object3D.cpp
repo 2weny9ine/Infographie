@@ -1,8 +1,9 @@
 #include "Object3D.h"
 
-Object3D::Object3D() : selected(false), position(0, 0, 0), rotation(0, 0, 0), scale(1, 1, 1) { 
-    initializeDrawingTools(); // 2.2 /**************************************************************************/
+Object3D::Object3D() : selected(false), position(0, 0, 0), rotation(0, 0, 0), scale(1, 1, 1), color(ofColor::grey), opacity(1.0f) {
+    initializeDrawingTools();
 }
+
 
 Object3D::~Object3D() {}
 
@@ -37,9 +38,22 @@ ofRectangle Object3D::getScreenBoundingBox(ofCamera* cam) {
 
 // 2.2
 void Object3D::initializeDrawingTools() {
-    strokeColor = ofColor(255);      // White outline
-    fillColor = ofColor(127, 127, 127, 127); // Semi-transparent gray fill
-    lineWidth = 2.0f;                // Default thickness
+    strokeColor = ofColor(255);
+    fillColor = ofColor(127, 127, 127, 127); 
+    lineWidth = 2.0f;   
 }
 /**************************************************************************/
 /**************************************************************************/
+}
+
+void Object3D::setColor(ofColor color) {
+	this->color = color;
+}
+
+void Object3D::setScale(ofVec3f scale) {
+	this->scale = scale;
+}
+
+void Object3D::setOpacity(float opacity) {
+	this->opacity = opacity;
+}
