@@ -49,31 +49,37 @@ void ImageObject::update(float dt) {
 void ImageObject::draw() {
     ofPushMatrix();
     ofTranslate(position);
+    ofRotateXDeg(rotation.x);
+    ofRotateYDeg(rotation.y);
+    ofRotateZDeg(rotation.z);
+    
+    
+    ofScale(scale.x, scale.y, scale.z);
     
     
     if(applyUserColor){
         ofPushStyle();
         ofSetColor(customUserColor, 255);
         if (image.isAllocated()){
-            
             float scaledW = plane.getWidth();
-                    float scaledH = plane.getHeight();
-                    image.draw(-scaledW/2, -scaledH/2, scaledW, scaledH);
+            float scaledH = plane.getHeight();
+            image.draw(-scaledW/2, -scaledH/2, scaledW, scaledH);
         }
         ofPopStyle();
     } else {
-        ofSetColor(255,255, 255);
-
+        ofSetColor(255,255,255);
         if (image.isAllocated()){
             image.getTexture().bind();
             float scaledW = plane.getWidth();
-                    float scaledH = plane.getHeight();
-                    image.draw(-scaledW/2, -scaledH/2, scaledW, scaledH);
+            float scaledH = plane.getHeight();
+            image.draw(-scaledW/2, -scaledH/2, scaledW, scaledH);
             image.getTexture().unbind();
         }
     }
+    
+    
+    
     if (selected) {
-        ofLogNotice("ImageObject::draw") << "Drawing bounding box for selected ImageObject.";
         drawBoundingBox();
     }
     ofPopMatrix();
