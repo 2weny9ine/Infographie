@@ -17,7 +17,6 @@ Top_Left_GUI::Top_Left_GUI()
     zCam_position->setInputType(ofxDatGuiInputType::NUMERIC);
 
     attributes_folder = gui->addFolder("Attributes", ofColor::white);
-    attributes_folder->expand();
 
     inputs = {
 
