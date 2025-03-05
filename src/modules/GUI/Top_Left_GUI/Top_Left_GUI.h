@@ -12,6 +12,8 @@ public:
 
     void setImage(Image* img) { imagePtr = img; }
 
+    void Top_Left_GUI::resetTransformations();
+
     void setup(GUI* gui_manager);
     bool colorFilterEnabled() const { return applyColors; }
     bool histogramEnabled() const;
@@ -26,16 +28,33 @@ public:
 
     ofColor getRGBColor();
     ofColor getHSBColor();
+
+    std::vector<ofxDatGuiTextInput*> inputs;
+    std::vector<float>localTransformations = { 0,0,0,0,0,0,0,0,0 };
     
 private:
     GUI* gui_manager;
     ofxDatGui* gui;
     
-    ofxDatGuiFolder* position_folder;
+    ofxDatGuiFolder* camPosition_folder;
+    ofxDatGuiTextInput* xCam_position;
+    ofxDatGuiTextInput* yCam_position;
+    ofxDatGuiTextInput* zCam_position;
+
+    ofxDatGuiFolder* attributes_folder;
     ofxDatGuiTextInput* x_position;
     ofxDatGuiTextInput* y_position;
     ofxDatGuiTextInput* z_position;
-    
+    ofxDatGuiTextInput* x_rotation;
+    ofxDatGuiTextInput* y_rotation;
+    ofxDatGuiTextInput* z_rotation;
+    ofxDatGuiTextInput* x_scale;
+    ofxDatGuiTextInput* y_scale;
+    ofxDatGuiTextInput* z_scale;
+
+    void Top_Left_GUI::SendTransformations();
+
+
     ofxDatGuiFolder* create_folder;
     vector<string> shape_options;
     ofxDatGuiDropdown* shape_dropdown;

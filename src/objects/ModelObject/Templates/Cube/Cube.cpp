@@ -32,3 +32,13 @@ void Cube::draw() {
 
     ofPopMatrix();
 }
+
+void Cube::drawBoundingBox()
+{
+    ofSetColor(255);  
+
+    glEnable(GL_CULL_FACE);
+    glCullFace(GL_FRONT);    
+    cube.drawWireframe();  
+    glDisable(GL_CULL_FACE);
+}
