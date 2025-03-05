@@ -12,7 +12,7 @@ public:
 
     void setImage(Image* img) { imagePtr = img; }
 
-    void Top_Left_GUI::resetTransformations();
+    void resetTransformations();
 
     void setup(GUI* gui_manager);
     bool colorFilterEnabled() const { return applyColors; }
@@ -52,7 +52,7 @@ private:
     ofxDatGuiTextInput* y_scale;
     ofxDatGuiTextInput* z_scale;
 
-    void Top_Left_GUI::SendTransformations();
+    void SendTransformations();
 
 
     ofxDatGuiFolder* create_folder;
