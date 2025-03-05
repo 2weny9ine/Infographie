@@ -44,14 +44,18 @@ void Application::update() {
 	/**************************************************************************/
 	/**************************************************************************/
 	// Task 2.2: Apply Top_Right_GUI values
-	backgroundColor = gui.top_right.getBackgroundColor();
+    backgroundColor = gui.top_right->getBackgroundColor();
 	//2.3
-	scene.updateDrawingProperties(gui.top_right.getStrokeColor(), gui.top_right.getFillColor(), gui.top_right.getLineWidth(), gui.top_right.isOutlineEnabled());
-	scene.setPrimitiveType(gui.top_right.getSelectedPrimitive());
+    scene.updateDrawingProperties(gui.top_right->getStrokeColor(),
+        gui.top_right->getFillColor(),
+        gui.top_right->getLineWidth(),
+        gui.top_right->isOutlineEnabled());
 
-	// Sync drawing mode with GUI toggle
-    isDrawingMode = gui.top_right.isDrawingEnabled();
+    scene.setPrimitiveType(gui.top_right->getSelectedPrimitive());
+
+    isDrawingMode = gui.top_right->isDrawingEnabled();
     scene.isDrawingMode = isDrawingMode;
+
 	/**************************************************************************/
 	/**************************************************************************/
 	/**************************************************************************/
@@ -92,15 +96,12 @@ void Application::draw() {
     }
     
     scene.img->imageExport("exportImage", "png");
+
+    scene.drawCursor(); /**************************************************************************/
     
 }
 
-	
 
-	gui.top_right.gui->draw();
-
-	scene.drawCursor(); /**************************************************************************/
-}
 
 
 

@@ -13,7 +13,6 @@ class Top_Right_GUI
 public:
     ofxDatGui* gui;
     Top_Right_GUI();
-	Top_Right_GUI();
 
 	void setup(GUI* gui_manager);
 
@@ -54,6 +53,5 @@ private:
     void onOutlineToggle(ofxDatGuiToggleEvent e);
 	
 	GUI* gui_manager;
-	ofxDatGui* gui;
 
 };

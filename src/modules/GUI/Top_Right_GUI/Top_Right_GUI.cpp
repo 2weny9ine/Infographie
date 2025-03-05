@@ -61,7 +61,7 @@ void Top_Right_GUI::onPrimitiveSelected(ofxDatGuiToggleEvent e) {
 void Top_Right_GUI::setup(GUI* gui_manager) {
 	this->gui_manager = gui_manager;
 }
-}
+
 
 void Top_Right_GUI::onOutlineToggle(ofxDatGuiToggleEvent e) {
     outlineEnabled = e.checked; 
