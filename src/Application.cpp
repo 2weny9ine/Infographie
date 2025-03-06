@@ -158,6 +158,7 @@ void Application::mouseExited(int x, int y)
 void Application::exit()
 {
     ofLog() << "<app::exit>";
+    sceneFbo.clear();
 }
 
 // Getters
