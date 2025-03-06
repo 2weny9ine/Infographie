@@ -70,7 +70,7 @@ void Image::showImage() {
     
     float spacingX = 1000;
     float spacingY = 700;
-    float depthZ = -800;
+    float depthZ = 0;
     
     
     float startX = -((cols - 1) * spacingX) / 2.0f;
