@@ -8,7 +8,7 @@
 #include "objects/Object3D.h"
 #include "Grid/Grid.h"
 
-#include "Cursor.h"
+#include "modules/Cursor/Cursor.h"
 #include "Top_Right_GUI.h"
 
 //2.3
