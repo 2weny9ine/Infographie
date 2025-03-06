@@ -186,7 +186,7 @@ void Image::colorFilterSelected(Scene& scene, const ofColor& rgbColor, const ofC
     }
 
     
-    if(selectedImages.size() >= 2){
+    if(selectedImages.size() >= 1){
         for (auto *imgObj : selectedImages) {
             imgObj->applyFilter(combinedColor);
         }
