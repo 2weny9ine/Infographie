@@ -23,10 +23,11 @@ public:
     void setExportDuration(float duration);
 
     
-    void createHistogram();
+    void createHistogram(ImageObject* selectedImage);
     void drawHistogram(int x, int y, int width, int height);
+    void selectedHistogram(Scene &scene, int x, int y, int w, int h);
     
-    void colorFilter(const ofColor& rgbColor, const ofColor& hsbColor);
+    void colorFilterSelected(Scene& scene, const ofColor& rgbColor, const ofColor& hsbColor);
     
    
     bool hasImage() const { return !images.empty(); }

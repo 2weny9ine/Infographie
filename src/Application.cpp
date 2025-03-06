@@ -13,20 +13,20 @@ void Application::setup() {
     
     sceneFbo.allocate(ofGetWidth(), ofGetHeight(), GL_RGBA);
     
-	
-
-	//yacine
-	//ofHideCursor();
-	/**************************************************************************/
-	/**************************************************************************/
-	/**************************************************************************/
-	scene.cursor.setState(CursorState::DEFAULT);
-
-	backgroundColor = ofColor(31); // Task 2.2: Initial background
-
-	/**************************************************************************/
-	/**************************************************************************/
-	/**************************************************************************/
+    
+    
+    //yacine
+    //ofHideCursor();
+    /**************************************************************************/
+    /**************************************************************************/
+    /**************************************************************************/
+    scene.cursor.setState(CursorState::DEFAULT);
+    
+    backgroundColor = ofColor(31); // Task 2.2: Initial background
+    
+    /**************************************************************************/
+    /**************************************************************************/
+    /**************************************************************************/
 }
 
 void Application::update() {
@@ -37,55 +37,47 @@ void Application::update() {
     user_camera_movement.update(time_elapsed);
     
     scene.update();
-
-
-
-	/**************************************************************************/
-	/**************************************************************************/
-	/**************************************************************************/
-	// Task 2.2: Apply Top_Right_GUI values
+    
+    
+    
+    /**************************************************************************/
+    /**************************************************************************/
+    /**************************************************************************/
+    // Task 2.2: Apply Top_Right_GUI values
     backgroundColor = gui.top_right->getBackgroundColor();
-	//2.3
+    //2.3
     scene.updateDrawingProperties(gui.top_right->getStrokeColor(),
-        gui.top_right->getFillColor(),
-        gui.top_right->getLineWidth(),
-        gui.top_right->isOutlineEnabled());
-
+                                  gui.top_right->getFillColor(),
+                                  gui.top_right->getLineWidth(),
+                                  gui.top_right->isOutlineEnabled());
+    
     scene.setPrimitiveType(gui.top_right->getSelectedPrimitive());
-
+    
     isDrawingMode = gui.top_right->isDrawingEnabled();
     scene.isDrawingMode = isDrawingMode;
-
-	/**************************************************************************/
-	/**************************************************************************/
-	/**************************************************************************/
+    
+    /**************************************************************************/
+    /**************************************************************************/
+    /**************************************************************************/
 }
 
 void Application::draw() {
-	ofSetBackgroundColor(backgroundColor); //2.2 /**************************************************************************/
+    ofSetBackgroundColor(backgroundColor); //2.2 /**************************************************************************/
     scene.draw();
-    scene.img->createHistogram();
     if (gui.top_left->histogramEnabled()) {
         int posX = gui.top_left->getX() + 10;
         int posY = gui.top_left->getY() + gui.top_left->getHeight() + 10;
-        int widthImg = 256;
+        int widthImg  = 256;
         int heightImg = 100;
-        if (scene.img && scene.img->hasImage()) {
-            scene.img->drawHistogram(posX, posY, widthImg, heightImg);
-        } else {
-            ofPushStyle();
-            ofSetColor(50, 50, 50);
-            ofDrawRectangle(posX, posY, widthImg, heightImg);
-            ofSetColor(255);
-            ofDrawBitmapString("Importer une image pour Voir!", posX + 10, posY + heightImg / 2);
-        }
+        
+        
+        scene.img->selectedHistogram(scene, posX, posY, widthImg, heightImg);
     }
-    
     
     if (gui.top_left->colorFilterEnabled()) {
         ofColor rgbColor = gui.top_left->getRGBColor();
         ofColor hsbColor = gui.top_left->getHSBColor();
-        scene.img->colorFilter(rgbColor, hsbColor);
+        scene.img->colorFilterSelected(scene, rgbColor, hsbColor);
     }
     else {
         
@@ -95,7 +87,7 @@ void Application::draw() {
     }
     
     scene.img->imageExport("exportImage", "png");
-
+    
     scene.drawCursor(); /**************************************************************************/
     
 }
@@ -143,25 +135,25 @@ void Application::keyPressed(int key)
         case 'q':
             user_camera_movement.move_downwards = true;
             break;
-			/**************************************************************************/
-		/**************************************************************************/
-		//yacine
-		case 'r': // Toggle RESIZE
-			if (scene.cursor.getState() == CursorState::RESIZE)
-				scene.cursor.setState(CursorState::DEFAULT);
-			else
-				scene.cursor.setState(CursorState::RESIZE);
-			break;
-
-		case 'm': // Toggle MOVE
-			if (scene.cursor.getState() == CursorState::MOVE)
-				scene.cursor.setState(CursorState::DEFAULT);
-			else
-				scene.cursor.setState(CursorState::MOVE);
-			break;
-			/**************************************************************************/
-			/**************************************************************************/
-
+            /**************************************************************************/
+            /**************************************************************************/
+            //yacine
+        case 'r': // Toggle RESIZE
+            if (scene.cursor.getState() == CursorState::RESIZE)
+                scene.cursor.setState(CursorState::DEFAULT);
+            else
+                scene.cursor.setState(CursorState::RESIZE);
+            break;
+            
+        case 'm': // Toggle MOVE
+            if (scene.cursor.getState() == CursorState::MOVE)
+                scene.cursor.setState(CursorState::DEFAULT);
+            else
+                scene.cursor.setState(CursorState::MOVE);
+            break;
+            /**************************************************************************/
+            /**************************************************************************/
+            
         default:
             break;
     }
@@ -241,54 +233,54 @@ void Application::dragEvent(ofDragInfo dragInfo) {
 
 void Application::mouseMoved(int x, int y)
 {
-	scene.mouse_current_x = x;
-	scene.mouse_current_y = y;
-
-
-	/**************************************************************************/
-	/**************************************************************************/
-	/**************************************************************************/
-	//yacine 2.1
-	if (!scene.is_mouse_button_pressed &&
-		scene.cursor.getState() != CursorState::MOVE &&
-		scene.cursor.getState() != CursorState::RESIZE)
-	{
-		if (scene.isMouseOverObject(x, y)) {
-			scene.cursor.setState(CursorState::HOVER);
-		}
-		else {
-			scene.cursor.setState(CursorState::DEFAULT);
-		}
-	}
-	/**************************************************************************/
-	/**************************************************************************/
-	/**************************************************************************/
-
-	
+    scene.mouse_current_x = x;
+    scene.mouse_current_y = y;
+    
+    
+    /**************************************************************************/
+    /**************************************************************************/
+    /**************************************************************************/
+    //yacine 2.1
+    if (!scene.is_mouse_button_pressed &&
+        scene.cursor.getState() != CursorState::MOVE &&
+        scene.cursor.getState() != CursorState::RESIZE)
+    {
+        if (scene.isMouseOverObject(x, y)) {
+            scene.cursor.setState(CursorState::HOVER);
+        }
+        else {
+            scene.cursor.setState(CursorState::DEFAULT);
+        }
+    }
+    /**************************************************************************/
+    /**************************************************************************/
+    /**************************************************************************/
+    
+    
 }
 
 void Application::mouseDragged(int x, int y, int button)
 {
-	scene.mouse_current_x = x;
-	scene.mouse_current_y = y;
-
-
-	/**************************************************************************/
-	/**************************************************************************/
-	//yacine
-	scene.cursor.setState(CursorState::DRAGGING);
-
-	//2.3
-	if (scene.isDrawingMode) {
-		scene.updateCurrentDrawing(x, y);
-	}
-
-	/**************************************************************************/
-	/**************************************************************************/
+    scene.mouse_current_x = x;
+    scene.mouse_current_y = y;
+    
+    
+    /**************************************************************************/
+    /**************************************************************************/
+    //yacine
+    scene.cursor.setState(CursorState::DRAGGING);
+    
+    //2.3
+    if (scene.isDrawingMode) {
+        scene.updateCurrentDrawing(x, y);
+    }
+    
+    /**************************************************************************/
+    /**************************************************************************/
 }
 
 void Application::mousePressed(int x, int y, int button)
-{ 
+{
     scene.is_mouse_button_pressed = true;
     
     scene.mouse_current_x = x;
@@ -296,7 +288,7 @@ void Application::mousePressed(int x, int y, int button)
     
     scene.mouse_press_x = x;
     scene.mouse_press_y = y;
-
+    
     /**************************************************************************/
     /**************************************************************************/
     /**************************************************************************/
@@ -305,26 +297,26 @@ void Application::mousePressed(int x, int y, int button)
     /**************************************************************************/
     /**************************************************************************/
     /**************************************************************************/
-
+    
     
     //Test en envoyant un rayon partant de la caméra vers l'avant à l'infini, renvoyant le premier objet "hit".
-
-
+    
+    
     ofVec3f rayOrigin = scene.camera->getPosition();
     ofVec3f mouseWorld = scene.camera->screenToWorld(ofVec3f(scene.mouse_press_x, scene.mouse_press_y, 0));
     ofVec3f rayDir = (mouseWorld - rayOrigin).normalized();
-
+    
     // Check intersection À REVOIR
     /*for (size_t i = 0; i < scene.objects.size(); i++)
-    {
-        Cube* model = dynamic_cast<Cube*>(scene.objects[i]);
-        ofLog() << model->intersectsRay(rayOrigin, rayDir);
-        if(model->intersectsRay(rayOrigin, rayDir))
-        {
-            model->selected = !scene.objects[i]->selected;
-            ofLog() << "Cube hit ";
-        }
-    }*/
+     {
+     Cube* model = dynamic_cast<Cube*>(scene.objects[i]);
+     ofLog() << model->intersectsRay(rayOrigin, rayDir);
+     if(model->intersectsRay(rayOrigin, rayDir))
+     {
+     model->selected = !scene.objects[i]->selected;
+     ofLog() << "Cube hit ";
+     }
+     }*/
     //2.3
     /**************************************************************************/
     /**************************************************************************/
@@ -342,7 +334,7 @@ void Application::mouseReleased(int x, int y, int button)
     
     scene.mouse_current_x = x;
     scene.mouse_current_y = y;
-
+    
     /**************************************************************************/
     /**************************************************************************/
     //yacine
@@ -351,18 +343,18 @@ void Application::mouseReleased(int x, int y, int button)
     }
     else {
         scene.cursor.setState(CursorState::DEFAULT);
-
+        
     }
     /**************************************************************************/
     /**************************************************************************/
-
+    
     
     //Sélection tout ce qui est dans la boite de sélection si celle-ci est assez grande
     float distance = sqrt(pow(x - scene.mouse_press_x, 2) + pow(y - scene.mouse_press_y, 2));
     
     if(distance > 20.0f && scene.currentTransform == Scene::TransformMode::None)
         scene.selectAllInBounds(scene.mouse_press_x, scene.mouse_press_y, x, y);
-
+    
     //2.3
     /**************************************************************************/
     if (scene.isDrawingMode) {
@@ -373,26 +365,26 @@ void Application::mouseReleased(int x, int y, int button)
 
 void Application::mouseEntered(int x, int y)
 {
-	scene.mouse_current_x = x;
-	scene.mouse_current_y = y;
-
-	/**************************************************************************/
-	/**************************************************************************/
-	//yacine
-	scene.cursor.setState(CursorState::DEFAULT);
-	/**************************************************************************/
-	/**************************************************************************/
+    scene.mouse_current_x = x;
+    scene.mouse_current_y = y;
+    
+    /**************************************************************************/
+    /**************************************************************************/
+    //yacine
+    scene.cursor.setState(CursorState::DEFAULT);
+    /**************************************************************************/
+    /**************************************************************************/
 }
 
 void Application::mouseExited(int x, int y)
 {
-	scene.mouse_current_x = x;
-	scene.mouse_current_y = y;
-
-	/**************************************************************************/
-	//yacine
-	scene.cursor.setState(CursorState::HIDDEN);
-	/**************************************************************************/
+    scene.mouse_current_x = x;
+    scene.mouse_current_y = y;
+    
+    /**************************************************************************/
+    //yacine
+    scene.cursor.setState(CursorState::HIDDEN);
+    /**************************************************************************/
 }
 
 void Application::exit()

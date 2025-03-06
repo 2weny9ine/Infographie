@@ -61,18 +61,18 @@ Top_Left_GUI::Top_Left_GUI()
         }
     });
 
-    histogramButton = histogram_folder->addButton("Afficher l'histogramme de la première image");
+    histogramButton = histogram_folder->addButton("Afficher l'histogramme");
     histogramButton->onButtonEvent([this](ofxDatGuiButtonEvent e) {
         showHistogram = !showHistogram;
         if (showHistogram) {
             histogramButton->setLabel("Masquer histogramme");
         } else {
-            histogramButton->setLabel("Afficher l'histogramme de la première image");
+            histogramButton->setLabel("Afficher l'histogramme");
         }
     });
     showHistogram = false;
 
-    exportDurationSlider = histogram_folder->addSlider("Durée Export", 1, 10, 5);
+    exportDurationSlider = histogram_folder->addSlider("Durée Export", 1, 20, 5);
     exportDurationSlider->setPrecision(0);
     exportButton = histogram_folder->addButton("Exporter la séquence");
     exportButton->onButtonEvent([this](ofxDatGuiButtonEvent e) {

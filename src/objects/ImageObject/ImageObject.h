@@ -5,7 +5,7 @@ class ImageObject : public Object3D {
 public:
     ImageObject();
     virtual ~ImageObject();
-
+    
     bool loadImage(const std::string& path);
     void drawFilm(const ofColor &film);
     virtual void setup() override;
@@ -20,16 +20,16 @@ public:
         position = pos;
     }
     
-    static bool applyUserColor;
-    static ofColor customUserColor;
+    bool applyUserColor;
+    ofColor customUserColor;
     ofPlanePrimitive plane;
     
-
-
+    
+    
     //yacine
     virtual ofRectangle getScreenBoundingBox(ofCamera* cam) override;
-
+    
 private:
     ofImage image;
-
+    
 };
