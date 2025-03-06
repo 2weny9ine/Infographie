@@ -41,7 +41,7 @@ void Image::imageExport(const std::string& name, const std::string& extension) {
         
         if (currentTime - lastCaptureTime >= 1.0f || captureCount == 0) {
             std::string timeStamp = ofGetTimestampString("-%y%m%d-%H%M%S-%i");
-            std::string fileName = name + "_" + ofToString(captureCount) + timeStamp + "." + extension;
+            std::string fileName = "output/" + name + "_" + ofToString(captureCount) + timeStamp + "." + extension;
             ofSaveScreen(fileName);
             ofLog() << "<export scene frame: " << fileName << ">";
             captureCount++;

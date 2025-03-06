@@ -106,6 +106,9 @@
     <ClCompile Include="..\..\..\addons\ofxGui\src\ofxToggle.cpp">
       <Filter>addons\ofxGui\src</Filter>
     </ClCompile>
+    <ClCompile Include="src\modules\Cursor\Cursor.cpp">
+      <Filter>src\modules\Cursor</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="src">
@@ -218,6 +221,9 @@
     </Filter>
     <Filter Include="addons\ofxGui\src">
       <UniqueIdentifier>{6C763FBB--D68-0-43-FA-9-620-E5C04217B9F4}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="src\modules\Cursor">
+      <UniqueIdentifier>{e6316169-0812-4680-8bbf-11433a84c875}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -628,6 +634,9 @@
     </ClInclude>
     <ClInclude Include="..\..\..\addons\ofxGui\src\ofxToggle.h">
       <Filter>addons\ofxGui\src</Filter>
+    </ClInclude>
+    <ClInclude Include="src\modules\Cursor\Cursor.h">
+      <Filter>src\modules\Cursor</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

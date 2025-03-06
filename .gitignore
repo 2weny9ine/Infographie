@@ -7,6 +7,7 @@
 
 /bin/*
 !/bin/data/
+/bin/data/output/*
 
 # general
 
