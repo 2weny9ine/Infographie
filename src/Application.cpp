@@ -65,7 +65,6 @@ void Application::draw() {
 	ofSetBackgroundColor(backgroundColor); //2.2 /**************************************************************************/
     scene.draw();
     scene.img->createHistogram();
-    
     if (gui.top_left->histogramEnabled()) {
         int posX = gui.top_left->getX() + 10;
         int posY = gui.top_left->getY() + gui.top_left->getHeight() + 10;
@@ -202,6 +201,24 @@ void Application::keyReleased(int key)
             break;
         case 'q':
             user_camera_movement.move_downwards = false;
+            break;
+        case 'p':
+            if(scene.currentTransform != Scene::TransformMode::Resize)
+                scene.currentTransform = Scene::TransformMode::Resize;
+            else
+                scene.currentTransform = Scene::TransformMode::None;
+            break;
+        case 't':
+            if (scene.currentTransform != Scene::TransformMode::Translate)
+                scene.currentTransform = Scene::TransformMode::Translate;
+            else
+                scene.currentTransform = Scene::TransformMode::None;
+            break;
+        case 'r':
+            if (scene.currentTransform != Scene::TransformMode::Rotate)
+                scene.currentTransform = Scene::TransformMode::Rotate;
+            else
+                scene.currentTransform = Scene::TransformMode::None;
             break;
         case ' ':
             scene.img->imageExport("exportImage", "png");
@@ -343,7 +360,7 @@ void Application::mouseReleased(int x, int y, int button)
     //Sélection tout ce qui est dans la boite de sélection si celle-ci est assez grande
     float distance = sqrt(pow(x - scene.mouse_press_x, 2) + pow(y - scene.mouse_press_y, 2));
     
-    if(distance > 20.0f)
+    if(distance > 20.0f && scene.currentTransform == Scene::TransformMode::None)
         scene.selectAllInBounds(scene.mouse_press_x, scene.mouse_press_y, x, y);
 
     //2.3

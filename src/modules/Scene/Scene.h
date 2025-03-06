@@ -38,20 +38,30 @@ class Image;
 class Scene
 {
 public:
+	enum class TransformMode {
+		Translate, Rotate, Resize, None
+	};
 	Locator* locators;
     Image* img;
 	ofNode node;
 	GUI* gui;
 	ofVec3f vector_position, vector_rotation, vector_proportion;
+	ofVec3f lastMouseWorld;
+	ofVec3f lastMouseScreen;
 
 	ofCamera* camera;
 	Grid* grid;
 
+	TransformMode currentTransform;
+
 	float center_x, center_y;
 	float offset_x, offset_y, offset_z;
 	float delta_x, delta_y, delta_z;
-
+	float scaleFactor;
+	float rotationSpeed;
 	float speed;
+	float planeZ;
+
 
 	int radius;
 
@@ -85,6 +95,7 @@ public:
 	void selectAllInBounds(float x1, float y1, float x2, float y2);
 
 	void apply_Transformations(ofVec3f position, ofVec3f rotation, ofVec3f scale);
+	void update_Attributes();
 
 	void setup(ofCamera* cam, GUI* gui);
 	void update();

@@ -14,6 +14,7 @@ public:
     Scene scene;
     Renderer renderer; //2.2 /**************************************************************************/
     User_Camera_Movement user_camera_movement;
+
     
     ofFbo sceneFbo;
     ofPixels fboPixels;
