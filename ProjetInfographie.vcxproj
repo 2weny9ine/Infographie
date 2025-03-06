@@ -104,11 +104,17 @@
     <PostBuildEvent />
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="src\events\KeyPressedEventHandler\KeyPressedEventHandler.cpp" />
+    <ClCompile Include="src\events\KeyReleasedEventHandler\KeyReleasedEventHandler.cpp" />
+    <ClCompile Include="src\events\MouseClickedEventHandler\MouseClickedEventHandler.cpp" />
+    <ClCompile Include="src\events\MouseDraggedEventHandler\MouseDraggedEventHandler.cpp" />
+    <ClCompile Include="src\events\MouseMovedEventHandler\MouseMovedEventHandler.cpp" />
+    <ClCompile Include="src\events\WindowResizedEventHandler\WindowResizedEventHandler.cpp" />
     <ClCompile Include="src\main.cpp" />
     <ClCompile Include="src\Application.cpp" />
     <ClCompile Include="src\modules\Cursor\Cursor.cpp" />
     <ClCompile Include="src\Renderer.cpp" />
-    <ClCompile Include="src\events\DragEvent\DragEvent.cpp" />
+    <ClCompile Include="src\events\DragEventHandler\DragEventHandler.cpp" />
     <ClCompile Include="src\modules\GUI\Bottom_Left_GUI\Bottom_Left_GUI.cpp" />
     <ClCompile Include="src\modules\GUI\GUI.cpp" />
     <ClCompile Include="src\modules\GUI\Top_Left_GUI\Top_Left_GUI.cpp" />
@@ -142,9 +148,15 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\Application.h" />
+    <ClInclude Include="src\events\KeyPressedEventHandler\KeyPressedEventHandler.h" />
+    <ClInclude Include="src\events\KeyReleasedEventHandler\KeyReleasedEventHandler.h" />
+    <ClInclude Include="src\events\MouseClickedEventHandler\MouseClickedEventHandler.h" />
+    <ClInclude Include="src\events\MouseDraggedEventHandler\MouseDraggedEventHandler.h" />
+    <ClInclude Include="src\events\MouseMovedEventHandler\MouseMovedEventHandler.h" />
+    <ClInclude Include="src\events\WindowResizedEventHandler\WindowResizedEventHandler.h" />
     <ClInclude Include="src\modules\Cursor\Cursor.h" />
     <ClInclude Include="src\Renderer.h" />
-    <ClInclude Include="src\events\DragEvent\DragEvent.h" />
+    <ClInclude Include="src\events\DragEventHandler\DragEventHandler.h" />
     <ClInclude Include="src\modules\GUI\Bottom_Left_GUI\Bottom_Left_GUI.h" />
     <ClInclude Include="src\modules\GUI\GUI.h" />
     <ClInclude Include="src\modules\GUI\Top_Left_GUI\Top_Left_GUI.h" />

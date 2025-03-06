@@ -1,393 +1,186 @@
 #include "Application.h"
-#include <algorithm>
 
-void Application::setup() {
-    ofSetWindowTitle("Infographie");
-    ofLog() << "Application démarre...";
-    
-    scene.setup(&user_camera_movement.camera,&gui);
-    user_camera_movement.setup(scene);
-    
-    gui.setup(&scene);
-    gui.top_left->setImage(scene.img);
-    
-    sceneFbo.allocate(ofGetWidth(), ofGetHeight(), GL_RGBA);
-    
-    
-    
-    //yacine
-    //ofHideCursor();
-    /**************************************************************************/
-    /**************************************************************************/
-    /**************************************************************************/
-    scene.cursor.setState(CursorState::DEFAULT);
-    
-    backgroundColor = ofColor(31); // Task 2.2: Initial background
-    
-    /**************************************************************************/
-    /**************************************************************************/
-    /**************************************************************************/
+Application::Application()
+    : time_current(0),
+    time_elapsed(0),
+    time_last(0),
+    isDrawingMode(false),
+    backgroundColor(ofColor::black)
+{}
+
+Application::~Application()
+{
+    // Cleanup code if needed
 }
 
-void Application::update() {
+Application& Application::getInstance()
+{
+    static Application instance;
+    return instance;
+}
+
+void Application::setup()
+{
+    ofSetWindowTitle("Infographie");
+    ofLog() << "Application démarre...";
+
+    scene.setup(&user_camera_movement.camera, &gui);
+    user_camera_movement.setup(scene);
+
+    gui.setup(&scene);
+    gui.top_left->setImage(scene.img);
+
+    sceneFbo.allocate(ofGetWidth(), ofGetHeight(), GL_RGBA);
+
+    scene.cursor.setState(CursorState::DEFAULT);
+
+    backgroundColor = ofColor(31);
+}
+
+void Application::update()
+{
     time_current = ofGetElapsedTimef();
     time_elapsed = time_current - time_last;
     time_last = time_current;
-    
+
     user_camera_movement.update(time_elapsed);
-    
     scene.update();
-    
-    
-    
-    /**************************************************************************/
-    /**************************************************************************/
-    /**************************************************************************/
-    // Task 2.2: Apply Top_Right_GUI values
+
     backgroundColor = gui.top_right->getBackgroundColor();
-    //2.3
     scene.updateDrawingProperties(gui.top_right->getStrokeColor(),
                                   gui.top_right->getFillColor(),
                                   gui.top_right->getLineWidth(),
                                   gui.top_right->isOutlineEnabled());
-    
+
     scene.setPrimitiveType(gui.top_right->getSelectedPrimitive());
     
     isDrawingMode = gui.top_right->isDrawingEnabled();
     scene.isDrawingMode = isDrawingMode;
-    
-    /**************************************************************************/
-    /**************************************************************************/
-    /**************************************************************************/
 }
 
-void Application::draw() {
-    ofSetBackgroundColor(backgroundColor); //2.2 /**************************************************************************/
+void Application::draw()
+{
+    ofSetBackgroundColor(backgroundColor);
     scene.draw();
-    if (gui.top_left->histogramEnabled()) {
+    scene.img->createHistogram();
+    if (gui.top_left->histogramEnabled())
+    {
         int posX = gui.top_left->getX() + 10;
         int posY = gui.top_left->getY() + gui.top_left->getHeight() + 10;
         int widthImg  = 256;
         int heightImg = 100;
-        
-        
-        scene.img->selectedHistogram(scene, posX, posY, widthImg, heightImg);
+        if (scene.img && scene.img->hasImage())
+        {
+            scene.img->drawHistogram(posX, posY, widthImg, heightImg);
+        }
+        else
+        {
+            ofPushStyle();
+            ofSetColor(50, 50, 50);
+            ofDrawRectangle(posX, posY, widthImg, heightImg);
+            ofSetColor(255);
+            ofDrawBitmapString("Importer une image pour Voir!", posX + 10, posY + heightImg / 2);
+        }
     }
-    
-    if (gui.top_left->colorFilterEnabled()) {
+
+    if (gui.top_left->colorFilterEnabled())
+    {
         ofColor rgbColor = gui.top_left->getRGBColor();
         ofColor hsbColor = gui.top_left->getHSBColor();
         scene.img->colorFilterSelected(scene, rgbColor, hsbColor);
     }
-    else {
-        
-        for (auto& imgObj : scene.img->images) {
+    else
+    {
+        for (auto& imgObj : scene.img->images)
+        {
             imgObj->applyUserColor = false;
         }
     }
-    
+
     scene.img->imageExport("exportImage", "png");
-    
-    scene.drawCursor(); /**************************************************************************/
-    
+    scene.drawCursor();
 }
 
-
-
-
-
-void Application::windowResized(int w, int h) {
-    ofLog() << "Fenêtre redimensionnée : " << w << "x" << h;
+void Application::windowResized(int w, int h)
+{
+    windowResizedHandler.handleWindowResized(w, h);
 }
 
 void Application::keyPressed(int key)
 {
-    switch (key)
-    {
-        case OF_KEY_LEFT:
-            user_camera_movement.move_left = true;
-            break;
-        case OF_KEY_UP:
-            user_camera_movement.move_forward = true;
-            break;
-        case OF_KEY_RIGHT:
-            user_camera_movement.move_right = true;
-            break;
-        case OF_KEY_DOWN:
-            user_camera_movement.move_backwards = true;
-            break;
-            
-        case 'a':
-            user_camera_movement.move_left = true;
-            break;
-        case 'w':
-            user_camera_movement.move_forward = true;
-            break;
-        case 'd':
-            user_camera_movement.move_right = true;
-            break;
-        case 's':
-            user_camera_movement.move_backwards = true;
-            break;
-        case 'e':
-            user_camera_movement.move_upwards = true;
-            break;
-        case 'q':
-            user_camera_movement.move_downwards = true;
-            break;
-            /**************************************************************************/
-            /**************************************************************************/
-            //yacine
-        case 'r': // Toggle RESIZE
-            if (scene.cursor.getState() == CursorState::RESIZE)
-                scene.cursor.setState(CursorState::DEFAULT);
-            else
-                scene.cursor.setState(CursorState::RESIZE);
-            break;
-            
-        case 'm': // Toggle MOVE
-            if (scene.cursor.getState() == CursorState::MOVE)
-                scene.cursor.setState(CursorState::DEFAULT);
-            else
-                scene.cursor.setState(CursorState::MOVE);
-            break;
-            /**************************************************************************/
-            /**************************************************************************/
-            
-        default:
-            break;
-    }
+    this->keyPressedHandler.handleKeyPressed(key);
 }
 
 void Application::keyReleased(int key)
 {
-    switch (key)
-    {
-        case OF_KEY_LEFT:
-            user_camera_movement.move_left = false;
-            break;
-        case OF_KEY_UP:
-            user_camera_movement.move_forward = false;
-            break;
-        case OF_KEY_RIGHT:
-            user_camera_movement.move_right = false;
-            break;
-        case OF_KEY_DOWN:
-            user_camera_movement.move_backwards = false;
-            break;
-            
-        case 'a':
-            user_camera_movement.move_left = false;
-            break;
-        case 'w':
-            user_camera_movement.move_forward = false;
-            break;
-        case 'd':
-            user_camera_movement.move_right = false;
-            break;
-        case 's':
-            user_camera_movement.move_backwards = false;
-            break;
-        case 'e':
-            user_camera_movement.move_upwards = false;
-            break;
-        case 'q':
-            user_camera_movement.move_downwards = false;
-            break;
-        case 'p':
-            if(scene.currentTransform != Scene::TransformMode::Resize)
-                scene.currentTransform = Scene::TransformMode::Resize;
-            else
-                scene.currentTransform = Scene::TransformMode::None;
-            break;
-        case 't':
-            if (scene.currentTransform != Scene::TransformMode::Translate)
-                scene.currentTransform = Scene::TransformMode::Translate;
-            else
-                scene.currentTransform = Scene::TransformMode::None;
-            break;
-        case 'r':
-            if (scene.currentTransform != Scene::TransformMode::Rotate)
-                scene.currentTransform = Scene::TransformMode::Rotate;
-            else
-                scene.currentTransform = Scene::TransformMode::None;
-            break;
-        case ' ':
-            scene.img->imageExport("exportImage", "png");
-            scene.img->setExportTriggered(true);
-            break;
-        default:
-            break;
-    }
+    keyReleasedHandler.handleKeyReleased(key);
 }
 
-void Application::dragEvent(ofDragInfo dragInfo) {
-    ofLogNotice("Application::dragEvent") << "Drag Event: "
-    << "Files: " << dragInfo.files.size()
-    << ", Position: (" << dragInfo.position.x << ", " << dragInfo.position.y << ")";
-    
-    DragEvent dragEventHandler;
-    
-    dragEventHandler.processDragEvent(dragInfo, &scene);
+void Application::dragEvent(ofDragInfo dragInfo)
+{
+    dragEventHandler.processDragEvent(dragInfo);
 }
 
 void Application::mouseMoved(int x, int y)
 {
-    scene.mouse_current_x = x;
-    scene.mouse_current_y = y;
-    
-    
-    /**************************************************************************/
-    /**************************************************************************/
-    /**************************************************************************/
-    //yacine 2.1
-    if (!scene.is_mouse_button_pressed &&
-        scene.cursor.getState() != CursorState::MOVE &&
-        scene.cursor.getState() != CursorState::RESIZE)
-    {
-        if (scene.isMouseOverObject(x, y)) {
-            scene.cursor.setState(CursorState::HOVER);
-        }
-        else {
-            scene.cursor.setState(CursorState::DEFAULT);
-        }
-    }
-    /**************************************************************************/
-    /**************************************************************************/
-    /**************************************************************************/
-    
-    
+    mouseMovedHandler.handleMouseMoved(x, y);
 }
 
 void Application::mouseDragged(int x, int y, int button)
 {
-    scene.mouse_current_x = x;
-    scene.mouse_current_y = y;
-    
-    
-    /**************************************************************************/
-    /**************************************************************************/
-    //yacine
-    scene.cursor.setState(CursorState::DRAGGING);
-    
-    //2.3
-    if (scene.isDrawingMode) {
-        scene.updateCurrentDrawing(x, y);
-    }
-    
-    /**************************************************************************/
-    /**************************************************************************/
+    mouseDraggedHandler.handleMouseDragged(x, y, button);
 }
 
 void Application::mousePressed(int x, int y, int button)
 {
-    scene.is_mouse_button_pressed = true;
-    
-    scene.mouse_current_x = x;
-    scene.mouse_current_y = y;
-    
-    scene.mouse_press_x = x;
-    scene.mouse_press_y = y;
-    
-    /**************************************************************************/
-    /**************************************************************************/
-    /**************************************************************************/
-    //yacine
-    scene.cursor.setState(CursorState::PRESSED);
-    /**************************************************************************/
-    /**************************************************************************/
-    /**************************************************************************/
-    
-    
-    //Test en envoyant un rayon partant de la caméra vers l'avant à l'infini, renvoyant le premier objet "hit".
-    
-    
-    ofVec3f rayOrigin = scene.camera->getPosition();
-    ofVec3f mouseWorld = scene.camera->screenToWorld(ofVec3f(scene.mouse_press_x, scene.mouse_press_y, 0));
-    ofVec3f rayDir = (mouseWorld - rayOrigin).normalized();
-    
-    // Check intersection À REVOIR
-    /*for (size_t i = 0; i < scene.objects.size(); i++)
-     {
-     Cube* model = dynamic_cast<Cube*>(scene.objects[i]);
-     ofLog() << model->intersectsRay(rayOrigin, rayDir);
-     if(model->intersectsRay(rayOrigin, rayDir))
-     {
-     model->selected = !scene.objects[i]->selected;
-     ofLog() << "Cube hit ";
-     }
-     }*/
-    //2.3
-    /**************************************************************************/
-    /**************************************************************************/
-    /**************************************************************************/
-    if (scene.isDrawingMode) {
-        scene.startDrawing(x, y);
-    }
-    /**************************************************************************/
-    /**************************************************************************/
+    mouseClickedHandler.handleMousePressed(x, y, button);
 }
 
 void Application::mouseReleased(int x, int y, int button)
 {
-    scene.is_mouse_button_pressed = false;
-    
-    scene.mouse_current_x = x;
-    scene.mouse_current_y = y;
-    
-    /**************************************************************************/
-    /**************************************************************************/
-    //yacine
-    if (scene.isMouseOverObject(x, y)) {
-        scene.cursor.setState(CursorState::HOVER);
-    }
-    else {
-        scene.cursor.setState(CursorState::DEFAULT);
-        
-    }
-    /**************************************************************************/
-    /**************************************************************************/
-    
-    
-    //Sélection tout ce qui est dans la boite de sélection si celle-ci est assez grande
-    float distance = sqrt(pow(x - scene.mouse_press_x, 2) + pow(y - scene.mouse_press_y, 2));
-    
-    if(distance > 20.0f && scene.currentTransform == Scene::TransformMode::None)
-        scene.selectAllInBounds(scene.mouse_press_x, scene.mouse_press_y, x, y);
-    
-    //2.3
-    /**************************************************************************/
-    if (scene.isDrawingMode) {
-        scene.finalizeDrawing();
-    }
-    /**************************************************************************/
+    mouseClickedHandler.handleMouseReleased(x, y, button);
 }
 
 void Application::mouseEntered(int x, int y)
 {
     scene.mouse_current_x = x;
     scene.mouse_current_y = y;
-    
-    /**************************************************************************/
-    /**************************************************************************/
-    //yacine
     scene.cursor.setState(CursorState::DEFAULT);
-    /**************************************************************************/
-    /**************************************************************************/
 }
 
 void Application::mouseExited(int x, int y)
 {
     scene.mouse_current_x = x;
     scene.mouse_current_y = y;
-    
-    /**************************************************************************/
-    //yacine
     scene.cursor.setState(CursorState::HIDDEN);
-    /**************************************************************************/
 }
 
 void Application::exit()
 {
     ofLog() << "<app::exit>";
 }
+
+// Getters
+GUI& Application::getGui() { return gui; }
+Scene& Application::getScene() { return scene; }
+Renderer& Application::getRenderer() { return renderer; }
+User_Camera_Movement& Application::getUserCameraMovement() { return user_camera_movement; }
+ofFbo& Application::getSceneFbo() { return sceneFbo; }
+ofPixels& Application::getFboPixels() { return fboPixels; }
+float Application::getTimeCurrent() const { return time_current; }
+float Application::getTimeElapsed() const { return time_elapsed; }
+float Application::getTimeLast() const { return time_last; }
+bool Application::getIsDrawingMode() const { return isDrawingMode; }
+ofColor Application::getBackgroundColor() const { return backgroundColor; }
+
+// Setters
+void Application::setScene(const Scene& scene) { this->scene = scene; }
+void Application::setRenderer(const Renderer& renderer) { this->renderer = renderer; }
+void Application::setUserCameraMovement(const User_Camera_Movement& user_camera_movement) { this->user_camera_movement = user_camera_movement; }
+void Application::setSceneFbo(const ofFbo& sceneFbo) { this->sceneFbo = sceneFbo; }
+void Application::setFboPixels(const ofPixels& fboPixels) { this->fboPixels = fboPixels; }
+void Application::setTimeCurrent(float time_current) { this->time_current = time_current; }
+void Application::setTimeElapsed(float time_elapsed) { this->time_elapsed = time_elapsed; }
+void Application::setTimeLast(float time_last) { this->time_last = time_last; }
+void Application::setIsDrawingMode(bool isDrawingMode) { this->isDrawingMode = isDrawingMode; }
+void Application::setBackgroundColor(const ofColor& backgroundColor) { this->backgroundColor = backgroundColor; }

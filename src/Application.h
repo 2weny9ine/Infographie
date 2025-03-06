@@ -5,26 +5,28 @@
 #include "modules/Image/Image.h"
 #include "modules/User_Camera_Movement/User_Camera_Movement.h"
 #include "modules/GUI/GUI.h"
-
-#include "events/DragEvent/DragEvent.h"
+#include "events/MouseClickedEventHandler/MouseClickedEventHandler.h"
+#include "events/MouseDraggedEventHandler/MouseDraggedEventHandler.h"
+#include "events/MouseMovedEventHandler/MouseMovedEventHandler.h"
+#include "events/WindowResizedEventHandler/WindowResizedEventHandler.h"
+#include "events/KeyReleasedEventHandler/KeyReleasedEventHandler.h"
+#include "events/KeyPressedEventHandler/KeyPressedEventHandler.h"
+#include "events/DragEventHandler/DragEventHandler.h"
 
 class Application : public ofBaseApp {
 public:
     GUI gui;
     Scene scene;
-    Renderer renderer; //2.2 /**************************************************************************/
+    Renderer renderer;
     User_Camera_Movement user_camera_movement;
 
-    
     ofFbo sceneFbo;
     ofPixels fboPixels;
 
-
     float time_current, time_elapsed, time_last;
+    bool isDrawingMode;
+    ofColor backgroundColor;
 
-    /**********************************************************/
-    bool isDrawingMode = false;
-    
     void setup();
     void draw();
     void update();
@@ -36,10 +38,45 @@ public:
     void mouseExited(int x, int y);
     void keyReleased(int key);
     void windowResized(int w, int h);
-    void keyPressed(int key);  
-    void dragEvent(ofDragInfo dragInfo);     
+    void keyPressed(int key);
+    void dragEvent(ofDragInfo dragInfo);
     void exit();
 
+    // Getters and Setters
+    GUI& getGui();
+    Scene& getScene();
+    Renderer& getRenderer();
+    User_Camera_Movement& getUserCameraMovement();
+    ofFbo& getSceneFbo();
+    ofPixels& getFboPixels();
+    float getTimeCurrent() const;
+    float getTimeElapsed() const;
+    float getTimeLast() const;
+    bool getIsDrawingMode() const;
+    ofColor getBackgroundColor() const;
+
+    void setScene(const Scene& scene);
+    void setRenderer(const Renderer& renderer);
+    void setUserCameraMovement(const User_Camera_Movement& user_camera_movement);
+    void setSceneFbo(const ofFbo& sceneFbo);
+    void setFboPixels(const ofPixels& fboPixels);
+    void setTimeCurrent(float time_current);
+    void setTimeElapsed(float time_elapsed);
+    void setTimeLast(float time_last);
+    void setIsDrawingMode(bool isDrawingMode);
+    void setBackgroundColor(const ofColor& backgroundColor);
+
+    static Application& getInstance();
+
 private:
-    ofColor backgroundColor; //2.2 /**************************************************************************/
+    Application();
+    ~Application();
+
+    MouseClickedEventHandler mouseClickedHandler;
+    MouseDraggedEventHandler mouseDraggedHandler;
+    MouseMovedEventHandler mouseMovedHandler;
+    WindowResizedEventHandler windowResizedHandler;
+    KeyReleasedEventHandler keyReleasedHandler;
+    KeyPressedEventHandler keyPressedHandler;
+    DragEventHandler dragEventHandler;
 };
