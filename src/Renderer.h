@@ -16,7 +16,7 @@ public:
 	void setup();
 	void update();
 	void draw();
-
 	void reset();
+	ofColor backgroundColor; // Task 2.2: Added to manage background color
 };
 

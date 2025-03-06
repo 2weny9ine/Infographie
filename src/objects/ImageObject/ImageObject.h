@@ -24,6 +24,11 @@ public:
     static ofColor customUserColor;
     ofPlanePrimitive plane;
     
+
+
+    //yacine
+    virtual ofRectangle getScreenBoundingBox(ofCamera* cam) override;
+
 private:
     ofImage image;
 

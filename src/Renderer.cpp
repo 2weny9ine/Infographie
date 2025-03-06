@@ -14,7 +14,8 @@ void Renderer::setup()
 
 	reset();
 }
-
+void Renderer:: draw() {
+}
 void Renderer::update()
 {
 
