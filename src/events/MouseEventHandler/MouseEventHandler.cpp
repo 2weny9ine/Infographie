@@ -83,16 +83,10 @@ void MouseEventHandler::handleMouseDragged(int x, int y, int button)
         return;
     }
 
-    // Check if the right mouse button is being held and dragged
     if (isRightMouseButtonDown)
     {
-        // Calculate the delta movement
         ofVec2f mouseDelta = -(ofVec2f(x, y) - scene.lastMouseScreen);
-
-        // Rotate the camera based on the mouse movement
         cameraMovement.rotateCamera(mouseDelta.x, mouseDelta.y);
-
-        // Update the last mouse position
         scene.lastMouseScreen.set(x, y);       
     }
 
