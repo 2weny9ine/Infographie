@@ -47,6 +47,7 @@ private:
     ofxDatGuiTextInput* x_scale;
     ofxDatGuiTextInput* y_scale;
     ofxDatGuiTextInput* z_scale;
+    ofxDatGuiButton* duplicateInstanceButton;
 
     void SendTransformations();
 

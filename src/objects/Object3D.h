@@ -4,38 +4,50 @@
 class Object3D {
 public:
     Object3D();
+    Object3D(const Object3D& instance);
     virtual ~Object3D();
 
     virtual void setup();
     virtual void update(float dt);
     virtual void draw();
 
+    // Getters
+    ofVec3f getPosition() const;
+    ofVec3f getRotation() const;
+    ofVec3f getScale() const;
+    ofColor getColor() const;
+    float getOpacity() const;
+    bool getSelected() const;
+
+    // Setters
+    void setPosition(const ofVec3f& position);
+    void setRotation(const ofVec3f& rotation);
+    void setScale(const ofVec3f& scale);
+    void setColor(const ofColor& color);
+    void setOpacity(float opacity);
+    void setSelected(bool selected);
+
+    // Transform methods
+    void transformPosition(const ofVec3f& delta);
+    void transformRotation(const ofVec3f& delta);
+    void transformScale(const ofVec3f& delta);
+
+    virtual void drawBoundingBox();
+    virtual Object3D* copy() const;
+
+    virtual ofRectangle getScreenBoundingBox(ofCamera* cam);
+
+    ofColor strokeColor;
+    ofColor fillColor;
+    float lineWidth;
+
+protected:
+    void initializeDrawingTools();
+
     ofVec3f position;
     ofVec3f rotation;
     ofVec3f scale;
     ofColor color;
     float opacity;
-
     bool selected;
-
-    virtual void drawBoundingBox();
-
-    void setScale(ofVec3f size);
-    void setColor(ofColor color);
-    void setOpacity(float opacity);
-
-
-    //yacine
-    /**************************************************************************/
-    virtual ofRectangle getScreenBoundingBox(ofCamera* cam) ;
-
-    // Task 2.2
-    ofColor strokeColor;  // 2.2
-    ofColor fillColor;    // 2.2
-    float lineWidth;      // 2.2
-    /**************************************************************************/
-    /**************************************************************************/
-
-protected:
-    void initializeDrawingTools(); // 2.2 /**************************************************************************/
 };

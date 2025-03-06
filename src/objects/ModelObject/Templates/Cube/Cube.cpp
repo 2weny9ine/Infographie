@@ -1,20 +1,30 @@
 #include "Cube.h"
 
-Cube::Cube() {
+Cube::Cube()
+{
     ofLogNotice("Cube::Cube") << "Cube constructor called.";
     setup();
 }
 
-Cube::~Cube() {
+Cube::Cube(const Cube& instance) : ModelObject(instance), cube(instance.cube)
+{
+    ofLogNotice("Cube::Cube(copy)") << "Cube copy constructor called.";
+    setup();
+}
+
+Cube::~Cube()
+{
     ofLogNotice("Cube::~Cube") << "Cube destructor called.";
 }
 
-void Cube::setup() {
+void Cube::setup()
+{
     cube.set(10.0, 10.0, 10.0);
     cube.setPosition(0, 0, 0);
 }
 
-void Cube::draw() {
+void Cube::draw()
+{
     ofPushMatrix();
 
     ofTranslate(position);
@@ -26,7 +36,8 @@ void Cube::draw() {
     ofSetColor(color, opacity * 255);
     cube.draw();
 
-    if (selected) {
+    if (selected)
+    {
         drawBoundingBox();
     }
 
@@ -44,4 +55,9 @@ void Cube::drawBoundingBox()
     glEnable(GL_DEPTH_TEST);
     glDisable(GL_CULL_FACE);
     glLineWidth(1.0);
+}
+
+Cube* Cube::copy() const
+{
+    return new Cube(*this);
 }

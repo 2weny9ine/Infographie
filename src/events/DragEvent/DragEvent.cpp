@@ -36,7 +36,6 @@ void DragEvent::processDragEvent(const ofDragInfo& dragInfo, Scene* scene) {
             ofLogNotice("DragEvent::processDragEvent") << "Attempting to load model: " << file;
 
             if (modelObj->loadModel(file)) {
-                modelObj->position.set(0, 0, 0);
                 scene->addObject(modelObj);
                 ofLogNotice("DragEvent::processDragEvent") << "Model loaded and added to scene: " << file;
             }

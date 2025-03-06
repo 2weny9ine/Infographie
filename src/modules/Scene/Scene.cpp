@@ -65,7 +65,7 @@ void Scene::update()
 			ofVec3f delta = mouseWorld - lastMouseWorld;
 
 			for (Object3D* object : selectedObjects)
-				object->position += delta;
+				object->transformPosition(delta);
 
 			gui->top_left->localTransformations[0] += delta.x;
 			gui->top_left->localTransformations[1] += delta.y;
@@ -85,12 +85,14 @@ void Scene::update()
 
 			for (Object3D* object : selectedObjects)
 			{
-				object->scale.x += mouseDelta.y * scaleFactor;
-				object->scale.y += mouseDelta.y * scaleFactor;
-				object->scale.z += mouseDelta.y * scaleFactor;
-				object->scale.x = max(1.0f, object->scale.x);
-				object->scale.y = max(1.0f, object->scale.y);
-				object->scale.z = max(1.0f, object->scale.z);
+				ofVec3f newScale = object->getScale();
+				newScale.x += mouseDelta.y * scaleFactor;
+				newScale.y += mouseDelta.y * scaleFactor;
+				newScale.z += mouseDelta.y * scaleFactor;
+				newScale.x = max(1.0f, newScale.x);
+				newScale.y = max(1.0f, newScale.y);
+				newScale.z = max(1.0f, newScale.z);
+				object->setScale(newScale);
 			}
 
 
@@ -111,9 +113,11 @@ void Scene::update()
 
 			for (Object3D* object : selectedObjects)
 			{
-				object->rotation.x += mouseDelta.y * rotationSpeed;
-				object->rotation.y += mouseDelta.x * rotationSpeed;
-				object->rotation.z += (mouseDelta.x + mouseDelta.y) * rotationSpeed * 0.5f;
+				ofVec3f delta = ofVec3f(mouseDelta.y * rotationSpeed,
+										mouseDelta.x * rotationSpeed,
+										(mouseDelta.x + mouseDelta.y) * rotationSpeed * 0.5f);
+
+				object->transformRotation(delta);
 			}
 
 
@@ -236,15 +240,15 @@ void Scene::selectAllInBounds(float x1, float y1, float x2, float y2)
 
 	for (Object3D *object : objects)
 	{
-		ofVec3f objectPos = object->position;
+		ofVec3f objectPos = object->getPosition();
 		glm::vec3 screenPos = camera->worldToScreen(objectPos);
 
 		if (screenPos.x >= minX && screenPos.x <= maxX && screenPos.y >= minY && screenPos.y <= maxY) {
-			object->selected = true;
+			object->setSelected(true);
 			selectedObjects.push_back(object);
 		}
 		else {
-			object->selected = false;
+			object->setSelected(false);
 		}
 	}
 	update_Attributes();
@@ -255,17 +259,21 @@ void Scene::update_Attributes()
 	if (selectedObjects.size() == 1)
 	{
 		Object3D* currentObject = selectedObjects[0];
-		gui->top_left.get()->inputs[0]->setText(std::to_string(currentObject->position.x));
-		gui->top_left.get()->inputs[1]->setText(std::to_string(currentObject->position.y));
-		gui->top_left.get()->inputs[2]->setText(std::to_string(currentObject->position.z));
+		ofVec3f position = currentObject->getPosition();
+		ofVec3f rotation = currentObject->getRotation();
+		ofVec3f scale = currentObject->getScale();
 
-		gui->top_left.get()->inputs[3]->setText(std::to_string(currentObject->rotation.x));
-		gui->top_left.get()->inputs[4]->setText(std::to_string(currentObject->rotation.y));
-		gui->top_left.get()->inputs[5]->setText(std::to_string(currentObject->rotation.z));
+		gui->top_left.get()->inputs[0]->setText(std::to_string(position.x));
+		gui->top_left.get()->inputs[1]->setText(std::to_string(position.y));
+		gui->top_left.get()->inputs[2]->setText(std::to_string(position.z));
 
-		gui->top_left.get()->inputs[6]->setText(std::to_string(currentObject->scale.x));
-		gui->top_left.get()->inputs[7]->setText(std::to_string(currentObject->scale.y));
-		gui->top_left.get()->inputs[8]->setText(std::to_string(currentObject->scale.z));
+		gui->top_left.get()->inputs[3]->setText(std::to_string(rotation.x));
+		gui->top_left.get()->inputs[4]->setText(std::to_string(rotation.y));
+		gui->top_left.get()->inputs[5]->setText(std::to_string(rotation.z));
+
+		gui->top_left.get()->inputs[6]->setText(std::to_string(scale.x));
+		gui->top_left.get()->inputs[7]->setText(std::to_string(scale.y));
+		gui->top_left.get()->inputs[8]->setText(std::to_string(scale.z));
 	}
 	else if(gui->top_left->localTransformations == std::vector<float>{ 0,0,0,0,0,0,0,0,0 })
 	{
@@ -292,19 +300,36 @@ void Scene::apply_Transformations(ofVec3f position, ofVec3f rotation, ofVec3f sc
 {
 	if (selectedObjects.size() == 1)
 	{
-		selectedObjects[0]->position = position;
-		selectedObjects[0]->rotation = rotation;
-		selectedObjects[0]->scale = scale;
+		selectedObjects[0]->setPosition(position);
+		selectedObjects[0]->setRotation(rotation);
+		selectedObjects[0]->setScale(scale);
 	}
 	else if (selectedObjects.size() > 1)
 	{
 		for (Object3D* object : selectedObjects)
 		{
-			object->position += position;
-			object->rotation += rotation;
-			object->scale += scale;
+			object->transformPosition(position);
+
+			object->transformPosition(rotation);
+
+			object->transformScale(scale);
 		}
 	}
+}
+
+void Scene::duplicateSelectedInstances()
+{
+	std::vector<Object3D*> newCopies;
+
+	for (Object3D* object : selectedObjects)
+	{
+		Object3D* copy = object->copy();
+		newCopies.push_back(copy);
+
+		this->addObject(copy);
+	}
+
+	this->resetSelection();
 }
 
 void Scene::draw_locator(float scale)
@@ -319,7 +344,7 @@ void Scene::draw_locator(float scale)
 		ofVec3f centroid(0, 0, 0);
 		for (Object3D* object : selectedObjects)
 		{
-			centroid += object->position;
+			centroid += object->getPosition();
 		}
 		node.setPosition(centroid / selectedObjects.size());
 	}

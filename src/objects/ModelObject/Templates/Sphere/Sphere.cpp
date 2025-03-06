@@ -1,21 +1,31 @@
 #include "Sphere.h"
 
-Sphere::Sphere() {
+Sphere::Sphere()
+{
     ofLogNotice("Sphere::Sphere") << "Sphere constructor called.";
     setup();
 }
 
-Sphere::~Sphere() {
+Sphere::Sphere(const Sphere& other) : ModelObject(other), sphere(other.sphere)
+{
+    ofLogNotice("Sphere::Sphere(copy)") << "Sphere copy constructor called.";
+    setup();
+}
+
+Sphere::~Sphere()
+{
     ofLogNotice("Sphere::~Sphere") << "Sphere destructor called.";
 }
 
-void Sphere::setup() {
+void Sphere::setup()
+{
     int resolution = 16;
     sphere.set(10.0, resolution);
     sphere.setPosition(0, 0, 0);
 }
 
-void Sphere::draw() {
+void Sphere::draw()
+{
     ofPushMatrix();
 
     ofTranslate(position);
@@ -27,14 +37,16 @@ void Sphere::draw() {
     ofSetColor(color, opacity * 255);
     sphere.draw();
 
-    if (selected) {
+    if (selected)
+    {
         drawBoundingBox();
     }
 
     ofPopMatrix();
 }
 
-void Sphere::drawBoundingBox() {
+void Sphere::drawBoundingBox()
+{
     ofSetColor(255);
     glLineWidth(2.0);
     glDisable(GL_DEPTH_TEST);
@@ -44,4 +56,9 @@ void Sphere::drawBoundingBox() {
     glEnable(GL_DEPTH_TEST);
     glDisable(GL_CULL_FACE);
     glLineWidth(1.0);
+}
+
+Sphere* Sphere::copy() const
+{
+    return new Sphere(*this);
 }

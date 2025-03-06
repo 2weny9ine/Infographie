@@ -1,22 +1,32 @@
 ﻿#include "ModelObject.h"
 
-ModelObject::ModelObject() {}
+ModelObject::ModelObject() : modelPath("") {}
+
+ModelObject::ModelObject(const ModelObject& other)
+    : Object3D(other), modelPath(other.modelPath)
+{
+    loadModel(modelPath);
+}
 
 ModelObject::~ModelObject() {}
 
-bool ModelObject::loadModel(const std::string& path) {
+bool ModelObject::loadModel(const std::string& path)
+{
+    modelPath = path;
     return model.loadModel(path, true);
 }
 
-void ModelObject::setup() {
-
+std::string ModelObject::getModelPath() const
+{
+    return modelPath;
 }
 
-void ModelObject::update(float dt) {
+void ModelObject::setup() {}
 
-}
+void ModelObject::update(float dt) {}
 
-void ModelObject::draw() {
+void ModelObject::draw()
+{
     ofPushMatrix();
 
     ofTranslate(position);
@@ -25,8 +35,7 @@ void ModelObject::draw() {
     ofRotateZDeg(rotation.z);
     ofScale(scale.x, -scale.y, scale.z);
 
-
-    ofSetColor(fillColor); // Task 2.2: Apply fill color /**************************************************************************/
+    ofSetColor(fillColor);
 
     glDisable(GL_CULL_FACE);
 
@@ -35,15 +44,18 @@ void ModelObject::draw() {
     model.drawFaces();
     ofDisableNormalizedTexCoords();
 
-    if (selected) {
+    if (selected)
+    {
         drawBoundingBox();
     }
 
     ofPopMatrix();
 }
 
-void ModelObject::drawBoundingBox() {
-    if (model.getNumMeshes() == 0) {
+void ModelObject::drawBoundingBox()
+{
+    if (model.getNumMeshes() == 0)
+    {
         ofLogError("ModelObject::drawBoundingBox") << "No meshes loaded!";
         return;
     }
@@ -61,17 +73,16 @@ void ModelObject::drawBoundingBox() {
 
     ofTranslate(boxCenter);
 
-  
     ofNoFill();
-    ofSetColor(strokeColor); // Task 2.2: Use strokeColor
-    ofSetLineWidth(lineWidth); // Task 2.2: Use lineWidth
+    ofSetColor(strokeColor);
+    ofSetLineWidth(lineWidth);
     ofBoxPrimitive box;
     box.set(model.getSceneMax().x - model.getSceneMin().x,
-        model.getSceneMax().y - model.getSceneMin().y,
-        model.getSceneMax().z - model.getSceneMin().z);
+            model.getSceneMax().y - model.getSceneMin().y,
+            model.getSceneMax().z - model.getSceneMin().z);
     box.setPosition((model.getSceneMin().x + model.getSceneMax().x) / 2,
-        (model.getSceneMin().y + model.getSceneMax().y) / 2,
-        (model.getSceneMin().z + model.getSceneMax().z) / 2);
+                    (model.getSceneMin().y + model.getSceneMax().y) / 2,
+                    (model.getSceneMin().z + model.getSceneMax().z) / 2);
     box.drawWireframe();
     ofSetColor(65, 145, 221);
 
@@ -86,10 +97,8 @@ void ModelObject::drawBoundingBox() {
     ofPopMatrix();
 }
 
-/**************************************************************************/
-/**************************************************************************/
-//yacine
-ofRectangle ModelObject::getScreenBoundingBox(ofCamera* cam) {
+ofRectangle ModelObject::getScreenBoundingBox(ofCamera* cam)
+{
     glm::vec3 min = model.getSceneMin();
     glm::vec3 max = model.getSceneMax();
 
@@ -99,7 +108,8 @@ ofRectangle ModelObject::getScreenBoundingBox(ofCamera* cam) {
     };
 
     float minX = FLT_MAX, maxX = FLT_MIN, minY = FLT_MAX, maxY = FLT_MIN;
-    for (auto& corner : corners) {
+    for (auto& corner : corners)
+    {
         glm::vec3 screenPos = cam->worldToScreen(corner + position);
         minX = std::min(minX, screenPos.x);
         maxX = std::max(maxX, screenPos.x);
@@ -108,6 +118,8 @@ ofRectangle ModelObject::getScreenBoundingBox(ofCamera* cam) {
     }
     return ofRectangle(minX, minY, maxX - minX, maxY - minY);
 }
-/**************************************************************************/
-/**************************************************************************/
 
+ModelObject* ModelObject::copy() const
+{
+    return new ModelObject(*this);
+}
