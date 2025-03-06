@@ -10,7 +10,7 @@ Application::Application()
 
 Application::~Application()
 {
-    // Cleanup code if needed
+
 }
 
 Application& Application::getInstance()
@@ -62,7 +62,7 @@ void Application::draw()
 {
     ofSetBackgroundColor(backgroundColor);
     scene.draw();
-    scene.img->createHistogram();
+
     if (gui.top_left->histogramEnabled())
     {
         int posX = gui.top_left->getX() + 10;

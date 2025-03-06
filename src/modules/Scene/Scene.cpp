@@ -362,22 +362,23 @@ void Scene::draw_locator(float scale)
 	node.setScale(scale);
 	node.draw();
 	ofPopMatrix();
-}*/
-void Scene::draw_locator(float scale)
-{
-    ofSetLineWidth(4);
-    ofSetColor(127);
-    ofFill();
-    ofPushMatrix();
-
- 
-    node.setPosition(0, 0, 0);
-    node.setOrientation(ofVec3f(0, 0, 0));
-    node.setScale(scale);
-    node.draw();
-
-    ofPopMatrix();
 }
+
+//void Scene::draw_locator(float scale)
+//{
+//    ofSetLineWidth(4);
+//    ofSetColor(127);
+//    ofFill();
+//    ofPushMatrix();
+//
+// 
+//    node.setPosition(0, 0, 0);
+//    node.setOrientation(ofVec3f(0, 0, 0));
+//    node.setScale(scale);
+//    node.draw();
+//
+//    ofPopMatrix();
+//}
 
 
 void Scene::resetSelection()
