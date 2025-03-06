@@ -109,14 +109,8 @@
     <ClCompile Include="src\modules\Cursor\Cursor.cpp">
       <Filter>src\modules\Cursor</Filter>
     </ClCompile>
-    <ClCompile Include="src\events\MouseClickedEventHandler\MouseClickedEventHandler.cpp">
+    <ClCompile Include="src\events\MouseEventHandler\MouseEventHandler.cpp">
       <Filter>src\events\MouseClickedEventHandler</Filter>
-    </ClCompile>
-    <ClCompile Include="src\events\MouseDraggedEventHandler\MouseDraggedEventHandler.cpp">
-      <Filter>src\events\MouseDraggedEventHandler</Filter>
-    </ClCompile>
-    <ClCompile Include="src\events\MouseMovedEventHandler\MouseMovedEventHandler.cpp">
-      <Filter>src\events\MouseMovedEventHandler</Filter>
     </ClCompile>
     <ClCompile Include="src\events\WindowResizedEventHandler\WindowResizedEventHandler.cpp">
       <Filter>src\events\WindowResizedEventHandler</Filter>
@@ -668,14 +662,8 @@
     <ClInclude Include="src\modules\Cursor\Cursor.h">
       <Filter>src\modules\Cursor</Filter>
     </ClInclude>
-    <ClInclude Include="src\events\MouseClickedEventHandler\MouseClickedEventHandler.h">
+    <ClInclude Include="src\events\MouseEventHandler\MouseEventHandler.h">
       <Filter>src\events\MouseClickedEventHandler</Filter>
-    </ClInclude>
-    <ClInclude Include="src\events\MouseDraggedEventHandler\MouseDraggedEventHandler.h">
-      <Filter>src\events\MouseDraggedEventHandler</Filter>
-    </ClInclude>
-    <ClInclude Include="src\events\MouseMovedEventHandler\MouseMovedEventHandler.h">
-      <Filter>src\events\MouseMovedEventHandler</Filter>
     </ClInclude>
     <ClInclude Include="src\events\WindowResizedEventHandler\WindowResizedEventHandler.h">
       <Filter>src\events\WindowResizedEventHandler</Filter>

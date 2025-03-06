@@ -38,6 +38,23 @@ void User_Camera_Movement::update(float time_elapsed)
 
 void User_Camera_Movement::rotateCamera(float deltaX, float deltaY)
 {
-    float rotationSpeed = 0.5f;
-    camera.orbit(deltaX * rotationSpeed, deltaY * rotationSpeed, camera.getSideDir().length());
+    float rotationSpeed = 0.005f; // Slower rotation speed
+
+    // Get the current orientation of the camera
+    glm::quat orientation = camera.getOrientationQuat();
+
+    // Calculate the yaw (horizontal rotation)
+    glm::quat yawQuat = glm::angleAxis(deltaX * rotationSpeed, glm::vec3(0.0f, 1.0f, 0.0f));
+
+    // Calculate the pitch (vertical rotation)
+    glm::quat pitchQuat = glm::angleAxis(deltaY * rotationSpeed, camera.getSideDir());
+
+    // Apply the rotations to the current orientation
+    orientation = yawQuat * orientation;
+    orientation = pitchQuat * orientation;
+
+    // Update the camera's orientation
+    camera.setOrientation(orientation);
+
+    std::cout << "Camera Rotated" << std::endl;
 }

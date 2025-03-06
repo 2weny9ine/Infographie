@@ -125,22 +125,22 @@ void Application::dragEvent(ofDragInfo dragInfo)
 
 void Application::mouseMoved(int x, int y)
 {
-    mouseMovedHandler.handleMouseMoved(x, y);
+    mouseEventHandler.handleMouseMoved(x, y);
 }
 
 void Application::mouseDragged(int x, int y, int button)
 {
-    mouseDraggedHandler.handleMouseDragged(x, y, button);
+    mouseEventHandler.handleMouseDragged(x, y, button);
 }
 
 void Application::mousePressed(int x, int y, int button)
 {
-    mouseClickedHandler.handleMousePressed(x, y, button);
+    mouseEventHandler.handleMousePressed(x, y, button);
 }
 
 void Application::mouseReleased(int x, int y, int button)
 {
-    mouseClickedHandler.handleMouseReleased(x, y, button);
+    mouseEventHandler.handleMouseReleased(x, y, button);
 }
 
 void Application::mouseEntered(int x, int y)
