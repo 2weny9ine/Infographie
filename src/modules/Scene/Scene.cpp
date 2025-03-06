@@ -59,10 +59,15 @@ void Scene::draw()
 
 	//Dessine l'origine de la scène
 	draw_locator(10.0f);
+
+	glEnable(GL_DEPTH_TEST);
+
 	for (auto obj : objects)
 	{
 		obj->draw();
 	}
+
+	glDisable(GL_DEPTH_TEST);
 
 	ofPopMatrix();
 	camera->end();

@@ -23,9 +23,13 @@ void ModelObject::draw() {
     ofRotateXDeg(rotation.x);
     ofRotateYDeg(rotation.y);
     ofRotateZDeg(rotation.z);
-    ofScale(scale);
+    ofScale(scale.x, scale.y, scale.z);
 
+    glDisable(GL_CULL_FACE);
+
+    ofEnableNormalizedTexCoords();
     model.drawFaces();
+    ofDisableNormalizedTexCoords();
 
     if (selected) {
         drawBoundingBox();
