@@ -23,7 +23,7 @@ void ModelObject::draw() {
     ofRotateXDeg(rotation.x);
     ofRotateYDeg(rotation.y);
     ofRotateZDeg(rotation.z);
-    ofScale(scale.x, scale.y, scale.z);
+    ofScale(scale.x, -scale.y, scale.z);
 
     glDisable(GL_CULL_FACE);
 
