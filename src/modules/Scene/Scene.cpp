@@ -324,12 +324,19 @@ void Scene::duplicateSelectedInstances()
 	for (Object3D* object : selectedObjects)
 	{
 		Object3D* copy = object->copy();
+		copy->transformPosition(ofVec3f(100, 0, 100));
 		newCopies.push_back(copy);
 
 		this->addObject(copy);
 	}
 
 	this->resetSelection();
+
+	for (Object3D* object : newCopies)
+	{
+		object->setSelected(true);
+		selectedObjects.push_back(object);
+	}
 }
 
 void Scene::draw_locator(float scale)
@@ -375,6 +382,9 @@ void Scene::draw_locator(float scale)
 
 void Scene::resetSelection()
 {
+	for (Object3D* object : selectedObjects)
+		object->setSelected(false);
+
 	selectedObjects.clear();
 	gui->top_left->localTransformations = { 0,0,0,0,0,0,0,0,0 };
 }

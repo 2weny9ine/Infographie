@@ -64,7 +64,7 @@ Top_Left_GUI::Top_Left_GUI()
     });
 
     duplicateInstanceButton->onButtonEvent([this](ofxDatGuiButtonEvent e) {
-
+        gui_manager->getScene()->duplicateSelectedInstances();
     });
 
     histogramButton = histogram_folder->addButton("Afficher l'histogramme");
