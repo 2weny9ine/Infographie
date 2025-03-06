@@ -17,22 +17,28 @@ Bottom_Left_GUI::Bottom_Left_GUI()
 	shape_options = { "CUBE", "SPHERE" };
 
 	shape_dropdown = gui->addDropdown("Shape", shape_options);
-	shape_dropdown->setStripeColor(ofColor::red);
-
+	shape_dropdown->setStripeColor(ofColor::darkRed);
+	for (int i = 0; i < shape_dropdown->size(); i++)
+	{
+		shape_dropdown->getChildAt(i)->setStripeColor(ofColor::red);
+	}
+	
 	shape_color_picker = gui->addColorPicker("COLOR", ofColor::grey);
-	shape_color_picker->setStripeColor(ofColor::red);
+	shape_color_picker->setStripeColor(ofColor::darkRed);
 
 	shape_scale_slider = gui->addSlider("SCALE", 1.0f, 100.0f);
 	shape_scale_slider->setValue(50.0f),
 	shape_scale_slider->setPrecision(0);
-	shape_scale_slider->setStripeColor(ofColor::red);
+	shape_scale_slider->setStripeColor(ofColor::darkRed);
 
 	shape_opacity_slider = gui->addSlider("OPACITY", 0.0f, 1.0f);
 	shape_opacity_slider->setValue(1.0f),
-	shape_opacity_slider->setStripeColor(ofColor::red);
+	shape_opacity_slider->setStripeColor(ofColor::darkRed);
 
 	create_shape_btn = gui->addButton("Add to workspace");
-	create_shape_btn->setStripeColor(ofColor::darkRed);
+	create_shape_btn->setStripeVisible(false);
+	create_shape_btn->setBackgroundColor(ofColor::darkRed);
+	create_shape_btn->setLabelAlignment(ofxDatGuiAlignment::CENTER);
 	create_shape_btn->onButtonEvent(this, &Bottom_Left_GUI::createShape);
 }
 

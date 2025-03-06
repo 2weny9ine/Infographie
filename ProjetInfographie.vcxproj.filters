@@ -109,12 +109,6 @@
     <ClCompile Include="src\modules\Cursor\Cursor.cpp">
       <Filter>src\modules\Cursor</Filter>
     </ClCompile>
-    <ClCompile Include="src\events\KeyPressedEventHandler\KeyPressedEventHandler.cpp">
-      <Filter>src\events\KeyPressedEventHandler</Filter>
-    </ClCompile>
-    <ClCompile Include="src\events\KeyReleasedEventHandler\KeyReleasedEventHandler.cpp">
-      <Filter>src\events\KeyReleasedEventHandler</Filter>
-    </ClCompile>
     <ClCompile Include="src\events\MouseClickedEventHandler\MouseClickedEventHandler.cpp">
       <Filter>src\events\MouseClickedEventHandler</Filter>
     </ClCompile>
@@ -126,6 +120,9 @@
     </ClCompile>
     <ClCompile Include="src\events\WindowResizedEventHandler\WindowResizedEventHandler.cpp">
       <Filter>src\events\WindowResizedEventHandler</Filter>
+    </ClCompile>
+    <ClCompile Include="src\events\KeyEventHandler\KeyEventHandler.cpp">
+      <Filter>src\events\KeyEventHandler</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -243,12 +240,6 @@
     <Filter Include="src\modules\Cursor">
       <UniqueIdentifier>{e6316169-0812-4680-8bbf-11433a84c875}</UniqueIdentifier>
     </Filter>
-    <Filter Include="src\events\KeyPressedEventHandler">
-      <UniqueIdentifier>{acf5daa4-7c85-446f-bde8-8c63e4834875}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="src\events\KeyReleasedEventHandler">
-      <UniqueIdentifier>{4f5590d3-cb91-44fe-aa10-34ab987bb38b}</UniqueIdentifier>
-    </Filter>
     <Filter Include="src\events\MouseClickedEventHandler">
       <UniqueIdentifier>{c8f27d89-be76-47a7-b38d-38c0fc26926d}</UniqueIdentifier>
     </Filter>
@@ -260,6 +251,9 @@
     </Filter>
     <Filter Include="src\events\WindowResizedEventHandler">
       <UniqueIdentifier>{1949bf1d-e6e2-41ef-9f66-650c645758a7}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="src\events\KeyEventHandler">
+      <UniqueIdentifier>{4f5590d3-cb91-44fe-aa10-34ab987bb38b}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -674,12 +668,6 @@
     <ClInclude Include="src\modules\Cursor\Cursor.h">
       <Filter>src\modules\Cursor</Filter>
     </ClInclude>
-    <ClInclude Include="src\events\KeyPressedEventHandler\KeyPressedEventHandler.h">
-      <Filter>src\events\KeyPressedEventHandler</Filter>
-    </ClInclude>
-    <ClInclude Include="src\events\KeyReleasedEventHandler\KeyReleasedEventHandler.h">
-      <Filter>src\events\KeyReleasedEventHandler</Filter>
-    </ClInclude>
     <ClInclude Include="src\events\MouseClickedEventHandler\MouseClickedEventHandler.h">
       <Filter>src\events\MouseClickedEventHandler</Filter>
     </ClInclude>
@@ -691,6 +679,9 @@
     </ClInclude>
     <ClInclude Include="src\events\WindowResizedEventHandler\WindowResizedEventHandler.h">
       <Filter>src\events\WindowResizedEventHandler</Filter>
+    </ClInclude>
+    <ClInclude Include="src\events\KeyEventHandler\KeyEventHandler.h">
+      <Filter>src\events\KeyEventHandler</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

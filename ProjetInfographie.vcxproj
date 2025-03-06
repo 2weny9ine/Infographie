@@ -104,8 +104,7 @@
     <PostBuildEvent />
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="src\events\KeyPressedEventHandler\KeyPressedEventHandler.cpp" />
-    <ClCompile Include="src\events\KeyReleasedEventHandler\KeyReleasedEventHandler.cpp" />
+    <ClCompile Include="src\events\KeyEventHandler\KeyEventHandler.cpp" />
     <ClCompile Include="src\events\MouseClickedEventHandler\MouseClickedEventHandler.cpp" />
     <ClCompile Include="src\events\MouseDraggedEventHandler\MouseDraggedEventHandler.cpp" />
     <ClCompile Include="src\events\MouseMovedEventHandler\MouseMovedEventHandler.cpp" />
@@ -148,8 +147,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\Application.h" />
-    <ClInclude Include="src\events\KeyPressedEventHandler\KeyPressedEventHandler.h" />
-    <ClInclude Include="src\events\KeyReleasedEventHandler\KeyReleasedEventHandler.h" />
+    <ClInclude Include="src\events\KeyEventHandler\KeyEventHandler.h" />
     <ClInclude Include="src\events\MouseClickedEventHandler\MouseClickedEventHandler.h" />
     <ClInclude Include="src\events\MouseDraggedEventHandler\MouseDraggedEventHandler.h" />
     <ClInclude Include="src\events\MouseMovedEventHandler\MouseMovedEventHandler.h" />

@@ -40,7 +40,7 @@ Top_Left_GUI::Top_Left_GUI()
 
     };
 
-    duplicateInstanceButton = attributes_folder->addButton("Duplicate Instance");
+    duplicateInstanceButton = attributes_folder->addButton("Duplicate Instance [CTRL + D]");
 
     for (ofxDatGuiTextInput* input : inputs)
     {

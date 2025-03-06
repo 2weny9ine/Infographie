@@ -39,6 +39,8 @@ void Application::setup()
 
 void Application::update()
 {
+    keyEventHandler.update();
+
     time_current = ofGetElapsedTimef();
     time_elapsed = time_current - time_last;
     time_last = time_current;
@@ -108,12 +110,12 @@ void Application::windowResized(int w, int h)
 
 void Application::keyPressed(int key)
 {
-    this->keyPressedHandler.handleKeyPressed(key);
+    this->keyEventHandler.handleKeyPressed(key);
 }
 
 void Application::keyReleased(int key)
 {
-    keyReleasedHandler.handleKeyReleased(key);
+    keyEventHandler.handleKeyReleased(key);
 }
 
 void Application::dragEvent(ofDragInfo dragInfo)

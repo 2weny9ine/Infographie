@@ -9,8 +9,7 @@
 #include "events/MouseDraggedEventHandler/MouseDraggedEventHandler.h"
 #include "events/MouseMovedEventHandler/MouseMovedEventHandler.h"
 #include "events/WindowResizedEventHandler/WindowResizedEventHandler.h"
-#include "events/KeyReleasedEventHandler/KeyReleasedEventHandler.h"
-#include "events/KeyPressedEventHandler/KeyPressedEventHandler.h"
+#include "events/KeyEventHandler/KeyEventHandler.h"
 #include "events/DragEventHandler/DragEventHandler.h"
 
 class Application : public ofBaseApp {
@@ -76,7 +75,6 @@ private:
     MouseDraggedEventHandler mouseDraggedHandler;
     MouseMovedEventHandler mouseMovedHandler;
     WindowResizedEventHandler windowResizedHandler;
-    KeyReleasedEventHandler keyReleasedHandler;
-    KeyPressedEventHandler keyPressedHandler;
+    KeyEventHandler keyEventHandler;
     DragEventHandler dragEventHandler;
 };
