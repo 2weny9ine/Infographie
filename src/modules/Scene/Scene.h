@@ -8,6 +8,24 @@
 #include "objects/Object3D.h"
 #include "Grid/Grid.h"
 
+#include "Cursor.h"
+#include "Top_Right_GUI.h"
+
+//2.3
+/**************************************************************************/
+/**************************************************************************/
+struct Shape {
+	PrimitiveType type;
+	ofVec2f startPos;
+	ofVec2f endPos;
+	ofColor strokeColor;
+	ofColor fillColor;
+	float lineWidth;
+	bool outline = false;
+};
+/**************************************************************************/
+/**************************************************************************/
+
 struct Locator
 {
 	float position[3];
@@ -57,6 +75,17 @@ public:
 
 	bool is_mouse_button_pressed;
 
+	//yacine
+	/**************************************************************************/
+	/**************************************************************************/
+	bool isDrawingMode = false; // New flag
+	Cursor cursor; //yacine 
+	bool isMouseOverObject(int mouseX, int mouseY); //yacine
+	/**************************************************************************/
+	/**************************************************************************/
+
+	void dispatch_locators(int count, float range);
+
 	void draw_locator(float scale);
 
 	void resetSelection();
@@ -77,7 +106,29 @@ public:
     
     Scene();
 	~Scene();
+
+	//2.2 /**************************************************************************/
+	/**************************************************************************/
+	void updateDrawingProperties(const ofColor& stroke, const ofColor& fill, float width, bool outline);
+	void drawCursor();
+	//2.3
+	void setPrimitiveType(PrimitiveType primitive);
+	void startDrawing(int x, int y);
+	void updateCurrentDrawing(int x, int y);
+	void finalizeDrawing();
+	void setOutlineEnabled(bool enabled);
+	/**************************************************************************/
+	/**************************************************************************/
 	std::vector<Object3D*> selectedObjects;
 private:
 	std::vector<Object3D*> objects;
+	//2.3 /**************************************************************************/
+	std::vector<Shape> shapes;
+	Shape currentShape;
+	bool isDrawing = false;
+	PrimitiveType activePrimitive = PrimitiveType::RECTANGLE;
+	void drawShape(const Shape& shape);
+	bool outlineEnabled = false;
+	/**************************************************************************/
+	/**************************************************************************/
 };

@@ -24,4 +24,18 @@ public:
     void setColor(ofColor color);
     void setOpacity(float opacity);
 
+
+    //yacine
+    /**************************************************************************/
+    virtual ofRectangle getScreenBoundingBox(ofCamera* cam) ;
+
+    // Task 2.2
+    ofColor strokeColor;  // 2.2
+    ofColor fillColor;    // 2.2
+    float lineWidth;      // 2.2
+    /**************************************************************************/
+    /**************************************************************************/
+
+protected:
+    void initializeDrawingTools(); // 2.2 /**************************************************************************/
 };

@@ -34,12 +34,14 @@ void Sphere::draw() {
     ofPopMatrix();
 }
 
-void Sphere::drawBoundingBox()
-{
+void Sphere::drawBoundingBox() {
     ofSetColor(255);
-
-    glEnable(GL_CULL_FACE); 
-    glCullFace(GL_FRONT);    
-    sphere.drawWireframe();   
+    glLineWidth(2.0);
+    glDisable(GL_DEPTH_TEST);
+    glEnable(GL_CULL_FACE);
+    glCullFace(GL_FRONT);
+    sphere.drawWireframe();
+    glEnable(GL_DEPTH_TEST);
     glDisable(GL_CULL_FACE);
+    glLineWidth(1.0);
 }
