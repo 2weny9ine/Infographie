@@ -97,6 +97,8 @@ public:
 	void apply_Transformations(ofVec3f position, ofVec3f rotation, ofVec3f scale);
 	void update_Attributes();
 
+	void duplicateSelectedInstances();
+
 	void setup(ofCamera* cam, GUI* gui);
 	void update();
 	void draw();

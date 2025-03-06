@@ -40,6 +40,8 @@ Top_Left_GUI::Top_Left_GUI()
 
     };
 
+    duplicateInstanceButton = attributes_folder->addButton("Duplicate Instance");
+
     for (ofxDatGuiTextInput* input : inputs)
     {
         input->setInputType(ofxDatGuiInputType::NUMERIC);
@@ -59,6 +61,10 @@ Top_Left_GUI::Top_Left_GUI()
         if (imagePtr) {
             imagePtr->clearImages();
         }
+    });
+
+    duplicateInstanceButton->onButtonEvent([this](ofxDatGuiButtonEvent e) {
+
     });
 
     histogramButton = histogram_folder->addButton("Afficher l'histogramme");
