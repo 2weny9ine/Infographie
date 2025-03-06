@@ -5,9 +5,7 @@
 #include "modules/Image/Image.h"
 #include "modules/User_Camera_Movement/User_Camera_Movement.h"
 #include "modules/GUI/GUI.h"
-#include "events/MouseClickedEventHandler/MouseClickedEventHandler.h"
-#include "events/MouseDraggedEventHandler/MouseDraggedEventHandler.h"
-#include "events/MouseMovedEventHandler/MouseMovedEventHandler.h"
+#include "events/MouseEventHandler/MouseEventHandler.h"
 #include "events/WindowResizedEventHandler/WindowResizedEventHandler.h"
 #include "events/KeyEventHandler/KeyEventHandler.h"
 #include "events/DragEventHandler/DragEventHandler.h"
@@ -71,9 +69,7 @@ private:
     Application();
     ~Application();
 
-    MouseClickedEventHandler mouseClickedHandler;
-    MouseDraggedEventHandler mouseDraggedHandler;
-    MouseMovedEventHandler mouseMovedHandler;
+    MouseEventHandler mouseEventHandler;
     WindowResizedEventHandler windowResizedHandler;
     KeyEventHandler keyEventHandler;
     DragEventHandler dragEventHandler;

@@ -105,9 +105,7 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="src\events\KeyEventHandler\KeyEventHandler.cpp" />
-    <ClCompile Include="src\events\MouseClickedEventHandler\MouseClickedEventHandler.cpp" />
-    <ClCompile Include="src\events\MouseDraggedEventHandler\MouseDraggedEventHandler.cpp" />
-    <ClCompile Include="src\events\MouseMovedEventHandler\MouseMovedEventHandler.cpp" />
+    <ClCompile Include="src\events\MouseEventHandler\MouseEventHandler.cpp" />
     <ClCompile Include="src\events\WindowResizedEventHandler\WindowResizedEventHandler.cpp" />
     <ClCompile Include="src\main.cpp" />
     <ClCompile Include="src\Application.cpp" />
@@ -148,9 +146,7 @@
   <ItemGroup>
     <ClInclude Include="src\Application.h" />
     <ClInclude Include="src\events\KeyEventHandler\KeyEventHandler.h" />
-    <ClInclude Include="src\events\MouseClickedEventHandler\MouseClickedEventHandler.h" />
-    <ClInclude Include="src\events\MouseDraggedEventHandler\MouseDraggedEventHandler.h" />
-    <ClInclude Include="src\events\MouseMovedEventHandler\MouseMovedEventHandler.h" />
+    <ClInclude Include="src\events\MouseEventHandler\MouseEventHandler.h" />
     <ClInclude Include="src\events\WindowResizedEventHandler\WindowResizedEventHandler.h" />
     <ClInclude Include="src\modules\Cursor\Cursor.h" />
     <ClInclude Include="src\Renderer.h" />
