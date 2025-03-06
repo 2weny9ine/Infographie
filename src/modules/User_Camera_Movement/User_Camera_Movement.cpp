@@ -1,4 +1,6 @@
 #include "User_Camera_Movement.h"
+#include <glm/gtc/quaternion.hpp>
+#include <glm/gtx/quaternion.hpp>
 
 User_Camera_Movement::User_Camera_Movement()
     : scene(nullptr),
@@ -22,18 +24,24 @@ void User_Camera_Movement::update(float time_elapsed)
     if (!scene) return;
     float moveSpeed = 5.0f; // Movement speed
 
+    // Get the camera's orientation vectors
+    glm::vec3 forward = glm::normalize(camera.getLookAtDir());
+    glm::vec3 right = glm::normalize(glm::cross(forward, glm::vec3(0.0f, 1.0f, 0.0f)));
+    glm::vec3 up = glm::cross(right, forward);
+
+    // Apply movement relative to the camera's orientation
     if (move_forward)
-        camera.setPosition(camera.getPosition() - glm::vec3(0, 0, moveSpeed));
+        camera.setPosition(camera.getPosition() + forward * moveSpeed);
     if (move_backwards)
-        camera.setPosition(camera.getPosition() + glm::vec3(0, 0, moveSpeed));
+        camera.setPosition(camera.getPosition() - forward * moveSpeed);
     if (move_left)
-        camera.setPosition(camera.getPosition() - glm::vec3(moveSpeed, 0, 0));
+        camera.setPosition(camera.getPosition() - right * moveSpeed);
     if (move_right)
-        camera.setPosition(camera.getPosition() + glm::vec3(moveSpeed, 0, 0));
+        camera.setPosition(camera.getPosition() + right * moveSpeed);
     if (move_upwards)
-        camera.setPosition(camera.getPosition() + glm::vec3(0, moveSpeed, 0));
+        camera.setPosition(camera.getPosition() + up * moveSpeed);
     if (move_downwards)
-        camera.setPosition(camera.getPosition() - glm::vec3(0, moveSpeed, 0));
+        camera.setPosition(camera.getPosition() - up * moveSpeed);
 }
 
 void User_Camera_Movement::rotateCamera(float deltaX, float deltaY)
@@ -50,8 +58,8 @@ void User_Camera_Movement::rotateCamera(float deltaX, float deltaY)
     glm::quat pitchQuat = glm::angleAxis(deltaY * rotationSpeed, camera.getSideDir());
 
     // Apply the rotations to the current orientation
-    orientation = yawQuat * orientation;
-    orientation = pitchQuat * orientation;
+    orientation = glm::normalize(yawQuat * orientation);
+    orientation = glm::normalize(pitchQuat * orientation);
 
     // Update the camera's orientation
     camera.setOrientation(orientation);
