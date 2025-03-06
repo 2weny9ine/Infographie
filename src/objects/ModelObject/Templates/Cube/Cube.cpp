@@ -35,10 +35,13 @@ void Cube::draw() {
 
 void Cube::drawBoundingBox()
 {
-    ofSetColor(255);  
-
+    ofSetColor(255);
+    glLineWidth(2.0);
+    glDisable(GL_DEPTH_TEST);
     glEnable(GL_CULL_FACE);
-    glCullFace(GL_FRONT);    
-    cube.drawWireframe();  
+    glCullFace(GL_FRONT);
+    cube.drawWireframe();
+    glEnable(GL_DEPTH_TEST);
     glDisable(GL_CULL_FACE);
+    glLineWidth(1.0);
 }

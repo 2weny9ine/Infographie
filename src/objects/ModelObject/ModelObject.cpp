@@ -1,4 +1,4 @@
-#include "ModelObject.h"
+﻿#include "ModelObject.h"
 
 ModelObject::ModelObject() {}
 
@@ -23,10 +23,17 @@ void ModelObject::draw() {
     ofRotateXDeg(rotation.x);
     ofRotateYDeg(rotation.y);
     ofRotateZDeg(rotation.z);
-    ofScale(scale);
+    ofScale(scale.x, -scale.y, scale.z);
+
 
     ofSetColor(fillColor); // Task 2.2: Apply fill color /**************************************************************************/
+
+    glDisable(GL_CULL_FACE);
+
+    ofEnableNormalizedTexCoords();
+
     model.drawFaces();
+    ofDisableNormalizedTexCoords();
 
     if (selected) {
         drawBoundingBox();
@@ -36,6 +43,25 @@ void ModelObject::draw() {
 }
 
 void ModelObject::drawBoundingBox() {
+    if (model.getNumMeshes() == 0) {
+        ofLogError("ModelObject::drawBoundingBox") << "No meshes loaded!";
+        return;
+    }
+
+    glm::vec3 sceneMin = model.getSceneMin();
+    glm::vec3 sceneMax = model.getSceneMax();
+
+    glm::mat4 modelMatrix = model.getModelMatrix();
+    glm::vec3 worldMin = glm::vec3(modelMatrix * glm::vec4(sceneMin, 1.0));
+    glm::vec3 worldMax = glm::vec3(modelMatrix * glm::vec4(sceneMax, 1.0));
+    glm::vec3 boxSize = worldMax - worldMin;
+    glm::vec3 boxCenter = (worldMin + worldMax) * 0.5f;
+
+    ofPushMatrix();
+
+    ofTranslate(boxCenter);
+
+  
     ofNoFill();
     ofSetColor(strokeColor); // Task 2.2: Use strokeColor
     ofSetLineWidth(lineWidth); // Task 2.2: Use lineWidth
@@ -47,6 +73,17 @@ void ModelObject::drawBoundingBox() {
         (model.getSceneMin().y + model.getSceneMax().y) / 2,
         (model.getSceneMin().z + model.getSceneMax().z) / 2);
     box.drawWireframe();
+    ofSetColor(65, 145, 221);
+
+    glEnable(GL_CULL_FACE);
+    glCullFace(GL_FRONT);
+
+    ofDrawBox(glm::vec3(0, 0, 0), boxSize.x, boxSize.y, boxSize.z);
+
+    glDisable(GL_CULL_FACE);
+
+    ofFill();
+    ofPopMatrix();
 }
 
 /**************************************************************************/
