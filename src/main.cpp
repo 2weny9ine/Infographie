@@ -7,7 +7,7 @@ int main( ){
 
     ofGLFWWindowSettings windowSettings;
 
-    windowSettings.resizable = false;
+    windowSettings.resizable = true;
    
     windowSettings.setGLVersion(3, 3);
   
