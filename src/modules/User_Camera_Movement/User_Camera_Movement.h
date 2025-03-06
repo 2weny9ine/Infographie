@@ -5,7 +5,6 @@
 class User_Camera_Movement {
 public:
     Scene* scene;
-
     ofCamera camera;
 
     bool move_forward;
@@ -18,6 +17,7 @@ public:
     User_Camera_Movement();
 
     void setup(Scene& s);
-
     void update(float time_elapsed);
+
+    void rotateCamera(float deltaX, float deltaY);
 };

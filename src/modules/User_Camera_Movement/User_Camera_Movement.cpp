@@ -8,16 +8,17 @@ User_Camera_Movement::User_Camera_Movement()
     move_right(false),
     move_upwards(false),
     move_downwards(false)
-{
-}
+{}
 
-void User_Camera_Movement::setup(Scene& s) {
+void User_Camera_Movement::setup(Scene& s)
+{
     scene = &s;
     camera.setPosition(0, 0, 800);
     camera.lookAt(glm::vec3(0, 0, 0));
 }
 
-void User_Camera_Movement::update(float time_elapsed) {
+void User_Camera_Movement::update(float time_elapsed)
+{
     if (!scene) return;
     float moveSpeed = 5.0f; // Movement speed
 
@@ -33,4 +34,10 @@ void User_Camera_Movement::update(float time_elapsed) {
         camera.setPosition(camera.getPosition() + glm::vec3(0, moveSpeed, 0));
     if (move_downwards)
         camera.setPosition(camera.getPosition() - glm::vec3(0, moveSpeed, 0));
+}
+
+void User_Camera_Movement::rotateCamera(float deltaX, float deltaY)
+{
+    float rotationSpeed = 0.5f;
+    camera.orbit(deltaX * rotationSpeed, deltaY * rotationSpeed, camera.getSideDir().length());
 }
