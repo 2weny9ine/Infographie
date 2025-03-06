@@ -9,6 +9,7 @@ void Scene::setup(ofCamera* cam, GUI* gui)
 	this->gui = gui;
 	camera = cam;
 
+
 	locator_count = 100;
 
 	speed = 100.0f;
@@ -40,10 +41,92 @@ void Scene::update()
 {
 	center_x = ofGetWidth() / 2.0f;
 	center_y = ofGetHeight() / 2.0f;
+
+	ofVec3f mouseScreen(ofGetMouseX(), ofGetMouseY(), 0);
+
+	if (currentTransform == Scene::TransformMode::Translate)
+	{
+		ofVec3f worldNear = camera->screenToWorld(ofVec3f(mouseScreen.x, mouseScreen.y, camera->getNearClip())); // Near plane
+		ofVec3f worldFar = camera->screenToWorld(ofVec3f(mouseScreen.x, mouseScreen.y, camera->getFarClip()));  // Far plane
+
+		ofVec3f direction = (worldFar - worldNear).getNormalized();
+		float t = (planeZ - worldNear.z) / direction.z;
+
+		ofVec3f mouseWorld = worldNear + direction * t;
+
+		if (is_mouse_button_pressed)
+		{
+			ofVec3f delta = mouseWorld - lastMouseWorld;
+
+			for (Object3D* object : selectedObjects)
+				object->position += delta;
+
+			gui->top_left->localTransformations[0] += delta.x;
+			gui->top_left->localTransformations[1] += delta.y;
+			gui->top_left->localTransformations[2] += delta.z;
+
+			update_Attributes();
+		}
+
+		lastMouseWorld = mouseWorld;
+	}
+	else if (currentTransform == Scene::TransformMode::Resize)
+	{
+		if (is_mouse_button_pressed)
+		{
+			ofVec2f mouseDelta = -(mouseScreen - lastMouseScreen);
+
+
+			for (Object3D* object : selectedObjects)
+			{
+				object->scale.x += mouseDelta.y * scaleFactor;
+				object->scale.y += mouseDelta.y * scaleFactor;
+				object->scale.z += mouseDelta.y * scaleFactor;
+				object->scale.x = max(1.0f, object->scale.x);
+				object->scale.y = max(1.0f, object->scale.y);
+				object->scale.z = max(1.0f, object->scale.z);
+			}
+
+
+			gui->top_left->localTransformations[6] += mouseDelta.y * scaleFactor;
+			gui->top_left->localTransformations[7] += mouseDelta.y * scaleFactor;
+			gui->top_left->localTransformations[8] += mouseDelta.y * scaleFactor;
+
+			update_Attributes();
+		}
+
+		lastMouseScreen = mouseScreen;
+	}
+	else if (currentTransform == Scene::TransformMode::Rotate)
+	{
+		if (is_mouse_button_pressed)
+		{
+			ofVec2f mouseDelta = mouseScreen - lastMouseScreen;
+
+			for (Object3D* object : selectedObjects)
+			{
+				object->rotation.x += mouseDelta.y * rotationSpeed;
+				object->rotation.y += mouseDelta.x * rotationSpeed;
+				object->rotation.z += (mouseDelta.x + mouseDelta.y) * rotationSpeed * 0.5f;
+			}
+
+
+			gui->top_left->localTransformations[3] += mouseDelta.y * rotationSpeed;
+			gui->top_left->localTransformations[4] -= mouseDelta.x * rotationSpeed;
+			gui->top_left->localTransformations[5] += (mouseDelta.x + mouseDelta.y) * rotationSpeed * 0.5f;
+
+			update_Attributes();
+		}
+		lastMouseScreen = mouseScreen;
+	}
 }
 
 Scene::Scene() {
-    img = new Image(*this);  
+    img = new Image(*this); 
+	currentTransform = TransformMode::None;
+	scaleFactor = 0.2f;
+	rotationSpeed = 0.5f;
+	planeZ = 0.0f;
 }
 
 
@@ -56,13 +139,12 @@ void Scene::draw()
 	
 	grid->draw();
 
-
-	//Dessine l'origine de la scène
-	draw_locator(10.0f);
 	for (auto obj : objects)
 	{
 		obj->draw();
 	}
+
+	draw_locator(10.0f);
 
 	ofPopMatrix();
 	camera->end();
@@ -70,7 +152,7 @@ void Scene::draw()
 	// V									  V
 
 	//Dessine la zone de sélection
-	if (is_mouse_button_pressed)
+	if (is_mouse_button_pressed && currentTransform == TransformMode::None)
 	{
 		// dessiner la zone de sélection
 		draw_zone(
@@ -118,7 +200,11 @@ void Scene::selectAllInBounds(float x1, float y1, float x2, float y2)
 			object->selected = false;
 		}
 	}
+	update_Attributes();
+}
 
+void Scene::update_Attributes()
+{
 	if (selectedObjects.size() == 1)
 	{
 		Object3D* currentObject = selectedObjects[0];
@@ -134,10 +220,25 @@ void Scene::selectAllInBounds(float x1, float y1, float x2, float y2)
 		gui->top_left.get()->inputs[7]->setText(std::to_string(currentObject->scale.y));
 		gui->top_left.get()->inputs[8]->setText(std::to_string(currentObject->scale.z));
 	}
-	else
+	else if(gui->top_left->localTransformations == std::vector<float>{ 0,0,0,0,0,0,0,0,0 })
 	{
 		gui->top_left->resetTransformations();
 	}
+	else
+	{
+		gui->top_left.get()->inputs[0]->setText(std::to_string(gui->top_left->localTransformations[0]));
+		gui->top_left.get()->inputs[1]->setText(std::to_string(gui->top_left->localTransformations[1]));
+		gui->top_left.get()->inputs[2]->setText(std::to_string(gui->top_left->localTransformations[2]));
+
+		gui->top_left.get()->inputs[3]->setText(std::to_string(gui->top_left->localTransformations[3]));
+		gui->top_left.get()->inputs[4]->setText(std::to_string(gui->top_left->localTransformations[4]));
+		gui->top_left.get()->inputs[5]->setText(std::to_string(gui->top_left->localTransformations[5]));
+
+		gui->top_left.get()->inputs[6]->setText(std::to_string(gui->top_left->localTransformations[6]));
+		gui->top_left.get()->inputs[7]->setText(std::to_string(gui->top_left->localTransformations[7]));
+		gui->top_left.get()->inputs[8]->setText(std::to_string(gui->top_left->localTransformations[8]));
+	}
+
 }
 
 void Scene::apply_Transformations(ofVec3f position, ofVec3f rotation, ofVec3f scale)
@@ -165,9 +266,21 @@ void Scene::draw_locator(float scale)
 	ofSetColor(127);
 	ofFill();
 	ofPushMatrix();
-	node.setPosition(0.0f, 0.0f, 0.0f);
+	if (selectedObjects.size() > 0)
+	{
+		//Set the locator to a middle point
+		ofVec3f centroid(0, 0, 0);
+		for (Object3D* object : selectedObjects)
+		{
+			centroid += object->position;
+		}
+		node.setPosition(centroid / selectedObjects.size());
+	}
+	else
+		node.setPosition(0,0,0);
+
 	node.setOrientation(ofVec3f(0,0,0));
-	node.setScale(ofVec3f(10,-10,10));
+	node.setScale(scale);
 	node.draw();
 	ofPopMatrix();
 }

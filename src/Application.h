@@ -13,6 +13,7 @@ public:
     GUI gui;
     Scene scene;
     User_Camera_Movement user_camera_movement;
+
     
     ofFbo sceneFbo;
     ofPixels fboPixels;

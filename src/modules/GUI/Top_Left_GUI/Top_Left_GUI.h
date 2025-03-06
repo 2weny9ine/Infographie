@@ -22,10 +22,6 @@ public:
     int getY() const { return gui->getPosition().y; }
     int getHeight() const { return gui->getHeight(); }
 
-
-
-    
-
     ofColor getRGBColor();
     ofColor getHSBColor();
 
