@@ -338,7 +338,7 @@ void Scene::draw_locator(float scale)
     ofFill();
     ofPushMatrix();
 
-    // On force le centre du locator à l'origine
+ 
     node.setPosition(0, 0, 0);
     node.setOrientation(ofVec3f(0, 0, 0));
     node.setScale(scale);
