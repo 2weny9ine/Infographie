@@ -1,9 +1,6 @@
 #include "ImageObject.h"
 
-bool ImageObject::applyUserColor = false;
-ofColor ImageObject::customUserColor = ofColor(255, 255, 255);
-
-ImageObject::ImageObject() {
+ImageObject::ImageObject(): applyUserColor(false), customUserColor(ofColor(255,255,255)) {
     ofLogNotice("ImageObject::ImageObject") << "ImageObject constructor called.";
 }
 
@@ -29,7 +26,9 @@ bool ImageObject::loadImage(const std::string& path) {
         
         
         plane.set(imgWidth * scaleFactor, imgHeight * scaleFactor, 2, 2);
-        plane.mapTexCoords(0, 0, imgWidth, imgHeight);
+        plane.mapTexCoords(imgWidth, 0, 0, imgHeight);
+
+
     }
     else {
         ofLogError("ImageObject::loadImage") << "Failed to load image.";
@@ -48,39 +47,31 @@ void ImageObject::update(float dt) {
 
 void ImageObject::draw() {
     ofPushMatrix();
-    ofTranslate(position);
-    ofRotateXDeg(rotation.x);
-    ofRotateYDeg(rotation.y);
-    ofRotateZDeg(rotation.z);
-    
-    
-    ofScale(scale.x, scale.y, scale.z);
-    
-    
-    if(applyUserColor){
-        ofPushStyle();
-        ofSetColor(customUserColor, 255);
-        if (image.isAllocated()){
-            float scaledW = plane.getWidth();
-            float scaledH = plane.getHeight();
-            image.draw(-scaledW/2, -scaledH/2, scaledW, scaledH);
+    {
+        ofTranslate(position);
+        ofRotateXDeg(rotation.x);
+        ofRotateYDeg(rotation.y);
+        ofRotateZDeg(rotation.z);
+        ofScale(scale.x, scale.y, scale.z);
+        
+        
+        if(applyUserColor) {
+            ofSetColor(customUserColor, 255);
         }
-        ofPopStyle();
-    } else {
-        ofSetColor(255,255,255);
-        if (image.isAllocated()){
+        else {
+            ofSetColor(255, 255, 255);
+        }
+        
+        if (image.isAllocated()) {
             image.getTexture().bind();
-            float scaledW = plane.getWidth();
-            float scaledH = plane.getHeight();
-            image.draw(-scaledW/2, -scaledH/2, scaledW, scaledH);
+            plane.draw();
             image.getTexture().unbind();
         }
-    }
+        
     
-    
-    
-    if (selected) {
-        drawBoundingBox();
+        if (selected) {
+            drawBoundingBox();
+        }
     }
     ofPopMatrix();
 }
@@ -104,7 +95,7 @@ ofRectangle ImageObject::getScreenBoundingBox(ofCamera* cam) {
         glm::vec3(plane.getWidth() / 2, plane.getHeight() / 2, 0),
         glm::vec3(-plane.getWidth() / 2, plane.getHeight() / 2, 0)
     };
-
+    
     float minX = FLT_MAX, maxX = FLT_MIN, minY = FLT_MAX, maxY = FLT_MIN;
     for (auto& corner : corners) {
         glm::vec3 screenPos = cam->worldToScreen(corner + position);

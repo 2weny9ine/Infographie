@@ -307,7 +307,7 @@ void Scene::apply_Transformations(ofVec3f position, ofVec3f rotation, ofVec3f sc
 	}
 }
 
-void Scene::draw_locator(float scale)
+/*void Scene::draw_locator(float scale)
 {
 	ofSetLineWidth(4);
 	ofSetColor(127);
@@ -330,7 +330,23 @@ void Scene::draw_locator(float scale)
 	node.setScale(scale);
 	node.draw();
 	ofPopMatrix();
+}*/
+void Scene::draw_locator(float scale)
+{
+    ofSetLineWidth(4);
+    ofSetColor(127);
+    ofFill();
+    ofPushMatrix();
+
+    // On force le centre du locator à l'origine
+    node.setPosition(0, 0, 0);
+    node.setOrientation(ofVec3f(0, 0, 0));
+    node.setScale(scale);
+    node.draw();
+
+    ofPopMatrix();
 }
+
 
 void Scene::resetSelection()
 {

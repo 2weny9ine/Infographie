@@ -98,14 +98,14 @@ void Image::clearImages() {
 }
 
 
-void Image::createHistogram() {
+void Image::createHistogram(ImageObject* selectedImage) {
     histogramR.assign(256, 0);
     histogramG.assign(256, 0);
     histogramB.assign(256, 0);
     
     if (images.empty()) return;
     
-    ofPixels pixels = images[0]->getImage().getPixels();
+    ofPixels pixels = selectedImage->getImage().getPixels();
     int channels = pixels.getNumChannels();
     
     for (int i = 0; i < pixels.size(); i += channels) {
@@ -119,44 +119,77 @@ void Image::createHistogram() {
 
 void Image::drawHistogram(int x, int y, int width, int height) {
     int maxVal = 0;
-        for (int i = 0; i < 256; i++) {
-            if (histogramR[i] > maxVal) maxVal = histogramR[i];
-            if (histogramG[i] > maxVal) maxVal = histogramG[i];
-            if (histogramB[i] > maxVal) maxVal = histogramB[i];
-        }
+    for (int i = 0; i < 256; i++) {
+        if (histogramR[i] > maxVal) maxVal = histogramR[i];
+        if (histogramG[i] > maxVal) maxVal = histogramG[i];
+        if (histogramB[i] > maxVal) maxVal = histogramB[i];
+    }
+    
+    int bw = width / 256;
+    ofPushMatrix();
+    ofTranslate(x, y);
+    ofSetColor(50, 50, 50);
+    ofDrawRectangle(0, 0, width, height);
+    
+    for (int i = 0; i < 256; i++) {
+        float rH = (histogramR[i] * height) / (float)maxVal;
+        float gH = (histogramG[i] * height) / (float)maxVal;
+        float bH = (histogramB[i] * height) / (float)maxVal;
         
-        int bw = width / 256;
-        ofPushMatrix();
-        ofTranslate(x, y);
-        ofSetColor(50, 50, 50);
-        ofDrawRectangle(0, 0, width, height);
+        ofSetColor(255, 0, 0, 100);
+        ofDrawRectangle(i * bw, height - rH, bw, rH);
         
-        for (int i = 0; i < 256; i++) {
-            float rH = (histogramR[i] * height) / (float)maxVal;
-            float gH = (histogramG[i] * height) / (float)maxVal;
-            float bH = (histogramB[i] * height) / (float)maxVal;
-            
-            ofSetColor(255, 0, 0, 100);
-            ofDrawRectangle(i * bw, height - rH, bw, rH);
-            
-            ofSetColor(0, 255, 0, 100);
-            ofDrawRectangle(i * bw, height - gH, bw, gH);
-            
-            ofSetColor(0, 0, 255, 100);
-            ofDrawRectangle(i * bw, height - bH, bw, bH);
-        }
-        ofPopMatrix();
+        ofSetColor(0, 255, 0, 100);
+        ofDrawRectangle(i * bw, height - gH, bw, gH);
+        
+        ofSetColor(0, 0, 255, 100);
+        ofDrawRectangle(i * bw, height - bH, bw, bH);
+    }
+    ofPopMatrix();
 }
 
-void Image::colorFilter(const ofColor& rgbColor, const ofColor& hsbColor){
+void Image::selectedHistogram(Scene &scene, int x, int y, int w, int h)
+{
+    ofPushStyle();
+    ofSetColor(50, 50, 50);
+    ofDrawRectangle(x, y, w, h);
+    ofSetColor(255);
+    
+    if (scene.selectedObjects.size() != 1) {
+        ofDrawBitmapString("Selectionner une image!", x + 10, y + h / 2);
+        return;
+    }
+    auto *selectedImg = dynamic_cast<ImageObject*>(scene.selectedObjects[0]);
+    if (!selectedImg) {
+        ofDrawBitmapString("Selectionner une image!", x + 10, y + h / 2);
+        return;
+    }
+    
+    createHistogram(selectedImg);
+    drawHistogram(x, y, w, h);
+    ofPopStyle();
+}
+
+void Image::colorFilterSelected(Scene& scene, const ofColor& rgbColor, const ofColor& hsbColor)
+{
     ofColor combinedColor;
     combinedColor.r = (rgbColor.r + hsbColor.r) / 2;
     combinedColor.g = (rgbColor.g + hsbColor.g) / 2;
     combinedColor.b = (rgbColor.b + hsbColor.b) / 2;
     combinedColor.a = 255;
     
-    for (auto& imgObj : images) {
-        imgObj->applyFilter(combinedColor);
+    std::vector<ImageObject*> selectedImages;
+    for (auto *obj : scene.selectedObjects) {
+        if (ImageObject *imgObj = dynamic_cast<ImageObject*>(obj)) {
+            selectedImages.push_back(imgObj);
+        }
+    }
+
+    
+    if(selectedImages.size() >= 2){
+        for (auto *imgObj : selectedImages) {
+            imgObj->applyFilter(combinedColor);
+        }
     }
 }
 
