@@ -1,5 +1,6 @@
 #pragma once
 #include "ofMain.h"
+#include "modules/Configuration/Configuration.h"
 
 class Object3D {
 public:

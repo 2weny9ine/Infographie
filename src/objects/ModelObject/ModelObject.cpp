@@ -70,21 +70,51 @@ void ModelObject::drawBoundingBox()
     glm::vec3 boxCenter = (worldMin + worldMax) * 0.5f;
 
     ofPushMatrix();
-
     ofTranslate(boxCenter);
 
     ofNoFill();
-    ofSetColor(strokeColor);
-    ofSetLineWidth(lineWidth);
-    ofBoxPrimitive box;
-    box.set(model.getSceneMax().x - model.getSceneMin().x,
-            model.getSceneMax().y - model.getSceneMin().y,
-            model.getSceneMax().z - model.getSceneMin().z);
-    box.setPosition((model.getSceneMin().x + model.getSceneMax().x) / 2,
-                    (model.getSceneMin().y + model.getSceneMax().y) / 2,
-                    (model.getSceneMin().z + model.getSceneMax().z) / 2);
-    box.drawWireframe();
-    ofSetColor(65, 145, 221);
+
+    // Fetch and convert Bounding Box color
+    std::string lineColor = Configuration::get("Bounding Box.Line Color");
+    ofColor boundingBoxColor = ofColor(255);
+
+    if (!lineColor.empty())
+    {
+        try
+        {
+            if (lineColor[0] == '#')
+            {
+                lineColor = lineColor.substr(1);
+            }
+            boundingBoxColor = ofColor::fromHex(std::stoul(lineColor, nullptr, 16));
+        }
+        catch (const std::exception& e)
+        {
+            ofLogError("ModelObject::drawBoundingBox") << "Invalid hex color format: " << lineColor << " - " << e.what();
+        }
+    }
+    ofSetColor(boundingBoxColor);
+
+    std::string lineWidthStr = Configuration::get("Bounding Box.Line Width");
+    float boundingBoxWidth = 2.0f;
+
+    if (!lineWidthStr.empty() && std::all_of(lineWidthStr.begin(), lineWidthStr.end(), [](char c) { return std::isdigit(c) || c == '.'; }))
+    {
+        try
+        {
+            boundingBoxWidth = std::stof(lineWidthStr);
+        }
+        catch (const std::exception& e)
+        {
+            ofLogError("ModelObject::drawBoundingBox") << "Error converting line width: " << lineWidthStr << " - " << e.what();
+        }
+    }
+    else
+    {
+        ofLogError("ModelObject::drawBoundingBox") << "Invalid or empty line width format: '" << lineWidthStr << "'";
+    }
+
+    ofSetLineWidth(boundingBoxWidth);
 
     glEnable(GL_CULL_FACE);
     glCullFace(GL_FRONT);
@@ -92,10 +122,13 @@ void ModelObject::drawBoundingBox()
     ofDrawBox(glm::vec3(0, 0, 0), boxSize.x, boxSize.y, boxSize.z);
 
     glDisable(GL_CULL_FACE);
-
     ofFill();
+    ofSetLineWidth(1.0f);
+
     ofPopMatrix();
 }
+
+
 
 ofRectangle ModelObject::getScreenBoundingBox(ofCamera* cam)
 {
