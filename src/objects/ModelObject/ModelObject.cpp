@@ -1,4 +1,4 @@
-﻿#include "ModelObject.h"
+#include "ModelObject.h"
 
 ModelObject::ModelObject() : modelPath("") {}
 
@@ -74,6 +74,8 @@ void ModelObject::drawBoundingBox()
     ofTranslate(boxCenter);
 
     ofNoFill();
+    
+    
     ofSetColor(strokeColor);
     ofSetLineWidth(lineWidth);
     ofBoxPrimitive box;

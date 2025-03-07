@@ -2,6 +2,7 @@
 #include "Image.h"
 #include "ofMain.h"
 #include "GUI.h"
+#include "primitiveObject.h"
 
 void Scene::setup(ofCamera* cam, GUI* gui)
 {
@@ -433,12 +434,49 @@ void Scene::updateCurrentDrawing(int x, int y) {
 	if (isDrawing) currentShape.endPos.set(x, y);
 }
 
-void Scene::finalizeDrawing() {
-	if (isDrawing) {
-		shapes.push_back(currentShape);
-		isDrawing = false;
-	}
+
+ofVec3f Scene::calculProfondeur(const ofVec2f &pointEcran, float profondeur) {
+    ofVec3f pointProche = camera->screenToWorld({ pointEcran.x, pointEcran.y, camera->getNearClip() });
+    ofVec3f pointLoin   = camera->screenToWorld({ pointEcran.x, pointEcran.y, camera->getFarClip() });
+    ofVec3f direction   = (pointLoin - pointProche).getNormalized();
+    float t = (profondeur - pointProche.z) / direction.z;
+    return pointProche + direction * t;
 }
+
+
+
+void Scene::finalizeDrawing() {
+    if (!isDrawing) return;
+    
+    float profondeurCible = 0.0f;
+
+    ofVec3f debutScene = calculProfondeur(currentShape.startPos, profondeurCible);
+    ofVec3f findScene   = calculProfondeur(currentShape.endPos, profondeurCible);
+    
+
+    ofVec3f centreScene = (debutScene + findScene) * 0.5f;
+    
+
+    PrimitiveObject* prim = new PrimitiveObject();
+    prim->type = currentShape.type;
+    prim->strokeColor = currentShape.strokeColor;
+    prim->fillColor   = currentShape.fillColor;
+    prim->lineWidth   = currentShape.lineWidth;
+    
+
+    prim->setPosition(centreScene);
+    
+
+    prim->positionInitiale = debutScene - centreScene;
+    prim->positionFinale   = findScene - centreScene;
+    
+    addObject(prim);
+    isDrawing = false;
+}
+
+
+
+
 
 void Scene::drawShape(const Shape& shape) {
 	ofSetLineWidth(shape.lineWidth);
