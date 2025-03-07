@@ -84,7 +84,14 @@ void ModelObject::drawBoundingBox()
                     (model.getSceneMin().y + model.getSceneMax().y) / 2,
                     (model.getSceneMin().z + model.getSceneMax().z) / 2);
     box.drawWireframe();
-    ofSetColor(65, 145, 221);
+
+    std::string lineColor = Configuration::get("BoundingBox.LineColor");
+    ofColor boundingBoxColor = ofColor::fromHex(stoi(lineColor.substr(1), nullptr, 16));
+    ofSetColor(boundingBoxColor);
+
+    std::string lineWidth = Configuration::get("BoundingBox.LineWidth");
+    float boundingBoxWidth = std::stof(lineWidth);
+    ofSetLineWidth(boundingBoxWidth);
 
     glEnable(GL_CULL_FACE);
     glCullFace(GL_FRONT);

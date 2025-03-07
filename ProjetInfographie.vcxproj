@@ -104,6 +104,8 @@
     <PostBuildEvent />
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="src\modules\GUI\Bottom_Right_GUI\Bottom_Right_GUI.cpp" />
+    <ClCompile Include="src\modules\Configuration\Configuration.cpp" />
     <ClCompile Include="src\events\KeyEventHandler\KeyEventHandler.cpp" />
     <ClCompile Include="src\events\MouseEventHandler\MouseEventHandler.cpp" />
     <ClCompile Include="src\events\WindowResizedEventHandler\WindowResizedEventHandler.cpp" />
@@ -144,6 +146,9 @@
     <ClCompile Include="..\..\..\addons\ofxGui\src\ofxToggle.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="bin\data\nlohmann\json.hpp" />
+    <ClInclude Include="src\modules\GUI\Bottom_Right_GUI\Bottom_Right_GUI.h" />
+    <ClInclude Include="src\modules\Configuration\Configuration.h" />
     <ClInclude Include="src\Application.h" />
     <ClInclude Include="src\events\KeyEventHandler\KeyEventHandler.h" />
     <ClInclude Include="src\events\MouseEventHandler\MouseEventHandler.h" />
@@ -295,6 +300,9 @@
       <AdditionalOptions Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">/D_DEBUG %(AdditionalOptions)</AdditionalOptions>
       <AdditionalIncludeDirectories>$(OF_ROOT)\libs\openFrameworksCompiled\project\vs</AdditionalIncludeDirectories>
     </ResourceCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="src\modules\Configuration\defaultConfig.json" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ProjectExtensions>
