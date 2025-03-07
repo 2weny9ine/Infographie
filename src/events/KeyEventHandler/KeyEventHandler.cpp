@@ -133,10 +133,6 @@ void KeyEventHandler::handleKeyReleased(int key)
                 else
                     app.getScene().currentTransform = Scene::TransformMode::None;
                 break;
-            case ' ':
-                app.getScene().img->imageExport("exportImage", "png");
-                app.getScene().img->setExportTriggered(true);
-                break;
             default:
                 break;
         }

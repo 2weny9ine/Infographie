@@ -89,13 +89,7 @@ void Image::showImage() {
     }
 }
 
-void Image::clearImages() {
-    for (auto imgObj : images) {
-        scene.removeObject(imgObj);
-        delete imgObj;
-    }
-    images.clear();
-}
+
 
 
 void Image::createHistogram(ImageObject* selectedImage) {

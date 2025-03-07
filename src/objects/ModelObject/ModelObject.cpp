@@ -1,4 +1,4 @@
-﻿#include "ModelObject.h"
+#include "ModelObject.h"
 #include "modules/Configuration/Configuration.h"
 #include "ofLog.h"
 #include "Application.h"
@@ -189,6 +189,8 @@ void ModelObject::drawBoundingBox()
 
     ofPopMatrix();
 }
+
+
 
 ofRectangle ModelObject::getScreenBoundingBox(ofCamera* cam)
 {
