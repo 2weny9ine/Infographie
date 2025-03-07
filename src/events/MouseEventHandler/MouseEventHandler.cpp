@@ -23,29 +23,27 @@ void MouseEventHandler::handleMousePressed(int x, int y, int button)
             break;
         }
     }
-    if (!mouseOverGui)
+    if (button == 0) // Left mouse button pressed
     {
-        if (button == 0) // Left mouse button pressed
-        {
-            scene.is_mouse_button_pressed = true;
-            scene.mouse_current_x = x;
-            scene.mouse_current_y = y;
-            scene.mouse_press_x = x;
-            scene.mouse_press_y = y;
-            scene.cursor.setState(CursorState::PRESSED);
+        scene.is_mouse_button_pressed = true;
+        scene.mouse_current_x = x;
+        scene.mouse_current_y = y;
+        scene.mouse_press_x = x;
+        scene.mouse_press_y = y;
+        scene.cursor.setState(CursorState::PRESSED);
 
-            if (scene.isDrawingMode)
-            {
-                scene.startDrawing(x, y);
-            }
-        }
-        else if (button == 2) // Right mouse button pressed
+        if (scene.isDrawingMode && !mouseOverGui)
         {
-            isRightMouseButtonDown = true;
-            // Store the initial mouse position
-            scene.lastMouseScreen.set(x, y);
+            scene.startDrawing(x, y);
         }
     }
+    else if (button == 2) // Right mouse button pressed
+    {
+        isRightMouseButtonDown = true;
+        // Store the initial mouse position
+        scene.lastMouseScreen.set(x, y);
+    }
+    
 }
 
 void MouseEventHandler::handleMouseReleased(int x, int y, int button)
