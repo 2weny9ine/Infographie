@@ -56,12 +56,7 @@ Top_Left_GUI::Top_Left_GUI()
 
     histogram_folder = gui->addFolder("Image", ofColor::white);
 
-    deleteImagesButton = histogram_folder->addButton("Supprimer toutes les images");
-    deleteImagesButton->onButtonEvent([this](ofxDatGuiButtonEvent e) {
-        if (imagePtr) {
-            imagePtr->clearImages();
-        }
-    });
+ 
 
     duplicateInstanceButton->onButtonEvent([this](ofxDatGuiButtonEvent e) {
         gui_manager->getScene()->duplicateSelectedInstances();
