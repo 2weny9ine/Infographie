@@ -135,6 +135,7 @@ void Cylinder::drawBoundingBox()
     glDisable(GL_CULL_FACE);
     glLineWidth(1.0f);
     ofPopStyle();
+
     glm::vec3 boxCenter = position;
     float width = radius * 2.0f;
     float depth = radius * 2.0f;
@@ -148,6 +149,7 @@ void Cylinder::drawBoundingBox()
     glm::vec3 v5 = boxCenter + glm::vec3(halfSize.x, -halfSize.y, halfSize.z);
     glm::vec3 v6 = boxCenter + glm::vec3(halfSize.x, halfSize.y, halfSize.z);
     glm::vec3 v7 = boxCenter + glm::vec3(-halfSize.x, halfSize.y, halfSize.z);
+
     std::string lineColor = Configuration::get("Bounding Box.Line Color");
     ofColor boundingBoxColor = ofColor(255);
     if (!lineColor.empty())
@@ -164,6 +166,7 @@ void Cylinder::drawBoundingBox()
         }
     }
     ofSetColor(boundingBoxColor);
+
     std::string lineWidthStr = Configuration::get("Bounding Box.Line Width");
     float boundingBoxThickness = 2.0f;
     if (!lineWidthStr.empty() &&
@@ -182,8 +185,10 @@ void Cylinder::drawBoundingBox()
     {
         ofLogError("Cylinder::drawBoundingBox") << "Invalid or empty line width format: '" << lineWidthStr << "'";
     }
+
     float avgScale = (std::abs(scale.x) + std::abs(scale.y) + std::abs(scale.z)) / 3.0f;
     boundingBoxThickness /= avgScale;
+
     drawThickLine(v0, v1, boundingBoxThickness);
     drawThickLine(v1, v2, boundingBoxThickness);
     drawThickLine(v2, v3, boundingBoxThickness);
@@ -196,6 +201,7 @@ void Cylinder::drawBoundingBox()
     drawThickLine(v1, v5, boundingBoxThickness);
     drawThickLine(v2, v6, boundingBoxThickness);
     drawThickLine(v3, v7, boundingBoxThickness);
+
     ofFill();
     float sphereRadius = boundingBoxThickness * 0.5f;
     ofDrawSphere(v0, sphereRadius);
@@ -207,6 +213,8 @@ void Cylinder::drawBoundingBox()
     ofDrawSphere(v6, sphereRadius);
     ofDrawSphere(v7, sphereRadius);
 }
+
+
 
 Cylinder* Cylinder::copy() const
 {
