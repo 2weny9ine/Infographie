@@ -104,6 +104,8 @@
     <PostBuildEvent />
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="src\objects\ModelObject\Templates\Cone\Cone.cpp" />
+    <ClCompile Include="src\objects\ModelObject\Templates\Cylinder\Cylinder.cpp" />
     <ClCompile Include="src\modules\GUI\Bottom_Right_GUI\Bottom_Right_GUI.cpp" />
     <ClCompile Include="src\modules\Configuration\Configuration.cpp" />
     <ClCompile Include="src\events\KeyEventHandler\KeyEventHandler.cpp" />
@@ -147,6 +149,8 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="bin\data\nlohmann\json.hpp" />
+    <ClInclude Include="src\objects\ModelObject\Templates\Cone\Cone.h" />
+    <ClInclude Include="src\objects\ModelObject\Templates\Cylinder\Cylinder.h" />
     <ClInclude Include="src\modules\GUI\Bottom_Right_GUI\Bottom_Right_GUI.h" />
     <ClInclude Include="src\modules\Configuration\Configuration.h" />
     <ClInclude Include="src\Application.h" />

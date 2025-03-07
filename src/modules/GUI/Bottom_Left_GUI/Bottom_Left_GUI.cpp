@@ -14,7 +14,7 @@ Bottom_Left_GUI::Bottom_Left_GUI()
 	gui->getFooter()->setLabelWhenCollapsed("EXPAND CREATE MENU");
 	gui->getHeader()->setDraggable(false);
 
-	shape_options = { "CUBE", "SPHERE" };
+	shape_options = { "CUBE", "SPHERE", "CYLINDER", "CONE" };
 
 	shape_dropdown = gui->addDropdown("Shape", shape_options);
 	shape_dropdown->setStripeColor(ofColor::darkRed);
@@ -54,8 +54,17 @@ void Bottom_Left_GUI::createShape(ofxDatGuiButtonEvent e) {
 	if (selectedShape == "CUBE") {
 		modelObj = new Cube();
 	}
-	else if (selectedShape == "SPHERE") {
+	else if (selectedShape == "SPHERE")
+	{
 		modelObj = new Sphere();
+	}
+	else if (selectedShape == "CYLINDER")
+	{
+		modelObj = new Cylinder();
+	}
+	else if (selectedShape == "CONE")
+	{
+		modelObj = new Cone();
 	}
 
 	if (modelObj) {
