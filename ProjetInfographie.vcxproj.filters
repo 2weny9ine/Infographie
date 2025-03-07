@@ -124,6 +124,8 @@
     <ClCompile Include="src\modules\Configuration\Configuration.cpp">
       <Filter>src\modules\Configuration</Filter>
     </ClCompile>
+    <ClCompile Include="src\objects\ModelObject\Templates\Cylinder\Cylinder.cpp" />
+    <ClCompile Include="src\objects\ModelObject\Templates\Cone\Cone.cpp" />
   </ItemGroup>
   <ItemGroup>
     <Filter Include="src">
@@ -695,6 +697,8 @@
     <ClInclude Include="bin\data\nlohmann\json.hpp">
       <Filter>addons\nlohmann</Filter>
     </ClInclude>
+    <ClInclude Include="src\objects\ModelObject\Templates\Cylinder\Cylinder.h" />
+    <ClInclude Include="src\objects\ModelObject\Templates\Cone\Cone.h" />
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="icon.rc" />
