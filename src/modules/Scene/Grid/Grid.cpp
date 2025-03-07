@@ -15,95 +15,26 @@ void Grid::update()
     {
         ofLog() << "Updating grid configuration..." << endl;
 
-        // Retrieve and set grid size
-        std::string gridSizeStr = Configuration::get("Grid.Grid Size");
-        if (!gridSizeStr.empty())
-        {
-            setGridSize(std::stof(gridSizeStr));
-            ofLog() << "Grid Size set to: " << gridSizeStr << endl;
-        }
-        else
-        {
-            ofLogError("Grid::update") << "Grid Size configuration is empty.";
-        }
+        setGridSize(Configuration::getFloat("Grid.Grid Size"));
+        ofLog() << "Grid Size set to: " << getGridSize() << endl;
 
-        // Retrieve and set primary line spacing
-        std::string primaryLineSpacingStr = Configuration::get("Grid.Grid Spacing");
-        if (!primaryLineSpacingStr.empty())
-        {
-            setPrimaryLineSpacing(std::stof(primaryLineSpacingStr));
-            ofLog() << "Primary Line Spacing set to: " << primaryLineSpacingStr << endl;
-        }
-        else
-        {
-            ofLogError("Grid::update") << "Primary Line Spacing configuration is empty.";
-        }
+        setPrimaryLineSpacing(Configuration::getFloat("Grid.Grid Spacing"));
+        ofLog() << "Primary Line Spacing set to: " << getPrimaryLineSpacing() << endl;
 
-        // Retrieve and set secondary separations
-        std::string secondarySeparationsStr = Configuration::get("Grid.Subdivisions");
-        if (!secondarySeparationsStr.empty())
-        {
-            setSecondarySeparations(std::stoi(secondarySeparationsStr));
-            ofLog() << "Secondary Separations set to: " << secondarySeparationsStr << endl;
-        }
-        else
-        {
-            ofLogError("Grid::update") << "Secondary Separations configuration is empty.";
-        }
+        setSecondarySeparations(Configuration::getInt("Grid.Subdivisions"));
+        ofLog() << "Secondary Separations set to: " << getSecondarySeparations() << endl;
 
-        // Retrieve and set primary grid color with opacity
-        std::string primaryColorStr = Configuration::get("Grid.Primary Color");
-        std::string primaryOpacityStr = Configuration::get("Grid.Primary Opacity");
-        if (!primaryColorStr.empty() && !primaryOpacityStr.empty())
-        {
-            try
-            {
-                float primaryOpacity = std::stof(primaryOpacityStr);
-                if (primaryColorStr[0] == '#')
-                {
-                    primaryColorStr = primaryColorStr.substr(1);
-                }
-                ofColor primaryColor = ofColor::fromHex(std::stoul(primaryColorStr, nullptr, 16));
-                primaryColor.a = static_cast<int>(primaryOpacity * 255);
-                setPrimaryGridColor(primaryColor);
-                ofLog() << "Primary Color set to: " << primaryColorStr << " with opacity: " << primaryOpacityStr << endl;
-            }
-            catch (const std::exception& e)
-            {
-                ofLogError("Grid::update") << "Invalid hex color format for primary color: " << primaryColorStr << " - " << e.what();
-            }
-        }
-        else
-        {
-            ofLogError("Grid::update") << "Primary Color or Opacity configuration is empty.";
-        }
+        ofColor primaryColor = Configuration::getColor("Grid.Primary Color");
+        float primaryOpacity = Configuration::getFloat("Grid.Primary Opacity");
+        primaryColor.a = static_cast<int>(primaryOpacity * 255);
+        setPrimaryGridColor(primaryColor);
+        ofLog() << "Primary Color set to: " << primaryColor << " with opacity: " << primaryOpacity << endl;
 
-        // Retrieve and set secondary grid color with opacity
-        std::string secondaryColorStr = Configuration::get("Grid.Secondary Color");
-        std::string secondaryOpacityStr = Configuration::get("Grid.Secondary Opacity");
-        if (!secondaryColorStr.empty() && !secondaryOpacityStr.empty())
-        {
-            try
-            {
-                float secondaryOpacity = std::stof(secondaryOpacityStr);
-                if (secondaryColorStr[0] == '#')
-                {
-                    secondaryColorStr = secondaryColorStr.substr(1);
-                }
-                ofColor secondaryColor = ofColor::fromHex(std::stoul(secondaryColorStr, nullptr, 16));
-                secondaryColor.a = static_cast<int>(secondaryOpacity * 255);
-                setSecondaryGridColor(secondaryColor);
-                ofLog() << "Secondary Color set to: " << secondaryColorStr << " with opacity: " << secondaryOpacityStr << endl;
-            }
-            catch (const std::exception& e)
-            {
-                ofLogError("Grid::update") << "Invalid hex color format for secondary color: " << secondaryColorStr << " - " << e.what();
-            }
-        }
-        else
-        {
-            ofLogError("Grid::update") << "Secondary Color or Opacity configuration is empty.";
-        }
+        ofColor secondaryColor = Configuration::getColor("Grid.Secondary Color");
+        float secondaryOpacity = Configuration::getFloat("Grid.Secondary Opacity");
+        secondaryColor.a = static_cast<int>(secondaryOpacity * 255);
+        setSecondaryGridColor(secondaryColor);
+        ofLog() << "Secondary Color set to: " << secondaryColor << " with opacity: " << secondaryOpacity << endl;
     }
     catch (const std::exception& e)
     {
@@ -142,14 +73,22 @@ void Grid::drawPrimaryGrid()
 void Grid::drawSecondaryGrid()
 {
     float secondaryLineSpacing = calculateSecondaryLineSpacing();
+    float threshold = primaryLineSpacing * 0.05f;
+
     for (float z = -gridSize; z <= gridSize; z += secondaryLineSpacing)
     {
-        ofDrawLine(-gridSize, 0, z, gridSize, 0, z);
+        if (fabs(fmod(z, primaryLineSpacing)) > threshold)
+        {
+            ofDrawLine(-gridSize, 0, z, gridSize, 0, z);
+        }
     }
 
     for (float x = -gridSize; x <= gridSize; x += secondaryLineSpacing)
     {
-        ofDrawLine(x, 0, -gridSize, x, 0, gridSize);
+        if (fabs(fmod(x, primaryLineSpacing)) > threshold)
+        {
+            ofDrawLine(x, 0, -gridSize, x, 0, gridSize);
+        }
     }
 }
 

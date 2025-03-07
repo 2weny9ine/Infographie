@@ -6,7 +6,7 @@
 #include <algorithm>
 #include <iomanip>
 
-Configuration::Configuration() : configFilePath("data/infographie.config")
+Configuration::Configuration() : configFilePath("data/infographie.config"), defaultConfigFilePath("data/default_infographie.config")
 {
     loadConfig();
 }
@@ -35,7 +35,7 @@ void Configuration::loadConfig()
         }
         else
         {
-            ofLogError("Configuration") << "Default configuration file not found.";
+            ofLogError("Configuration") << "Default configuration file not found at: " << defaultConfigFilePath;
             throw std::runtime_error("Default configuration file not found.");
         }
 
@@ -56,11 +56,14 @@ void Configuration::loadConfig()
             }
             file.close();
         }
+        else
+        {
+            ofLogWarning("Configuration") << "User configuration file not found at: " << configFilePath;
+        }
     }
     catch (const std::exception& e)
     {
         ofLogError("Configuration") << "Exception: " << e.what();
-        abort();
     }
 }
 
@@ -69,15 +72,15 @@ void Configuration::saveConfig() const
     std::ofstream file(configFilePath);
     if (file.is_open())
     {
-        for (const auto& pair : configOverrides.items())
+        for (const auto& pair : configOverrides)
         {
-            file << pair.key() << "=" << pair.value() << "\n";
+            file << pair.first << "=" << pair.second << "\n";
         }
         file.close();
     }
     else
     {
-        ofLogError("Configuration") << "Unable to save configuration file.";
+        ofLogError("Configuration") << "Unable to save configuration file at: " << configFilePath;
     }
 }
 
@@ -89,6 +92,56 @@ void Configuration::save()
 std::string Configuration::get(const std::string& key)
 {
     return getInstance().getConfig(key);
+}
+
+float Configuration::getFloat(const std::string& key)
+{
+    std::string valueStr = getInstance().getConfig(key);
+    try
+    {
+        return std::stof(valueStr);
+    }
+    catch (const std::exception& e)
+    {
+        ofLogError("Configuration") << "Invalid float value for key: " << key << " - " << e.what();
+        throw; // Rethrow the exception after logging
+    }
+}
+
+int Configuration::getInt(const std::string& key)
+{
+    std::string valueStr = getInstance().getConfig(key);
+    try
+    {
+        return std::stoi(valueStr);
+    }
+    catch (const std::exception& e)
+    {
+        ofLogError("Configuration") << "Invalid int value for key: " << key << " - " << e.what();
+        throw; // Rethrow the exception after logging
+    }
+}
+
+ofColor Configuration::getColor(const std::string& key)
+{
+    std::string valueStr = getInstance().getConfig(key);
+    try
+    {
+        // Remove potential '#' prefix
+        if (!valueStr.empty() && valueStr[0] == '#')
+        {
+            valueStr = valueStr.substr(1);
+        }
+
+        // Convert hex string to ofColor
+        ofColor color = ofColor::fromHex(std::stoul(valueStr, nullptr, 16));
+        return color;
+    }
+    catch (const std::exception& e)
+    {
+        ofLogError("Configuration") << "Invalid color value for key: " << key << " - " << e.what();
+        throw; // Rethrow the exception after logging
+    }
 }
 
 void Configuration::set(const std::string& key, const std::string& value)
@@ -105,26 +158,44 @@ nlohmann::json Configuration::getEntireConfig()
 std::string Configuration::getConfig(const std::string& key) const
 {
     // First check for user overrides
-    if (configOverrides.find(key) != configOverrides.end())
+    auto overrideIt = configOverrides.find(key);
+    if (overrideIt != configOverrides.end())
     {
-        return configOverrides.at(key);
+        return overrideIt->second;
     }
 
-    // If not in user config, look for it in default config
+    // Look for the key in the default configuration.
     auto keys = splitKey(key);
     const nlohmann::json* currentLevel = &defaultConfig["Categories"];
 
-    // Traverse through the keys to find the corresponding value in defaultConfig
     for (const auto& k : keys)
     {
-        if (currentLevel->find(k) != currentLevel->end())
+        if (currentLevel->contains(k))
         {
             currentLevel = &((*currentLevel)[k]);
         }
+        else if (currentLevel->contains("contents") && (*currentLevel)["contents"].contains(k))
+        {
+            currentLevel = &((*currentLevel)["contents"])[k];
+        }
         else
         {
-            // Key not found in default config, return default value
-            return getDefaultValueForKey(key);
+            // Key not found in default config, return an empty string
+            return "";
+        }
+    }
+
+    // Check if the final level contains the "defaultValue" key
+    if (currentLevel->contains("defaultValue"))
+    {
+        if (currentLevel->at("defaultValue").is_string())
+        {
+            return currentLevel->at("defaultValue").get<std::string>();
+        }
+        else
+        {
+            // If defaultValue is not a string, dump it as a string
+            return currentLevel->at("defaultValue").dump();
         }
     }
 
@@ -138,7 +209,6 @@ std::string Configuration::getConfig(const std::string& key) const
     return currentLevel->dump();
 }
 
-// Function to get the default value from the JSON config
 std::string Configuration::getDefaultValueForKey(const std::string& key) const
 {
     // Split the key to find the proper location in defaultConfig
@@ -147,9 +217,13 @@ std::string Configuration::getDefaultValueForKey(const std::string& key) const
 
     for (const auto& k : keys)
     {
-        if (currentLevel->find(k) != currentLevel->end())
+        if (currentLevel->contains(k))
         {
             currentLevel = &((*currentLevel)[k]);
+        }
+        else if (currentLevel->contains("contents") && (*currentLevel)["contents"].contains(k))
+        {
+            currentLevel = &((*currentLevel)["contents"])[k];
         }
         else
         {
@@ -159,9 +233,16 @@ std::string Configuration::getDefaultValueForKey(const std::string& key) const
     }
 
     // Return the default value if found
-    if (currentLevel->is_string())
+    if (currentLevel->contains("defaultValue"))
     {
-        return currentLevel->get<std::string>();
+        if (currentLevel->at("defaultValue").is_string())
+        {
+            return currentLevel->at("defaultValue").get<std::string>();
+        }
+        else
+        {
+            return currentLevel->at("defaultValue").dump();
+        }
     }
 
     // Fallback to serialized value as default
