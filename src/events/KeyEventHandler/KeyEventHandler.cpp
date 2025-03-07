@@ -93,6 +93,10 @@ void KeyEventHandler::handleKeyReleased(int key)
 
         switch (key)
         {
+            case OF_KEY_BACKSPACE:
+                app.getGui().top_right->deleteSelected();
+                break;
+            
             case OF_KEY_LEFT:
             case 'a':
                 userCameraMovement.move_left = false;

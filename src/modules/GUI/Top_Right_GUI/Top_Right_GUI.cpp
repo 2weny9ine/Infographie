@@ -9,30 +9,11 @@ Top_Right_GUI::Top_Right_GUI()
 
     objectsFolder = gui->addFolder("Objects", ofColor::white);
     objectsFolder->expand();
-    deleteButton = objectsFolder->addButton("Delete Object");
+    deleteButton = gui->addButton("Delete Selected [BACKSPACE]");
+    deleteButton->setBackgroundColor(ofColor::darkRed);
+    deleteButton->setLabelAlignment(ofxDatGuiAlignment::CENTER);
     deleteButton->onButtonEvent([this](ofxDatGuiButtonEvent e) {
-        int index = 0;
-        for (Object3D* object : gui_manager->getScene()->selectedObjects)
-        {
-            auto it = std::find(gui_manager->getScene()->objects.begin(), gui_manager->getScene()->objects.end(), object);
-                if(it != gui_manager->getScene()->objects.end())
-                {
-                    index = std::distance(gui_manager->getScene()->objects.begin(), it) + 1;
-
-                    auto button = std::find(objectsFolder->children.begin(), objectsFolder->children.end(), objectsFolder->children[index]);
-                    if (button != objectsFolder->children.end())
-                    {
-                        objectsFolder->children.erase(button);
-                    }
-
-                }
-
-            gui_manager->getScene()->removeObject(object);
-        }
-        gui_manager->getScene()->resetSelection();
-        gui_manager->getScene()->update_Attributes();
-
-        objectsFolder->expand();
+        deleteSelected();
         });
 
     toolsFolder = gui->addFolder("Drawing Tools", ofColor::white);
@@ -66,6 +47,31 @@ Top_Right_GUI::Top_Right_GUI()
 
 }
 
+void Top_Right_GUI::deleteSelected()
+{
+    int index = 0;
+    for (Object3D* object : gui_manager->getScene()->selectedObjects)
+    {
+        auto it = std::find(gui_manager->getScene()->objects.begin(), gui_manager->getScene()->objects.end(), object);
+        if (it != gui_manager->getScene()->objects.end())
+        {
+            index = std::distance(gui_manager->getScene()->objects.begin(), it);
+
+            auto button = std::find(objectsFolder->children.begin(), objectsFolder->children.end(), objectsFolder->children[index]);
+            if (button != objectsFolder->children.end())
+            {
+                objectsFolder->children.erase(button);
+            }
+
+        }
+
+        gui_manager->getScene()->removeObject(object);
+    }
+    gui_manager->getScene()->resetSelection();
+    gui_manager->getScene()->update_Attributes();
+
+    objectsFolder->expand();
+}
 
 //2.3
 void Top_Right_GUI::onPrimitiveSelected(ofxDatGuiToggleEvent e) {

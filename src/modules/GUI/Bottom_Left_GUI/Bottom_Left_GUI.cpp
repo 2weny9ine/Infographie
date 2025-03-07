@@ -41,7 +41,37 @@ Bottom_Left_GUI::Bottom_Left_GUI()
 	create_shape_btn->setLabelAlignment(ofxDatGuiAlignment::CENTER);
 	create_shape_btn->onButtonEvent(this, &Bottom_Left_GUI::createShape);
 
+	shape_color_picker->onColorPickerEvent([this](ofxDatGuiColorPickerEvent e)
+	{
+		for (Object3D* object : gui_manager->getScene()->selectedObjects)
+		{
+			object->setColor(shape_color_picker->getColor());
+		}
+	});
 
+	shape_scale_slider->onSliderEvent([this](ofxDatGuiSliderEvent e)
+	{
+		for (Object3D* object : gui_manager->getScene()->selectedObjects)
+		{
+			object->setScale(ofVec3f(shape_scale_slider->getValue(), shape_scale_slider->getValue(), shape_scale_slider->getValue()));
+		}
+	});
+
+	shape_opacity_slider->onSliderEvent([this](ofxDatGuiSliderEvent e)
+	{
+		for (Object3D* object : gui_manager->getScene()->selectedObjects)
+		{
+			object->setOpacity(shape_opacity_slider->getValue());
+		}
+	});
+
+	shape_color_picker->onSliderEvent([this](ofxDatGuiSliderEvent e)
+	{
+		for (Object3D* object : gui_manager->getScene()->selectedObjects)
+		{
+			object->setScale(ofVec3f(shape_scale_slider->getValue(), shape_scale_slider->getValue(), shape_scale_slider->getValue()));
+		}
+	});
 
 
 

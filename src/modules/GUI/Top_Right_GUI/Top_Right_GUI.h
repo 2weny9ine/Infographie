@@ -15,6 +15,7 @@ public:
     Top_Right_GUI();
 
 	void setup(GUI* gui_manager);
+    void deleteSelected();
 
     ofColor getBackgroundColor() const { return backgroundColorPicker->getColor(); }
     ofColor getStrokeColor() const { return strokeColorPicker->getColor(); }
