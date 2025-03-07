@@ -45,13 +45,13 @@ void KeyEventHandler::handleKeyPressed(int key)
             case 'q':
                 userCameraMovement.move_downwards = true;
                 break;
-            case 'r':
+            case 'p':
                 if (app.getScene().cursor.getState() == CursorState::RESIZE)
                     app.getScene().cursor.setState(CursorState::DEFAULT);
                 else
                     app.getScene().cursor.setState(CursorState::RESIZE);
                 break;
-            case 'm':
+            case 't':
                 if (app.getScene().cursor.getState() == CursorState::MOVE)
                     app.getScene().cursor.setState(CursorState::DEFAULT);
                 else
@@ -116,23 +116,43 @@ void KeyEventHandler::handleKeyReleased(int key)
                 userCameraMovement.move_downwards = false;
                 break;
             case 'p':
-                if (app.getScene().currentTransform != Scene::TransformMode::Resize)
-                    app.getScene().currentTransform = Scene::TransformMode::Resize;
-                else
-                    app.getScene().currentTransform = Scene::TransformMode::None;
-                break;
-            case 't':
-                if (app.getScene().currentTransform != Scene::TransformMode::Translate)
-                    app.getScene().currentTransform = Scene::TransformMode::Translate;
-                else
-                    app.getScene().currentTransform = Scene::TransformMode::None;
-                break;
-            case 'r':
-                if (app.getScene().currentTransform != Scene::TransformMode::Rotate)
-                    app.getScene().currentTransform = Scene::TransformMode::Rotate;
-                else
-                    app.getScene().currentTransform = Scene::TransformMode::None;
-                break;
+            if (app.getScene().currentTransform != Scene::TransformMode::Resize)
+            {
+                app.getScene().currentTransform = Scene::TransformMode::Resize;
+                app.getScene().cursor.setState(CursorState::RESIZE);
+            }
+            else
+            {
+                app.getScene().currentTransform = Scene::TransformMode::None;
+                app.getScene().cursor.setState(CursorState::DEFAULT);
+            }
+            break;
+            
+        case 't':
+            if (app.getScene().currentTransform != Scene::TransformMode::Translate)
+            {
+                app.getScene().currentTransform = Scene::TransformMode::Translate;
+                app.getScene().cursor.setState(CursorState::MOVE);
+            }
+            else
+            {
+                app.getScene().currentTransform = Scene::TransformMode::None;
+                app.getScene().cursor.setState(CursorState::DEFAULT);
+            }
+            break;
+            
+        case 'r':
+            if (app.getScene().currentTransform != Scene::TransformMode::Rotate)
+            {
+                app.getScene().currentTransform = Scene::TransformMode::Rotate;
+                app.getScene().cursor.setState(CursorState::ROTATE);
+            }
+            else
+            {
+                app.getScene().currentTransform = Scene::TransformMode::None;
+                app.getScene().cursor.setState(CursorState::DEFAULT); 
+            }
+            break;
             default:
                 break;
         }

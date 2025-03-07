@@ -53,12 +53,12 @@ void Cursor::drawPressed() const {
 
 void Cursor::drawResize() const {
     ofSetColor(255, 165, 0); 
-    ofDrawEllipse(x, y, 15, 10);
+    ofDrawBitmapString("<+>", x + 5, y + 5);
 }
 
 void Cursor::drawMove() const {
     ofSetColor(255, 165, 0);
-    ofDrawBitmapString("<->", x + 5, y + 5);
+    ofDrawBitmapString("T", x + 5, y + 5);
 }
 
 void Cursor::drawDragging() const {
@@ -68,5 +68,5 @@ void Cursor::drawDragging() const {
 
 void Cursor::drawRotate() const {
     ofSetColor(ofColor::red);
-    ofDrawBitmapString("<->", x + 5, y + 5);
+    ofDrawBitmapString("R", x + 5, y + 5);
 }
