@@ -22,14 +22,10 @@ void User_Camera_Movement::setup(Scene& s)
 void User_Camera_Movement::update(float time_elapsed)
 {
     if (!scene) return;
-    float moveSpeed = 5.0f; // Movement speed
-
-    // Get the camera's orientation vectors
+    float moveSpeed = 5.0f;
     glm::vec3 forward = glm::normalize(camera.getLookAtDir());
     glm::vec3 right = glm::normalize(glm::cross(forward, glm::vec3(0.0f, 1.0f, 0.0f)));
     glm::vec3 up = glm::cross(right, forward);
-
-    // Apply movement relative to the camera's orientation
     if (move_forward)
         camera.setPosition(camera.getPosition() + forward * moveSpeed);
     if (move_backwards)
@@ -46,23 +42,11 @@ void User_Camera_Movement::update(float time_elapsed)
 
 void User_Camera_Movement::rotateCamera(float deltaX, float deltaY)
 {
-    float rotationSpeed = 0.005f; // Slower rotation speed
-
-    // Get the current orientation of the camera
+    float rotationSpeed = 0.005f;
     glm::quat orientation = camera.getOrientationQuat();
-
-    // Calculate the yaw (horizontal rotation)
     glm::quat yawQuat = glm::angleAxis(deltaX * rotationSpeed, glm::vec3(0.0f, 1.0f, 0.0f));
-
-    // Calculate the pitch (vertical rotation)
     glm::quat pitchQuat = glm::angleAxis(deltaY * rotationSpeed, camera.getSideDir());
-
-    // Apply the rotations to the current orientation
-    orientation = glm::normalize(yawQuat * orientation);
-    orientation = glm::normalize(pitchQuat * orientation);
-
-    // Update the camera's orientation
+    glm::quat deltaQuat = glm::normalize(yawQuat * pitchQuat);
+    orientation = glm::normalize(deltaQuat * orientation);
     camera.setOrientation(orientation);
-
-    std::cout << "Camera Rotated" << std::endl;
 }

@@ -6,6 +6,8 @@
 #include "objects/Object3D.h"
 #include "objects/ModelObject/Templates/Cube/Cube.h"
 #include "objects/ModelObject/Templates/Sphere/Sphere.h"
+#include "objects/ModelObject/Templates/Cylinder/Cylinder.h"
+#include "objects/ModelObject/Templates/Cone/Cone.h"
 
 class GUI;
 

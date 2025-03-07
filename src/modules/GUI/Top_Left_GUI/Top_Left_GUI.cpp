@@ -40,6 +40,9 @@ Top_Left_GUI::Top_Left_GUI()
 
     };
 
+    translateButton = attributes_folder->addButton("Translate [T]");
+    rotateButton = attributes_folder->addButton("Rotate [R]");
+    scaleButton = attributes_folder->addButton("Resize [P]");
     duplicateInstanceButton = attributes_folder->addButton("Duplicate Instance [CTRL + D]");
 
     for (ofxDatGuiTextInput* input : inputs)
@@ -57,6 +60,25 @@ Top_Left_GUI::Top_Left_GUI()
     histogram_folder = gui->addFolder("Image", ofColor::white);
 
  
+
+    translateButton->onButtonEvent([this](ofxDatGuiButtonEvent e) {
+        if (gui_manager->getScene()->currentTransform != Scene::TransformMode::Translate)
+            gui_manager->getScene()->currentTransform = Scene::TransformMode::Translate;
+        else
+            gui_manager->getScene()->currentTransform = Scene::TransformMode::None;
+        });
+    rotateButton->onButtonEvent([this](ofxDatGuiButtonEvent e) {
+        if (gui_manager->getScene()->currentTransform != Scene::TransformMode::Rotate)
+            gui_manager->getScene()->currentTransform = Scene::TransformMode::Rotate;
+        else
+            gui_manager->getScene()->currentTransform = Scene::TransformMode::None;
+        });
+    scaleButton->onButtonEvent([this](ofxDatGuiButtonEvent e) {
+        if (gui_manager->getScene()->currentTransform != Scene::TransformMode::Resize)
+            gui_manager->getScene()->currentTransform = Scene::TransformMode::Resize;
+        else
+            gui_manager->getScene()->currentTransform = Scene::TransformMode::None;
+        });
 
     duplicateInstanceButton->onButtonEvent([this](ofxDatGuiButtonEvent e) {
         gui_manager->getScene()->duplicateSelectedInstances();

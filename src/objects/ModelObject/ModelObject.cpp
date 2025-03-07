@@ -1,4 +1,31 @@
 #include "ModelObject.h"
+#include "modules/Configuration/Configuration.h"
+#include "ofLog.h"
+#include "Application.h"
+#include <algorithm>
+#include <sstream>
+#include <glm/gtx/quaternion.hpp>
+
+// Helper function to draw a thick line (as a box) between two points.
+static void drawThickLine(const glm::vec3& start, const glm::vec3& end, float thickness)
+{
+    glm::vec3 edge = end - start;
+    float length = glm::length(edge);
+    if (length <= 0.0f) return;
+
+    glm::vec3 midPoint = start + edge * 0.5f;
+
+    glm::vec3 defaultDir(0, 0, 1);
+    glm::vec3 edgeDir = glm::normalize(edge);
+
+    glm::quat rotation = glm::rotation(defaultDir, edgeDir);
+
+    ofPushMatrix();
+    ofTranslate(midPoint);
+    ofMultMatrix(glm::mat4_cast(rotation));
+    ofDrawBox(0, 0, 0, thickness, thickness, length);
+    ofPopMatrix();
+}
 
 ModelObject::ModelObject() : modelPath("") {}
 
@@ -60,6 +87,7 @@ void ModelObject::drawBoundingBox()
         return;
     }
 
+    // Get the scene bounds from the model and convert them to world coordinates.
     glm::vec3 sceneMin = model.getSceneMin();
     glm::vec3 sceneMax = model.getSceneMax();
 
@@ -68,16 +96,15 @@ void ModelObject::drawBoundingBox()
     glm::vec3 worldMax = glm::vec3(modelMatrix * glm::vec4(sceneMax, 1.0));
     glm::vec3 boxSize = worldMax - worldMin;
     glm::vec3 boxCenter = (worldMin + worldMax) * 0.5f;
+    glm::vec3 halfSize = boxSize * 0.5f;
 
+    // Push matrix and translate to the center of the bounding box.
     ofPushMatrix();
     ofTranslate(boxCenter);
 
-    ofNoFill();
-
-    // Fetch and convert Bounding Box color
+    // Fetch and convert Bounding Box color.
     std::string lineColor = Configuration::get("Bounding Box.Line Color");
     ofColor boundingBoxColor = ofColor(255);
-
     if (!lineColor.empty())
     {
         try
@@ -95,14 +122,14 @@ void ModelObject::drawBoundingBox()
     }
     ofSetColor(boundingBoxColor);
 
+    // Fetch the desired line thickness from configuration.
     std::string lineWidthStr = Configuration::get("Bounding Box.Line Width");
-    float boundingBoxWidth = 2.0f;
-
+    float boundingBoxThickness = 2.0f;
     if (!lineWidthStr.empty() && std::all_of(lineWidthStr.begin(), lineWidthStr.end(), [](char c) { return std::isdigit(c) || c == '.'; }))
     {
         try
         {
-            boundingBoxWidth = std::stof(lineWidthStr);
+            boundingBoxThickness = std::stof(lineWidthStr);
         }
         catch (const std::exception& e)
         {
@@ -114,16 +141,51 @@ void ModelObject::drawBoundingBox()
         ofLogError("ModelObject::drawBoundingBox") << "Invalid or empty line width format: '" << lineWidthStr << "'";
     }
 
-    ofSetLineWidth(boundingBoxWidth);
+    // --- Adjustment for consistent thickness ---
+    // Divide the thickness by the average absolute scale applied to the model.
+    // (This assumes ModelObject has a member 'scale' of type glm::vec3.)
+    float avgScale = (std::abs(scale.x) + std::abs(scale.y) + std::abs(scale.z)) / 3.0f;
+    boundingBoxThickness /= avgScale;
+    // --------------------------------------------
 
-    glEnable(GL_CULL_FACE);
-    glCullFace(GL_FRONT);
+    // Compute the 8 vertices of the bounding box in local space (centered at (0,0,0)).
+    glm::vec3 v0(-halfSize.x, -halfSize.y, -halfSize.z);
+    glm::vec3 v1(halfSize.x, -halfSize.y, -halfSize.z);
+    glm::vec3 v2(halfSize.x, halfSize.y, -halfSize.z);
+    glm::vec3 v3(-halfSize.x, halfSize.y, -halfSize.z);
+    glm::vec3 v4(-halfSize.x, -halfSize.y, halfSize.z);
+    glm::vec3 v5(halfSize.x, -halfSize.y, halfSize.z);
+    glm::vec3 v6(halfSize.x, halfSize.y, halfSize.z);
+    glm::vec3 v7(-halfSize.x, halfSize.y, halfSize.z);
 
-    ofDrawBox(glm::vec3(0, 0, 0), boxSize.x, boxSize.y, boxSize.z);
+    // Draw edges as thick lines.
+    // Bottom face
+    drawThickLine(v0, v1, boundingBoxThickness);
+    drawThickLine(v1, v2, boundingBoxThickness);
+    drawThickLine(v2, v3, boundingBoxThickness);
+    drawThickLine(v3, v0, boundingBoxThickness);
+    // Top face
+    drawThickLine(v4, v5, boundingBoxThickness);
+    drawThickLine(v5, v6, boundingBoxThickness);
+    drawThickLine(v6, v7, boundingBoxThickness);
+    drawThickLine(v7, v4, boundingBoxThickness);
+    // Vertical edges
+    drawThickLine(v0, v4, boundingBoxThickness);
+    drawThickLine(v1, v5, boundingBoxThickness);
+    drawThickLine(v2, v6, boundingBoxThickness);
+    drawThickLine(v3, v7, boundingBoxThickness);
 
-    glDisable(GL_CULL_FACE);
+    // Draw spheres at each vertex to smooth out the edges.
     ofFill();
-    ofSetLineWidth(1.0f);
+    float sphereRadius = boundingBoxThickness * 0.5f;
+    ofDrawSphere(v0, sphereRadius);
+    ofDrawSphere(v1, sphereRadius);
+    ofDrawSphere(v2, sphereRadius);
+    ofDrawSphere(v3, sphereRadius);
+    ofDrawSphere(v4, sphereRadius);
+    ofDrawSphere(v5, sphereRadius);
+    ofDrawSphere(v6, sphereRadius);
+    ofDrawSphere(v7, sphereRadius);
 
     ofPopMatrix();
 }

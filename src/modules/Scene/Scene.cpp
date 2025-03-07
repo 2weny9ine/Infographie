@@ -51,85 +51,93 @@ void Scene::update()
 
 	ofVec3f mouseScreen(ofGetMouseX(), ofGetMouseY(), 0);
 
-	if (currentTransform == Scene::TransformMode::Translate)
+	if (!isDrawing)
 	{
-		ofVec3f worldNear = camera->screenToWorld(ofVec3f(mouseScreen.x, mouseScreen.y, camera->getNearClip())); // Near plane
-		ofVec3f worldFar = camera->screenToWorld(ofVec3f(mouseScreen.x, mouseScreen.y, camera->getFarClip()));  // Far plane
-
-		ofVec3f direction = (worldFar - worldNear).getNormalized();
-		float t = (planeZ - worldNear.z) / direction.z;
-
-		ofVec3f mouseWorld = worldNear + direction * t;
-
-		if (is_mouse_button_pressed)
+		if (currentTransform == Scene::TransformMode::Translate)
 		{
-			ofVec3f delta = mouseWorld - lastMouseWorld;
 
-			for (Object3D* object : selectedObjects)
-				object->transformPosition(delta);
-
-			gui->top_left->localTransformations[0] += delta.x;
-			gui->top_left->localTransformations[1] += delta.y;
-			gui->top_left->localTransformations[2] += delta.z;
-
-			update_Attributes();
-		}
-
-		lastMouseWorld = mouseWorld;
-	}
-	else if (currentTransform == Scene::TransformMode::Resize)
-	{
-		if (is_mouse_button_pressed)
-		{
-			ofVec2f mouseDelta = -(mouseScreen - lastMouseScreen);
-
-
-			for (Object3D* object : selectedObjects)
+			if (is_mouse_button_pressed)
 			{
-				ofVec3f newScale = object->getScale();
-				newScale.x += mouseDelta.y * scaleFactor;
-				newScale.y += mouseDelta.y * scaleFactor;
-				newScale.z += mouseDelta.y * scaleFactor;
-				newScale.x = max(1.0f, newScale.x);
-				newScale.y = max(1.0f, newScale.y);
-				newScale.z = max(1.0f, newScale.z);
-				object->setScale(newScale);
+				ofVec3f delta = mouseScreen - lastMouseScreen;
+
+				ofVec3f right = camera->getXAxis();  // Axe X de la caméra
+				ofVec3f up = camera->getYAxis();     // Axe Y
+				float sensitivity = 0.01f;
+
+				for (Object3D* object : selectedObjects)
+				{
+					object->transformPosition(right * delta.x * sensitivity);
+					object->transformPosition(up * -delta.y * sensitivity);
+				}
+
+
+				gui->top_left->localTransformations[0] += delta.x;
+				gui->top_left->localTransformations[1] += delta.y;
+				gui->top_left->localTransformations[2] += delta.z;
+
+				update_Attributes();
 			}
 
-
-			gui->top_left->localTransformations[6] += mouseDelta.y * scaleFactor;
-			gui->top_left->localTransformations[7] += mouseDelta.y * scaleFactor;
-			gui->top_left->localTransformations[8] += mouseDelta.y * scaleFactor;
-
-			update_Attributes();
+			cursor.setState(CursorState::MOVE);
+			lastMouseScreen = mouseScreen;
 		}
-
-		lastMouseScreen = mouseScreen;
-	}
-	else if (currentTransform == Scene::TransformMode::Rotate)
-	{
-		if (is_mouse_button_pressed)
+		else if (currentTransform == Scene::TransformMode::Resize)
 		{
-			ofVec2f mouseDelta = mouseScreen - lastMouseScreen;
-
-			for (Object3D* object : selectedObjects)
+			if (is_mouse_button_pressed)
 			{
-				ofVec3f delta = ofVec3f(mouseDelta.y * rotationSpeed,
-										mouseDelta.x * rotationSpeed,
-										(mouseDelta.x + mouseDelta.y) * rotationSpeed * 0.5f);
+				ofVec2f mouseDelta = -(mouseScreen - lastMouseScreen);
 
-				object->transformRotation(delta);
+
+				for (Object3D* object : selectedObjects)
+				{
+					ofVec3f newScale = object->getScale();
+					newScale.x += mouseDelta.y * scaleFactor;
+					newScale.y += mouseDelta.y * scaleFactor;
+					newScale.z += mouseDelta.y * scaleFactor;
+					newScale.x = max(1.0f, newScale.x);
+					newScale.y = max(1.0f, newScale.y);
+					newScale.z = max(1.0f, newScale.z);
+					object->setScale(newScale);
+				}
+
+
+				gui->top_left->localTransformations[6] += mouseDelta.y * scaleFactor;
+				gui->top_left->localTransformations[7] += mouseDelta.y * scaleFactor;
+				gui->top_left->localTransformations[8] += mouseDelta.y * scaleFactor;
+
+				update_Attributes();
 			}
 
-
-			gui->top_left->localTransformations[3] += mouseDelta.y * rotationSpeed;
-			gui->top_left->localTransformations[4] -= mouseDelta.x * rotationSpeed;
-			gui->top_left->localTransformations[5] += (mouseDelta.x + mouseDelta.y) * rotationSpeed * 0.5f;
-
-			update_Attributes();
+			cursor.setState(CursorState::RESIZE);
+			lastMouseScreen = mouseScreen;
 		}
-		lastMouseScreen = mouseScreen;
+		else if (currentTransform == Scene::TransformMode::Rotate)
+		{
+			if (is_mouse_button_pressed)
+			{
+				ofVec2f mouseDelta = mouseScreen - lastMouseScreen;
+
+				for (Object3D* object : selectedObjects)
+				{
+					ofVec3f delta = ofVec3f(mouseDelta.y * rotationSpeed,
+						mouseDelta.x * rotationSpeed,
+						(mouseDelta.x + mouseDelta.y) * rotationSpeed * 0.5f);
+
+					object->transformRotation(delta);
+				}
+
+
+				gui->top_left->localTransformations[3] += mouseDelta.y * rotationSpeed;
+				gui->top_left->localTransformations[4] -= mouseDelta.x * rotationSpeed;
+				gui->top_left->localTransformations[5] += (mouseDelta.x + mouseDelta.y) * rotationSpeed * 0.5f;
+
+				update_Attributes();
+			}
+			cursor.setState(CursorState::ROTATE);
+			lastMouseScreen = mouseScreen;
+		}
 	}
+	
 	//yacine
 	/**************************************************************************/
 	cursor.update(mouse_current_x, mouse_current_y, is_mouse_button_pressed);
@@ -393,6 +401,7 @@ void Scene::resetSelection()
 
 void Scene::addObject(Object3D* obj) {
 	objects.push_back(obj);
+	gui->top_right.get()->addObjectToggle(obj);
 	ofLogNotice("Scene::addObject") << "Object added to scene.";
 }
 
