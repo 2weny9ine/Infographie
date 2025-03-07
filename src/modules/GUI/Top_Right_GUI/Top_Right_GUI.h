@@ -1,7 +1,7 @@
 #pragma once
 #include "ofMain.h"
 #include "ofxDatGui.h"
-
+#include "objects/Object3D.h"
 
 //2.3
 enum class PrimitiveType { POINT, LINE, RECTANGLE, CIRCLE, ELLIPSE, TRIANGLE};
@@ -25,10 +25,14 @@ public:
     bool isDrawingEnabled() const { return drawingToggle->getChecked(); } // New function to check if drawing mode is enabled
     bool isOutlineEnabled() const { return outlineToggle->getChecked(); }
 
-
+    void addObjectToggle(Object3D* object);
 
 
 private:
+    ofxDatGuiButton* lastObjectButton;
+
+    ofxDatGuiFolder* objectsFolder;
+    ofxDatGuiButton* deleteButton;
     ofxDatGuiFolder* toolsFolder;
     ofxDatGuiColorPicker* backgroundColorPicker;
     ofxDatGuiColorPicker* strokeColorPicker;
@@ -36,7 +40,7 @@ private:
     ofxDatGuiSlider* lineWidthSlider;
 
     bool outlineEnabled = false;
-
+    int counter;
 
     //2.3
     ofxDatGuiToggle* drawingToggle;

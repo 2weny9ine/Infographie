@@ -8,7 +8,8 @@ enum class CursorState {
     RESIZE,
     MOVE,
     HIDDEN,
-    DRAGGING
+    DRAGGING,
+    ROTATE
 };
 
 
@@ -34,4 +35,5 @@ private:
     void drawResize() const;
     void drawMove() const;
     void drawDragging() const;
+    void drawRotate() const;
 };

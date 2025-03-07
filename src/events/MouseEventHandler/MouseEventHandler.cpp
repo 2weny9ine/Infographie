@@ -9,20 +9,21 @@ void MouseEventHandler::handleMousePressed(int x, int y, int button)
 {
     Application& app = Application::getInstance();
     Scene& scene = app.getScene();
-
-    scene.is_mouse_button_pressed = true;
-    scene.mouse_current_x = x;
-    scene.mouse_current_y = y;
-    scene.mouse_press_x = x;
-    scene.mouse_press_y = y;
-    scene.cursor.setState(CursorState::PRESSED);
-
-    if (scene.isDrawingMode)
+    if (button == 0) // Left mouse button pressed
     {
-        scene.startDrawing(x, y);
-    }
+        scene.is_mouse_button_pressed = true;
+        scene.mouse_current_x = x;
+        scene.mouse_current_y = y;
+        scene.mouse_press_x = x;
+        scene.mouse_press_y = y;
+        scene.cursor.setState(CursorState::PRESSED);
 
-    if (button == 2) // Right mouse button pressed
+        if (scene.isDrawingMode)
+        {
+            scene.startDrawing(x, y);
+        }
+    }
+    else if (button == 2) // Right mouse button pressed
     {
         isRightMouseButtonDown = true;
         // Store the initial mouse position
