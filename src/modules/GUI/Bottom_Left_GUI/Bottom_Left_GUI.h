@@ -16,6 +16,10 @@ public:
     Bottom_Left_GUI();
     void setup(GUI* gui_manager);
 
+    void resetTransformations();
+
+    std::vector<ofxDatGuiTextInput*> inputs;
+    std::vector<float>localTransformations = { 0,0,0,0,0,0,0,0,0 };
 private:
     GUI* gui_manager;
     ofxDatGui* gui;
@@ -27,6 +31,23 @@ private:
     ofxDatGuiSlider* shape_scale_slider;
     ofxDatGuiSlider* shape_opacity_slider;
     ofxDatGuiButton* create_shape_btn;
+
+    ofxDatGuiFolder* attributes_folder;
+    ofxDatGuiTextInput* x_position;
+    ofxDatGuiTextInput* y_position;
+    ofxDatGuiTextInput* z_position;
+    ofxDatGuiTextInput* x_rotation;
+    ofxDatGuiTextInput* y_rotation;
+    ofxDatGuiTextInput* z_rotation;
+    ofxDatGuiTextInput* x_scale;
+    ofxDatGuiTextInput* y_scale;
+    ofxDatGuiTextInput* z_scale;
+    ofxDatGuiButton* translateButton;
+    ofxDatGuiButton* rotateButton;
+    ofxDatGuiButton* scaleButton;
+    ofxDatGuiButton* duplicateInstanceButton;
+
+    void SendTransformations();
 
     void createShape(ofxDatGuiButtonEvent e);
 };
