@@ -16,43 +16,6 @@ Top_Left_GUI::Top_Left_GUI()
     zCam_position = camPosition_folder->addTextInput("Z", "N/A");
     zCam_position->setInputType(ofxDatGuiInputType::NUMERIC);
 
-    attributes_folder = gui->addFolder("Attributes", ofColor::white);
-
-    inputs = {
-
-    x_position = attributes_folder->addTextInput("Position X", "N/A"),
-
-    y_position = attributes_folder->addTextInput("Position Y", "N/A"),
-
-    z_position = attributes_folder->addTextInput("Position Z", "N/A"),
-
-    x_rotation = attributes_folder->addTextInput("Rotation X", "N/A"),
-
-    y_rotation = attributes_folder->addTextInput("Rotation Y", "N/A"),
-
-    z_rotation = attributes_folder->addTextInput("Rotation Z", "N/A"),
-
-    x_scale = attributes_folder->addTextInput("Scale X", "N/A"),
-
-    y_scale = attributes_folder->addTextInput("Scale Y", "N/A"),
-
-    z_scale = attributes_folder->addTextInput("Scale Z", "N/A")
-
-    };
-
-    translateButton = attributes_folder->addButton("Translate [T]");
-    rotateButton = attributes_folder->addButton("Rotate [R]");
-    scaleButton = attributes_folder->addButton("Resize [P]");
-    duplicateInstanceButton = attributes_folder->addButton("Duplicate Instance [CTRL + D]");
-
-    for (ofxDatGuiTextInput* input : inputs)
-    {
-        input->setInputType(ofxDatGuiInputType::NUMERIC);
-        input->onTextInputEvent([this](ofxDatGuiTextInputEvent e) {
-            SendTransformations();
-            });
-    }
-
     
     gui->addFRM();
     
@@ -64,29 +27,6 @@ Top_Left_GUI::Top_Left_GUI()
         if (imagePtr) {
             imagePtr->clearImages();
         }
-    });
-
-    translateButton->onButtonEvent([this](ofxDatGuiButtonEvent e) {
-        if (gui_manager->getScene()->currentTransform != Scene::TransformMode::Translate)
-            gui_manager->getScene()->currentTransform = Scene::TransformMode::Translate;
-        else
-            gui_manager->getScene()->currentTransform = Scene::TransformMode::None;
-        });
-    rotateButton->onButtonEvent([this](ofxDatGuiButtonEvent e) {
-        if (gui_manager->getScene()->currentTransform != Scene::TransformMode::Rotate)
-            gui_manager->getScene()->currentTransform = Scene::TransformMode::Rotate;
-        else
-            gui_manager->getScene()->currentTransform = Scene::TransformMode::None;
-        });
-    scaleButton->onButtonEvent([this](ofxDatGuiButtonEvent e) {
-        if (gui_manager->getScene()->currentTransform != Scene::TransformMode::Resize)
-            gui_manager->getScene()->currentTransform = Scene::TransformMode::Resize;
-        else
-            gui_manager->getScene()->currentTransform = Scene::TransformMode::None;
-        });
-
-    duplicateInstanceButton->onButtonEvent([this](ofxDatGuiButtonEvent e) {
-        gui_manager->getScene()->duplicateSelectedInstances();
     });
 
     histogramButton = histogram_folder->addButton("Afficher l'histogramme");
@@ -133,14 +73,6 @@ Top_Left_GUI::Top_Left_GUI()
 
 }
 
-void Top_Left_GUI::resetTransformations()
-{
-    for (ofxDatGuiTextInput* input : inputs)
-    {
-        input->setText("--");
-    }
-}
-
 void Top_Left_GUI::setup(GUI* gui_manager) {
     this->gui_manager = gui_manager;
 }
@@ -157,31 +89,6 @@ ofColor Top_Left_GUI::getHSBColor() {
     ofColor c;
     c.setHsb(hValue, sValue, bValue);
     return c;
-}
-
-void Top_Left_GUI::SendTransformations()
-{
-    float tx, ty, tz, rx, ry, rz, sx, sy, sz;
-    std::vector<float> transformations;
-    transformations = { tx = 0, ty = 0, tz = 0, rx = 0, ry = 0, rz = 0, sx = 0, sy = 0,sz = 0 };
-
-    for (size_t i = 0; i < transformations.size(); i++)
-    {
-        if (inputs[i]->getText() == "--")
-            transformations[i] = 0;
-        else
-        {
-            transformations[i] = std::stof(inputs[i]->getText());
-        }
-    }
-
-    ofVec3f position = ofVec3f{ transformations[0] - localTransformations[0], transformations[1] - localTransformations[1],transformations[2] - localTransformations[2] };
-    ofVec3f rotation = ofVec3f{ transformations[3] - localTransformations[3], transformations[4] - localTransformations[4],transformations[5] - localTransformations[5] };
-    ofVec3f scale = ofVec3f{ transformations[6] - localTransformations[6], transformations[7] - localTransformations[7],transformations[8] - localTransformations[8] };
-    gui_manager->getScene()->apply_Transformations(position, rotation, scale);
-
-    if (gui_manager->getScene()->selectedObjects.size() != 1)
-        localTransformations = transformations;
 }
 
 bool Top_Left_GUI::histogramEnabled() const {

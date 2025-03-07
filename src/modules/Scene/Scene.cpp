@@ -70,9 +70,9 @@ void Scene::update()
 				}
 
 
-				gui->top_left->localTransformations[0] += delta.x;
-				gui->top_left->localTransformations[1] += delta.y;
-				gui->top_left->localTransformations[2] += delta.z;
+				gui->bottom_left->localTransformations[0] += delta.x;
+				gui->bottom_left->localTransformations[1] += delta.y;
+				gui->bottom_left->localTransformations[2] += delta.z;
 
 				update_Attributes();
 			}
@@ -100,9 +100,9 @@ void Scene::update()
 				}
 
 
-				gui->top_left->localTransformations[6] += mouseDelta.y * scaleFactor;
-				gui->top_left->localTransformations[7] += mouseDelta.y * scaleFactor;
-				gui->top_left->localTransformations[8] += mouseDelta.y * scaleFactor;
+				gui->bottom_left->localTransformations[6] += mouseDelta.y * scaleFactor;
+				gui->bottom_left->localTransformations[7] += mouseDelta.y * scaleFactor;
+				gui->bottom_left->localTransformations[8] += mouseDelta.y * scaleFactor;
 
 				update_Attributes();
 			}
@@ -126,9 +126,9 @@ void Scene::update()
 				}
 
 
-				gui->top_left->localTransformations[3] += mouseDelta.y * rotationSpeed;
-				gui->top_left->localTransformations[4] -= mouseDelta.x * rotationSpeed;
-				gui->top_left->localTransformations[5] += (mouseDelta.x + mouseDelta.y) * rotationSpeed * 0.5f;
+				gui->bottom_left->localTransformations[3] += mouseDelta.y * rotationSpeed;
+				gui->bottom_left->localTransformations[4] -= mouseDelta.x * rotationSpeed;
+				gui->bottom_left->localTransformations[5] += (mouseDelta.x + mouseDelta.y) * rotationSpeed * 0.5f;
 
 				update_Attributes();
 			}
@@ -271,35 +271,35 @@ void Scene::update_Attributes()
 		ofVec3f rotation = currentObject->getRotation();
 		ofVec3f scale = currentObject->getScale();
 
-		gui->top_left.get()->inputs[0]->setText(std::to_string(position.x));
-		gui->top_left.get()->inputs[1]->setText(std::to_string(position.y));
-		gui->top_left.get()->inputs[2]->setText(std::to_string(position.z));
+		gui->bottom_left.get()->inputs[0]->setText(std::to_string(position.x));
+		gui->bottom_left.get()->inputs[1]->setText(std::to_string(position.y));
+		gui->bottom_left.get()->inputs[2]->setText(std::to_string(position.z));
 
-		gui->top_left.get()->inputs[3]->setText(std::to_string(rotation.x));
-		gui->top_left.get()->inputs[4]->setText(std::to_string(rotation.y));
-		gui->top_left.get()->inputs[5]->setText(std::to_string(rotation.z));
+		gui->bottom_left.get()->inputs[3]->setText(std::to_string(rotation.x));
+		gui->bottom_left.get()->inputs[4]->setText(std::to_string(rotation.y));
+		gui->bottom_left.get()->inputs[5]->setText(std::to_string(rotation.z));
 
-		gui->top_left.get()->inputs[6]->setText(std::to_string(scale.x));
-		gui->top_left.get()->inputs[7]->setText(std::to_string(scale.y));
-		gui->top_left.get()->inputs[8]->setText(std::to_string(scale.z));
+		gui->bottom_left.get()->inputs[6]->setText(std::to_string(scale.x));
+		gui->bottom_left.get()->inputs[7]->setText(std::to_string(scale.y));
+		gui->bottom_left.get()->inputs[8]->setText(std::to_string(scale.z));
 	}
-	else if(gui->top_left->localTransformations == std::vector<float>{ 0,0,0,0,0,0,0,0,0 })
+	else if(gui->bottom_left->localTransformations == std::vector<float>{ 0,0,0,0,0,0,0,0,0 })
 	{
-		gui->top_left->resetTransformations();
+		gui->bottom_left->resetTransformations();
 	}
 	else
 	{
-		gui->top_left.get()->inputs[0]->setText(std::to_string(gui->top_left->localTransformations[0]));
-		gui->top_left.get()->inputs[1]->setText(std::to_string(gui->top_left->localTransformations[1]));
-		gui->top_left.get()->inputs[2]->setText(std::to_string(gui->top_left->localTransformations[2]));
+		gui->bottom_left.get()->inputs[0]->setText(std::to_string(gui->bottom_left->localTransformations[0]));
+		gui->bottom_left.get()->inputs[1]->setText(std::to_string(gui->bottom_left->localTransformations[1]));
+		gui->bottom_left.get()->inputs[2]->setText(std::to_string(gui->bottom_left->localTransformations[2]));
 
-		gui->top_left.get()->inputs[3]->setText(std::to_string(gui->top_left->localTransformations[3]));
-		gui->top_left.get()->inputs[4]->setText(std::to_string(gui->top_left->localTransformations[4]));
-		gui->top_left.get()->inputs[5]->setText(std::to_string(gui->top_left->localTransformations[5]));
+		gui->bottom_left.get()->inputs[3]->setText(std::to_string(gui->bottom_left->localTransformations[3]));
+		gui->bottom_left.get()->inputs[4]->setText(std::to_string(gui->bottom_left->localTransformations[4]));
+		gui->bottom_left.get()->inputs[5]->setText(std::to_string(gui->bottom_left->localTransformations[5]));
 
-		gui->top_left.get()->inputs[6]->setText(std::to_string(gui->top_left->localTransformations[6]));
-		gui->top_left.get()->inputs[7]->setText(std::to_string(gui->top_left->localTransformations[7]));
-		gui->top_left.get()->inputs[8]->setText(std::to_string(gui->top_left->localTransformations[8]));
+		gui->bottom_left.get()->inputs[6]->setText(std::to_string(gui->bottom_left->localTransformations[6]));
+		gui->bottom_left.get()->inputs[7]->setText(std::to_string(gui->bottom_left->localTransformations[7]));
+		gui->bottom_left.get()->inputs[8]->setText(std::to_string(gui->bottom_left->localTransformations[8]));
 	}
 
 }
@@ -395,7 +395,7 @@ void Scene::resetSelection()
 		object->setSelected(false);
 
 	selectedObjects.clear();
-	gui->top_left->localTransformations = { 0,0,0,0,0,0,0,0,0 };
+	gui->bottom_left->localTransformations = { 0,0,0,0,0,0,0,0,0 };
 }
 
 void Scene::addObject(Object3D* obj) {
