@@ -26,7 +26,10 @@ void GUI::initializeGUIs() {
     top_right = std::make_unique<Top_Right_GUI>();
     bottom_left = std::make_unique<Bottom_Left_GUI>();
     bottom_right = std::make_unique<Bottom_Right_GUI>();
-
+    guis.push_back(top_left.get()->getGui());
+    guis.push_back(top_right.get()->getGui());
+    guis.push_back(bottom_left.get()->getGui());
+    guis.push_back(bottom_right.get()->getGui());
     top_left->setup(this);
     top_right->setup(this);
     bottom_left->setup(this);

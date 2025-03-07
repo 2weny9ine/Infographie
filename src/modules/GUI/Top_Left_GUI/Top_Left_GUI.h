@@ -22,6 +22,8 @@ public:
 
     ofColor getRGBColor();
     ofColor getHSBColor();
+
+    ofxDatGui* getGui();
     
 private:
     GUI* gui_manager;

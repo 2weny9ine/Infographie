@@ -27,7 +27,7 @@ public:
 
     void addObjectToggle(Object3D* object);
 
-
+    ofxDatGui* getGui();
 private:
     ofxDatGuiButton* lastObjectButton;
 

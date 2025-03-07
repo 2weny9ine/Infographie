@@ -86,6 +86,11 @@ ofColor Top_Left_GUI::getHSBColor() {
     return c;
 }
 
+ofxDatGui* Top_Left_GUI::getGui()
+{
+    return gui;
+}
+
 bool Top_Left_GUI::histogramEnabled() const {
     return showHistogram;
 }

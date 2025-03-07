@@ -160,6 +160,11 @@ void Bottom_Left_GUI::resetTransformations()
 	}
 }
 
+ofxDatGui* Bottom_Left_GUI::getGui()
+{
+	return gui;
+}
+
 void Bottom_Left_GUI::SendTransformations()
 {
 	float tx, ty, tz, rx, ry, rz, sx, sy, sz;

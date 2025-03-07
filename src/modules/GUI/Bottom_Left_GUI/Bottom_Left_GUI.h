@@ -20,6 +20,7 @@ public:
 
     std::vector<ofxDatGuiTextInput*> inputs;
     std::vector<float>localTransformations = { 0,0,0,0,0,0,0,0,0 };
+    ofxDatGui* getGui();
 private:
     GUI* gui_manager;
     ofxDatGui* gui;

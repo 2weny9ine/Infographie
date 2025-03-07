@@ -103,6 +103,11 @@ void Top_Right_GUI::addObjectToggle(Object3D* object)
     objectsFolder->expand();
 }
 
+ofxDatGui* Top_Right_GUI::getGui()
+{
+    return gui;
+}
+
 void Top_Right_GUI::onOutlineToggle(ofxDatGuiToggleEvent e) {
     outlineEnabled = e.checked; 
 }

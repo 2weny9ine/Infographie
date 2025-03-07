@@ -10,7 +10,7 @@ class Bottom_Right_GUI {
 public:
     Bottom_Right_GUI();
     void setup(GUI* gui_manager);
-
+    ofxDatGui* getGui();
 private:
     GUI* gui_manager;
     ofxDatGui* gui;

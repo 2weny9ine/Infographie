@@ -19,6 +19,8 @@ public:
     std::unique_ptr<Bottom_Left_GUI> bottom_left;
     std::unique_ptr<Bottom_Right_GUI> bottom_right;
 
+    std::vector<ofxDatGui*> guis;
+
 private:
     Scene* scene;
 

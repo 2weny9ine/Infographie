@@ -11,13 +11,31 @@
       <Filter>src</Filter>
     </ClCompile>
     <ClCompile Include="src\events\DragEventHandler\DragEventHandler.cpp">
-      <Filter>src\events\DragEvent</Filter>
+      <Filter>src\events\DragEventHandler</Filter>
+    </ClCompile>
+    <ClCompile Include="src\events\KeyEventHandler\KeyEventHandler.cpp">
+      <Filter>src\events\KeyEventHandler</Filter>
+    </ClCompile>
+    <ClCompile Include="src\events\MouseEventHandler\MouseEventHandler.cpp">
+      <Filter>src\events\MouseEventHandler</Filter>
+    </ClCompile>
+    <ClCompile Include="src\events\WindowResizedEventHandler\WindowResizedEventHandler.cpp">
+      <Filter>src\events\WindowResizedEventHandler</Filter>
     </ClCompile>
     <ClCompile Include="src\main.cpp">
       <Filter>src</Filter>
     </ClCompile>
+    <ClCompile Include="src\modules\Configuration\Configuration.cpp">
+      <Filter>src\modules\Configuration</Filter>
+    </ClCompile>
+    <ClCompile Include="src\modules\Cursor\Cursor.cpp">
+      <Filter>src\modules\Cursor</Filter>
+    </ClCompile>
     <ClCompile Include="src\modules\GUI\Bottom_Left_GUI\Bottom_Left_GUI.cpp">
       <Filter>src\modules\GUI\Bottom_Left_GUI</Filter>
+    </ClCompile>
+    <ClCompile Include="src\modules\GUI\Bottom_Right_GUI\Bottom_Right_GUI.cpp">
+      <Filter>src\modules\GUI\Bottom_Right_GUI</Filter>
     </ClCompile>
     <ClCompile Include="src\modules\GUI\GUI.cpp">
       <Filter>src\modules\GUI</Filter>
@@ -46,14 +64,23 @@
     <ClCompile Include="src\objects\ModelObject\ModelObject.cpp">
       <Filter>src\objects\ModelObject</Filter>
     </ClCompile>
+    <ClCompile Include="src\objects\ModelObject\Templates\Cone\Cone.cpp">
+      <Filter>src\objects\ModelObject\Templates\Cone</Filter>
+    </ClCompile>
     <ClCompile Include="src\objects\ModelObject\Templates\Cube\Cube.cpp">
       <Filter>src\objects\ModelObject\Templates\Cube</Filter>
+    </ClCompile>
+    <ClCompile Include="src\objects\ModelObject\Templates\Cylinder\Cylinder.cpp">
+      <Filter>src\objects\ModelObject\Templates\Cylinder</Filter>
     </ClCompile>
     <ClCompile Include="src\objects\ModelObject\Templates\Sphere\Sphere.cpp">
       <Filter>src\objects\ModelObject\Templates\Sphere</Filter>
     </ClCompile>
     <ClCompile Include="src\objects\Object3D.cpp">
       <Filter>src\objects</Filter>
+    </ClCompile>
+    <ClCompile Include="src\objects\primitiveObject\primitiveObject.cpp">
+      <Filter>src\objects\primitiveObject</Filter>
     </ClCompile>
     <ClCompile Include="..\..\..\addons\ofxAssimpModelLoader\src\ofxAssimpAnimation.cpp">
       <Filter>addons\ofxAssimpModelLoader\src</Filter>
@@ -106,165 +133,145 @@
     <ClCompile Include="..\..\..\addons\ofxGui\src\ofxToggle.cpp">
       <Filter>addons\ofxGui\src</Filter>
     </ClCompile>
-    <ClCompile Include="src\modules\Cursor\Cursor.cpp">
-      <Filter>src\modules\Cursor</Filter>
-    </ClCompile>
-    <ClCompile Include="src\events\MouseEventHandler\MouseEventHandler.cpp">
-      <Filter>src\events\MouseClickedEventHandler</Filter>
-    </ClCompile>
-    <ClCompile Include="src\events\WindowResizedEventHandler\WindowResizedEventHandler.cpp">
-      <Filter>src\events\WindowResizedEventHandler</Filter>
-    </ClCompile>
-    <ClCompile Include="src\events\KeyEventHandler\KeyEventHandler.cpp">
-      <Filter>src\events\KeyEventHandler</Filter>
-    </ClCompile>
-    <ClCompile Include="src\modules\GUI\Bottom_Right_GUI\Bottom_Right_GUI.cpp">
-      <Filter>src\modules\GUI\Bottom_Right_GUI</Filter>
-    </ClCompile>
-    <ClCompile Include="src\modules\Configuration\Configuration.cpp">
-      <Filter>src\modules\Configuration</Filter>
-    </ClCompile>
-    <ClCompile Include="src\objects\ModelObject\Templates\Cylinder\Cylinder.cpp" />
-    <ClCompile Include="src\objects\ModelObject\Templates\Cone\Cone.cpp" />
   </ItemGroup>
   <ItemGroup>
     <Filter Include="src">
       <UniqueIdentifier>{d8376475-7454-4a24-b08a-aac121d3ad6f}</UniqueIdentifier>
     </Filter>
     <Filter Include="src\events">
-      <UniqueIdentifier>{AEEB8D76--AE5-9-43-60-8-2DF-3B1BA40AC2AB}</UniqueIdentifier>
+      <UniqueIdentifier>{C340D790--1CF-1-4C-46-B-E45-287B8FADF9F0}</UniqueIdentifier>
     </Filter>
-    <Filter Include="src\events\DragEvent">
-      <UniqueIdentifier>{1128FFBC--78C-1-40-ED-8-B2F-D36695F79107}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="src\modules">
-      <UniqueIdentifier>{F70DD584--B28-C-44-E5-B-412-2C8B1D32537F}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="src\modules\GUI">
-      <UniqueIdentifier>{6A03F2E7--D97-6-45-10-8-91B-2ACE3C5FC24B}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="src\modules\GUI\Bottom_Left_GUI">
-      <UniqueIdentifier>{776642C0--F91-4-4D-63-A-2E1-C025A6D96D13}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="src\modules\GUI\Top_Left_GUI">
-      <UniqueIdentifier>{0E62A977--CCB-E-41-CE-A-8F1-686B5FAD0AF6}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="src\modules\GUI\Top_Right_GUI">
-      <UniqueIdentifier>{06B4C2A8--1EE-E-43-6A-B-190-C4AD29B722B4}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="src\modules\Image">
-      <UniqueIdentifier>{FF3736C9--CAB-E-47-95-A-571-0A60FAC9BB09}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="src\modules\Scene">
-      <UniqueIdentifier>{83E2BBC7--15D-0-45-49-A-A24-AF3E0D6E707B}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="src\modules\Scene\Grid">
-      <UniqueIdentifier>{631CA2BE--F9F-1-43-9F-9-A26-7FE1DF945004}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="src\modules\User_Camera_Movement">
-      <UniqueIdentifier>{CCE67512--280-2-45-01-8-7EE-9665A2F54EF0}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="src\objects">
-      <UniqueIdentifier>{E32165CD--485-E-49-DF-9-856-4F1337984BA2}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="src\objects\ImageObject">
-      <UniqueIdentifier>{E24C6FBC--600-4-44-9A-A-840-5FC21248C0BF}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="src\objects\ModelObject">
-      <UniqueIdentifier>{1DC1A4F7--258-B-49-CD-A-DEE-010B553376BF}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="src\objects\ModelObject\Templates">
-      <UniqueIdentifier>{2A278660--067-7-4E-3E-B-2FE-32623167AF17}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="src\objects\ModelObject\Templates\Cube">
-      <UniqueIdentifier>{4C899984--328-A-4F-7C-A-49C-0489F01C0D9E}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="src\objects\ModelObject\Templates\Sphere">
-      <UniqueIdentifier>{CC54AB28--AC2-7-49-9D-B-AE5-A3555818ECBF}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="addons">
-      <UniqueIdentifier>{1CBE6A26--9EC-1-44-5B-8-E36-FFFF39C43028}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="addons\ofxAssimpModelLoader">
-      <UniqueIdentifier>{060EF92B--9B0-7-49-F1-9-EC8-6BB736844AFE}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="addons\ofxAssimpModelLoader\src">
-      <UniqueIdentifier>{98931B81--44E-5-45-2A-9-A48-1254E6175673}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="addons\ofxAssimpModelLoader\libs">
-      <UniqueIdentifier>{527033BF--D95-4-43-0B-9-56B-619CFA97B6F4}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="addons\ofxAssimpModelLoader\libs\assimp">
-      <UniqueIdentifier>{99EF6175--DBB-3-43-74-A-D25-9CD51E239A39}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="addons\ofxAssimpModelLoader\libs\assimp\include">
-      <UniqueIdentifier>{8C0EB224--CAE-B-48-97-B-B5C-992CCEAC00AE}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="addons\ofxAssimpModelLoader\libs\assimp\include\assimp">
-      <UniqueIdentifier>{D8CBD206--992-9-4C-48-A-692-5128E9DBFD9C}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="addons\ofxAssimpModelLoader\libs\assimp\include\assimp\Compiler">
-      <UniqueIdentifier>{8CC81F02--246-9-4B-3C-9-416-B30F64A0A627}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="addons\ofxAssimpModelLoader\libs\assimp\include\assimp\port">
-      <UniqueIdentifier>{11E2633C--FEA-F-40-61-A-F5F-9BC2EA2050D4}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="addons\ofxAssimpModelLoader\libs\assimp\include\assimp\port\AndroidJNI">
-      <UniqueIdentifier>{3D35472D--9D0-C-47-27-9-853-2312D771380A}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="addons\ofxDatGui">
-      <UniqueIdentifier>{0DC9AA34--48A-7-47-E0-8-A98-B090D8634E0B}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="addons\ofxDatGui\src">
-      <UniqueIdentifier>{1B4A1E16--79E-5-4D-C7-A-D9D-627A126E14CA}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="addons\ofxDatGui\src\components">
-      <UniqueIdentifier>{1997015F--65F-F-40-1A-B-6CB-1BF3B5076B9F}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="addons\ofxDatGui\src\core">
-      <UniqueIdentifier>{91F98AE7--4DA-6-48-41-9-1A1-982CE7F68544}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="addons\ofxDatGui\src\libs">
-      <UniqueIdentifier>{B6B6E55E--63B-0-4F-A7-9-477-3B7FBC60C16B}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="addons\ofxDatGui\src\libs\ofxSmartFont">
-      <UniqueIdentifier>{642886C7--6C8-2-4F-E0-8-B5E-BB421F2AD2AC}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="addons\ofxDatGui\src\themes">
-      <UniqueIdentifier>{F3FC4338--082-F-4C-35-8-0DF-6509B6736EE9}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="addons\ofxGui">
-      <UniqueIdentifier>{25AA4005--7E3-F-46-26-B-EAC-C9A4772E3CBE}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="addons\ofxGui\src">
-      <UniqueIdentifier>{6C763FBB--D68-0-43-FA-9-620-E5C04217B9F4}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="src\modules\Cursor">
-      <UniqueIdentifier>{e6316169-0812-4680-8bbf-11433a84c875}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="src\events\MouseClickedEventHandler">
-      <UniqueIdentifier>{c8f27d89-be76-47a7-b38d-38c0fc26926d}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="src\events\MouseDraggedEventHandler">
-      <UniqueIdentifier>{71a377a8-ecf1-4aaf-a7a1-d6b92cca2fa5}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="src\events\MouseMovedEventHandler">
-      <UniqueIdentifier>{fd9f1b0d-a134-4783-ae03-fc0992ed3700}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="src\events\WindowResizedEventHandler">
-      <UniqueIdentifier>{1949bf1d-e6e2-41ef-9f66-650c645758a7}</UniqueIdentifier>
+    <Filter Include="src\events\DragEventHandler">
+      <UniqueIdentifier>{336A80D5--4A7-D-40-96-8-46A-09FB88803FCB}</UniqueIdentifier>
     </Filter>
     <Filter Include="src\events\KeyEventHandler">
-      <UniqueIdentifier>{4f5590d3-cb91-44fe-aa10-34ab987bb38b}</UniqueIdentifier>
+      <UniqueIdentifier>{A9CC042B--53A-C-47-3C-9-0EB-99F48E7C99C1}</UniqueIdentifier>
     </Filter>
-    <Filter Include="src\modules\GUI\Bottom_Right_GUI">
-      <UniqueIdentifier>{9c2297f6-eabc-458e-a7b2-03e558ef5348}</UniqueIdentifier>
+    <Filter Include="src\events\MouseEventHandler">
+      <UniqueIdentifier>{9BBE7AB3--A3C-0-47-54-A-371-C4B603B4B0AB}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="src\events\WindowResizedEventHandler">
+      <UniqueIdentifier>{F8FFB541--D89-F-4D-61-A-225-1DDE3D8BBAD8}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="src\modules">
+      <UniqueIdentifier>{DFEC9BD7--3BA-4-4A-35-9-3B6-29486F688B68}</UniqueIdentifier>
     </Filter>
     <Filter Include="src\modules\Configuration">
-      <UniqueIdentifier>{87d42646-6270-450f-8ef7-0e804f96e617}</UniqueIdentifier>
+      <UniqueIdentifier>{80D1BD8C--1AC-2-4E-46-9-326-F53F83A6E571}</UniqueIdentifier>
     </Filter>
-    <Filter Include="addons\nlohmann">
-      <UniqueIdentifier>{d8d11f31-56dd-4e8d-9070-7cfe5d8dfad3}</UniqueIdentifier>
+    <Filter Include="src\modules\Cursor">
+      <UniqueIdentifier>{6EDF8356--870-4-4B-46-B-2A6-3DD6117FC37B}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="src\modules\GUI">
+      <UniqueIdentifier>{D57DDE4A--704-B-46-B9-9-668-B10782B233DD}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="src\modules\GUI\Bottom_Left_GUI">
+      <UniqueIdentifier>{765147EF--D29-1-44-60-9-FED-06178E8663D3}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="src\modules\GUI\Bottom_Right_GUI">
+      <UniqueIdentifier>{F3BE4D08--DDC-0-46-CF-9-44E-42C3A36AB8D9}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="src\modules\GUI\Top_Left_GUI">
+      <UniqueIdentifier>{8F5BF93B--6A6-E-41-41-9-103-468560AC2CBD}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="src\modules\GUI\Top_Right_GUI">
+      <UniqueIdentifier>{B8A0553F--06D-A-4D-29-9-79F-F00E24822D9C}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="src\modules\Image">
+      <UniqueIdentifier>{1CA8E5EF--858-7-43-55-8-0ED-D93457F40BFC}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="src\modules\Scene">
+      <UniqueIdentifier>{493FF057--CDE-0-49-0A-8-C12-5A4967A9E680}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="src\modules\Scene\Grid">
+      <UniqueIdentifier>{464C5EC0--4A0-8-4C-86-B-02B-01E881A78A91}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="src\modules\User_Camera_Movement">
+      <UniqueIdentifier>{CA6D205E--684-F-4A-FE-9-576-8AB0102D1966}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="src\objects">
+      <UniqueIdentifier>{29C038DE--0CD-9-4D-4A-8-55E-DC0E12D6F57C}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="src\objects\ImageObject">
+      <UniqueIdentifier>{E16F5E5E--F33-E-4D-77-B-232-C7E16C96F323}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="src\objects\ModelObject">
+      <UniqueIdentifier>{659E71C4--E5D-F-41-71-8-632-980E5D32C187}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="src\objects\ModelObject\Templates">
+      <UniqueIdentifier>{DF7CA368--E3F-B-4C-AB-9-075-AC97DB785FBA}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="src\objects\ModelObject\Templates\Cone">
+      <UniqueIdentifier>{6DC25239--E20-F-40-A6-A-E3F-1B1A708B4628}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="src\objects\ModelObject\Templates\Cube">
+      <UniqueIdentifier>{91B3EF9C--AF7-4-40-CA-A-3A7-A2369246D488}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="src\objects\ModelObject\Templates\Cylinder">
+      <UniqueIdentifier>{B9A80289--526-4-46-BC-A-9A3-00D37BC1D309}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="src\objects\ModelObject\Templates\Sphere">
+      <UniqueIdentifier>{22BE0129--10E-3-4E-B0-8-D99-EB103541C135}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="src\objects\primitiveObject">
+      <UniqueIdentifier>{CF970304--36D-7-46-11-B-77C-F86A89CB1E3B}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="addons">
+      <UniqueIdentifier>{0C1339A2--166-5-4E-34-9-DE9-ECC4D5CF6ABE}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="addons\ofxAssimpModelLoader">
+      <UniqueIdentifier>{8626980D--973-4-49-8F-9-ACD-653CAAF4C30B}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="addons\ofxAssimpModelLoader\src">
+      <UniqueIdentifier>{15D75EB9--DEF-6-4A-2B-A-B38-56124C689B27}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="addons\ofxAssimpModelLoader\libs">
+      <UniqueIdentifier>{8E0187C9--05F-5-4A-79-A-40A-DC86879F7DAF}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="addons\ofxAssimpModelLoader\libs\assimp">
+      <UniqueIdentifier>{541E6D39--608-8-4D-79-9-A8D-BFC098A02BB7}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="addons\ofxAssimpModelLoader\libs\assimp\include">
+      <UniqueIdentifier>{49880D68--8BE-0-4B-F0-B-808-717483195DE9}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="addons\ofxAssimpModelLoader\libs\assimp\include\assimp">
+      <UniqueIdentifier>{AAEB884C--B55-6-4B-FD-8-5F7-FFCB49D25140}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="addons\ofxAssimpModelLoader\libs\assimp\include\assimp\Compiler">
+      <UniqueIdentifier>{DA67F433--218-2-45-B2-B-C11-35D8D5BF3CA9}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="addons\ofxAssimpModelLoader\libs\assimp\include\assimp\port">
+      <UniqueIdentifier>{5D2336D1--D8E-E-41-E4-A-0C7-C8B0F2B18DA7}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="addons\ofxAssimpModelLoader\libs\assimp\include\assimp\port\AndroidJNI">
+      <UniqueIdentifier>{68B93067--06B-3-49-22-9-A6F-E1DF03F5CA3C}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="addons\ofxDatGui">
+      <UniqueIdentifier>{97B7C60B--701-F-4B-4E-A-7C3-DB54E02B9692}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="addons\ofxDatGui\src">
+      <UniqueIdentifier>{E43DBA21--774-D-46-4C-9-8AC-16212A8D8F10}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="addons\ofxDatGui\src\components">
+      <UniqueIdentifier>{21B109CF--E33-A-4A-B9-9-9CA-4F92E92DC519}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="addons\ofxDatGui\src\core">
+      <UniqueIdentifier>{A86E5B79--DA9-B-4B-57-A-C85-88A4EFEC7B38}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="addons\ofxDatGui\src\libs">
+      <UniqueIdentifier>{FEFFE280--904-C-4D-AE-8-35B-2843A2A06DF6}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="addons\ofxDatGui\src\libs\ofxSmartFont">
+      <UniqueIdentifier>{76E2119B--454-B-4A-96-B-952-CCB92193B116}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="addons\ofxDatGui\src\themes">
+      <UniqueIdentifier>{AC09943B--216-C-4C-6E-B-7B8-0CDC769AFC95}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="addons\ofxGui">
+      <UniqueIdentifier>{06C2F088--649-B-40-EC-B-216-3739D6A5D4C4}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="addons\ofxGui\src">
+      <UniqueIdentifier>{3C62B449--F97-D-49-B6-9-06D-659B2E85ACCB}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -275,10 +282,28 @@
       <Filter>src</Filter>
     </ClInclude>
     <ClInclude Include="src\events\DragEventHandler\DragEventHandler.h">
-      <Filter>src\events\DragEvent</Filter>
+      <Filter>src\events\DragEventHandler</Filter>
+    </ClInclude>
+    <ClInclude Include="src\events\KeyEventHandler\KeyEventHandler.h">
+      <Filter>src\events\KeyEventHandler</Filter>
+    </ClInclude>
+    <ClInclude Include="src\events\MouseEventHandler\MouseEventHandler.h">
+      <Filter>src\events\MouseEventHandler</Filter>
+    </ClInclude>
+    <ClInclude Include="src\events\WindowResizedEventHandler\WindowResizedEventHandler.h">
+      <Filter>src\events\WindowResizedEventHandler</Filter>
+    </ClInclude>
+    <ClInclude Include="src\modules\Configuration\Configuration.h">
+      <Filter>src\modules\Configuration</Filter>
+    </ClInclude>
+    <ClInclude Include="src\modules\Cursor\Cursor.h">
+      <Filter>src\modules\Cursor</Filter>
     </ClInclude>
     <ClInclude Include="src\modules\GUI\Bottom_Left_GUI\Bottom_Left_GUI.h">
       <Filter>src\modules\GUI\Bottom_Left_GUI</Filter>
+    </ClInclude>
+    <ClInclude Include="src\modules\GUI\Bottom_Right_GUI\Bottom_Right_GUI.h">
+      <Filter>src\modules\GUI\Bottom_Right_GUI</Filter>
     </ClInclude>
     <ClInclude Include="src\modules\GUI\GUI.h">
       <Filter>src\modules\GUI</Filter>
@@ -307,14 +332,23 @@
     <ClInclude Include="src\objects\ModelObject\ModelObject.h">
       <Filter>src\objects\ModelObject</Filter>
     </ClInclude>
+    <ClInclude Include="src\objects\ModelObject\Templates\Cone\Cone.h">
+      <Filter>src\objects\ModelObject\Templates\Cone</Filter>
+    </ClInclude>
     <ClInclude Include="src\objects\ModelObject\Templates\Cube\Cube.h">
       <Filter>src\objects\ModelObject\Templates\Cube</Filter>
+    </ClInclude>
+    <ClInclude Include="src\objects\ModelObject\Templates\Cylinder\Cylinder.h">
+      <Filter>src\objects\ModelObject\Templates\Cylinder</Filter>
     </ClInclude>
     <ClInclude Include="src\objects\ModelObject\Templates\Sphere\Sphere.h">
       <Filter>src\objects\ModelObject\Templates\Sphere</Filter>
     </ClInclude>
     <ClInclude Include="src\objects\Object3D.h">
       <Filter>src\objects</Filter>
+    </ClInclude>
+    <ClInclude Include="src\objects\primitiveObject\primitiveObject.h">
+      <Filter>src\objects\primitiveObject</Filter>
     </ClInclude>
     <ClInclude Include="..\..\..\addons\ofxAssimpModelLoader\src\ofxAssimpAnimation.h">
       <Filter>addons\ofxAssimpModelLoader\src</Filter>
@@ -676,29 +710,6 @@
     <ClInclude Include="..\..\..\addons\ofxGui\src\ofxToggle.h">
       <Filter>addons\ofxGui\src</Filter>
     </ClInclude>
-    <ClInclude Include="src\modules\Cursor\Cursor.h">
-      <Filter>src\modules\Cursor</Filter>
-    </ClInclude>
-    <ClInclude Include="src\events\MouseEventHandler\MouseEventHandler.h">
-      <Filter>src\events\MouseClickedEventHandler</Filter>
-    </ClInclude>
-    <ClInclude Include="src\events\WindowResizedEventHandler\WindowResizedEventHandler.h">
-      <Filter>src\events\WindowResizedEventHandler</Filter>
-    </ClInclude>
-    <ClInclude Include="src\events\KeyEventHandler\KeyEventHandler.h">
-      <Filter>src\events\KeyEventHandler</Filter>
-    </ClInclude>
-    <ClInclude Include="src\modules\GUI\Bottom_Right_GUI\Bottom_Right_GUI.h">
-      <Filter>src\modules\GUI\Bottom_Right_GUI</Filter>
-    </ClInclude>
-    <ClInclude Include="src\modules\Configuration\Configuration.h">
-      <Filter>src\modules\Configuration</Filter>
-    </ClInclude>
-    <ClInclude Include="bin\data\nlohmann\json.hpp">
-      <Filter>addons\nlohmann</Filter>
-    </ClInclude>
-    <ClInclude Include="src\objects\ModelObject\Templates\Cylinder\Cylinder.h" />
-    <ClInclude Include="src\objects\ModelObject\Templates\Cone\Cone.h" />
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="icon.rc" />

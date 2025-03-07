@@ -61,7 +61,7 @@
       <PreprocessorDefinitions>%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <RuntimeLibrary>MultiThreadedDebugDLL</RuntimeLibrary>
       <WarningLevel>Level3</WarningLevel>
-      <AdditionalIncludeDirectories>%(AdditionalIncludeDirectories);src;src\events\DragEvent;src\modules\GUI\Bottom_Left_GUI;src\modules\GUI;src\modules\GUI\Top_Left_GUI;src\modules\GUI\Top_Right_GUI;src\modules\Image;src\modules\Scene\Grid;src\modules\Scene;src\modules\User_Camera_Movement;src\objects\ImageObject;src\objects\ModelObject;src\objects\ModelObject\Templates\Cube;src\objects\ModelObject\Templates\Sphere;src\objects;..\..\..\addons\ofxAssimpModelLoader\libs;..\..\..\addons\ofxAssimpModelLoader\libs\assimp;..\..\..\addons\ofxAssimpModelLoader\libs\assimp\include;..\..\..\addons\ofxAssimpModelLoader\libs\assimp\include\assimp;..\..\..\addons\ofxAssimpModelLoader\libs\assimp\include\assimp\Compiler;..\..\..\addons\ofxAssimpModelLoader\libs\assimp\include\assimp\port;..\..\..\addons\ofxAssimpModelLoader\libs\assimp\include\assimp\port\AndroidJNI;..\..\..\addons\ofxAssimpModelLoader\libs\assimp\lib;..\..\..\addons\ofxAssimpModelLoader\libs\assimp\lib\emscripten;..\..\..\addons\ofxAssimpModelLoader\libs\assimp\lib\vs;..\..\..\addons\ofxAssimpModelLoader\libs\assimp\lib\vs\x64;..\..\..\addons\ofxAssimpModelLoader\libs\assimp\lib\vs\x64\Debug;..\..\..\addons\ofxAssimpModelLoader\libs\assimp\lib\vs\x64\Release;..\..\..\addons\ofxAssimpModelLoader\libs\assimp\license;..\..\..\addons\ofxAssimpModelLoader\src;..\..\..\addons\ofxDatGui\src;..\..\..\addons\ofxDatGui\src\components;..\..\..\addons\ofxDatGui\src\core;..\..\..\addons\ofxDatGui\src\libs;..\..\..\addons\ofxDatGui\src\libs\ofxSmartFont;..\..\..\addons\ofxDatGui\src\themes;..\..\..\addons\ofxGui\src</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>%(AdditionalIncludeDirectories);src;src\events\DragEventHandler;src\events\KeyEventHandler;src\events\MouseEventHandler;src\events\WindowResizedEventHandler;src\modules\Configuration;src\modules\Cursor;src\modules\GUI\Bottom_Left_GUI;src\modules\GUI\Bottom_Right_GUI;src\modules\GUI;src\modules\GUI\Top_Left_GUI;src\modules\GUI\Top_Right_GUI;src\modules\Image;src\modules\Scene\Grid;src\modules\Scene;src\modules\User_Camera_Movement;src\objects\ImageObject;src\objects\ModelObject;src\objects\ModelObject\Templates\Cone;src\objects\ModelObject\Templates\Cube;src\objects\ModelObject\Templates\Cylinder;src\objects\ModelObject\Templates\Sphere;src\objects;src\objects\primitiveObject;..\..\..\addons\ofxAssimpModelLoader\libs;..\..\..\addons\ofxAssimpModelLoader\libs\assimp;..\..\..\addons\ofxAssimpModelLoader\libs\assimp\include;..\..\..\addons\ofxAssimpModelLoader\libs\assimp\include\assimp;..\..\..\addons\ofxAssimpModelLoader\libs\assimp\include\assimp\Compiler;..\..\..\addons\ofxAssimpModelLoader\libs\assimp\include\assimp\port;..\..\..\addons\ofxAssimpModelLoader\libs\assimp\include\assimp\port\AndroidJNI;..\..\..\addons\ofxAssimpModelLoader\libs\assimp\lib;..\..\..\addons\ofxAssimpModelLoader\libs\assimp\lib\emscripten;..\..\..\addons\ofxAssimpModelLoader\libs\assimp\lib\vs;..\..\..\addons\ofxAssimpModelLoader\libs\assimp\lib\vs\x64;..\..\..\addons\ofxAssimpModelLoader\libs\assimp\lib\vs\x64\Debug;..\..\..\addons\ofxAssimpModelLoader\libs\assimp\lib\vs\x64\Release;..\..\..\addons\ofxAssimpModelLoader\libs\assimp\license;..\..\..\addons\ofxAssimpModelLoader\src;..\..\..\addons\ofxDatGui\src;..\..\..\addons\ofxDatGui\src\components;..\..\..\addons\ofxDatGui\src\core;..\..\..\addons\ofxDatGui\src\libs;..\..\..\addons\ofxDatGui\src\libs\ofxSmartFont;..\..\..\addons\ofxDatGui\src\themes;..\..\..\addons\ofxGui\src</AdditionalIncludeDirectories>
       <CompileAs>CompileAsCpp</CompileAs>
       <MultiProcessorCompilation>true</MultiProcessorCompilation>
       <ObjectFileName>$(IntDir)\Build\%(RelativeDir)\$(Configuration)\</ObjectFileName>
@@ -84,7 +84,7 @@
       <PreprocessorDefinitions>%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <RuntimeLibrary>MultiThreadedDLL</RuntimeLibrary>
       <WarningLevel>Level3</WarningLevel>
-      <AdditionalIncludeDirectories>%(AdditionalIncludeDirectories);src;src\events\DragEvent;src\modules\GUI\Bottom_Left_GUI;src\modules\GUI;src\modules\GUI\Top_Left_GUI;src\modules\GUI\Top_Right_GUI;src\modules\Image;src\modules\Scene\Grid;src\modules\Scene;src\modules\User_Camera_Movement;src\objects\ImageObject;src\objects\ModelObject;src\objects\ModelObject\Templates\Cube;src\objects\ModelObject\Templates\Sphere;src\objects;..\..\..\addons\ofxAssimpModelLoader\libs;..\..\..\addons\ofxAssimpModelLoader\libs\assimp;..\..\..\addons\ofxAssimpModelLoader\libs\assimp\include;..\..\..\addons\ofxAssimpModelLoader\libs\assimp\include\assimp;..\..\..\addons\ofxAssimpModelLoader\libs\assimp\include\assimp\Compiler;..\..\..\addons\ofxAssimpModelLoader\libs\assimp\include\assimp\port;..\..\..\addons\ofxAssimpModelLoader\libs\assimp\include\assimp\port\AndroidJNI;..\..\..\addons\ofxAssimpModelLoader\libs\assimp\lib;..\..\..\addons\ofxAssimpModelLoader\libs\assimp\lib\emscripten;..\..\..\addons\ofxAssimpModelLoader\libs\assimp\lib\vs;..\..\..\addons\ofxAssimpModelLoader\libs\assimp\lib\vs\x64;..\..\..\addons\ofxAssimpModelLoader\libs\assimp\lib\vs\x64\Debug;..\..\..\addons\ofxAssimpModelLoader\libs\assimp\lib\vs\x64\Release;..\..\..\addons\ofxAssimpModelLoader\libs\assimp\license;..\..\..\addons\ofxAssimpModelLoader\src;..\..\..\addons\ofxDatGui\src;..\..\..\addons\ofxDatGui\src\components;..\..\..\addons\ofxDatGui\src\core;..\..\..\addons\ofxDatGui\src\libs;..\..\..\addons\ofxDatGui\src\libs\ofxSmartFont;..\..\..\addons\ofxDatGui\src\themes;..\..\..\addons\ofxGui\src</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>%(AdditionalIncludeDirectories);src;src\events\DragEventHandler;src\events\KeyEventHandler;src\events\MouseEventHandler;src\events\WindowResizedEventHandler;src\modules\Configuration;src\modules\Cursor;src\modules\GUI\Bottom_Left_GUI;src\modules\GUI\Bottom_Right_GUI;src\modules\GUI;src\modules\GUI\Top_Left_GUI;src\modules\GUI\Top_Right_GUI;src\modules\Image;src\modules\Scene\Grid;src\modules\Scene;src\modules\User_Camera_Movement;src\objects\ImageObject;src\objects\ModelObject;src\objects\ModelObject\Templates\Cone;src\objects\ModelObject\Templates\Cube;src\objects\ModelObject\Templates\Cylinder;src\objects\ModelObject\Templates\Sphere;src\objects;src\objects\primitiveObject;..\..\..\addons\ofxAssimpModelLoader\libs;..\..\..\addons\ofxAssimpModelLoader\libs\assimp;..\..\..\addons\ofxAssimpModelLoader\libs\assimp\include;..\..\..\addons\ofxAssimpModelLoader\libs\assimp\include\assimp;..\..\..\addons\ofxAssimpModelLoader\libs\assimp\include\assimp\Compiler;..\..\..\addons\ofxAssimpModelLoader\libs\assimp\include\assimp\port;..\..\..\addons\ofxAssimpModelLoader\libs\assimp\include\assimp\port\AndroidJNI;..\..\..\addons\ofxAssimpModelLoader\libs\assimp\lib;..\..\..\addons\ofxAssimpModelLoader\libs\assimp\lib\emscripten;..\..\..\addons\ofxAssimpModelLoader\libs\assimp\lib\vs;..\..\..\addons\ofxAssimpModelLoader\libs\assimp\lib\vs\x64;..\..\..\addons\ofxAssimpModelLoader\libs\assimp\lib\vs\x64\Debug;..\..\..\addons\ofxAssimpModelLoader\libs\assimp\lib\vs\x64\Release;..\..\..\addons\ofxAssimpModelLoader\libs\assimp\license;..\..\..\addons\ofxAssimpModelLoader\src;..\..\..\addons\ofxDatGui\src;..\..\..\addons\ofxDatGui\src\components;..\..\..\addons\ofxDatGui\src\core;..\..\..\addons\ofxDatGui\src\libs;..\..\..\addons\ofxDatGui\src\libs\ofxSmartFont;..\..\..\addons\ofxDatGui\src\themes;..\..\..\addons\ofxGui\src</AdditionalIncludeDirectories>
       <CompileAs>CompileAsCpp</CompileAs>
       <ObjectFileName>$(IntDir)\Build\%(RelativeDir)\$(Configuration)\</ObjectFileName>
       <LanguageStandard>stdcpp17</LanguageStandard>
@@ -104,19 +104,17 @@
     <PostBuildEvent />
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="src\objects\ModelObject\Templates\Cone\Cone.cpp" />
-    <ClCompile Include="src\objects\ModelObject\Templates\Cylinder\Cylinder.cpp" />
-    <ClCompile Include="src\modules\GUI\Bottom_Right_GUI\Bottom_Right_GUI.cpp" />
-    <ClCompile Include="src\modules\Configuration\Configuration.cpp" />
+    <ClCompile Include="src\main.cpp" />
+    <ClCompile Include="src\Application.cpp" />
+    <ClCompile Include="src\Renderer.cpp" />
+    <ClCompile Include="src\events\DragEventHandler\DragEventHandler.cpp" />
     <ClCompile Include="src\events\KeyEventHandler\KeyEventHandler.cpp" />
     <ClCompile Include="src\events\MouseEventHandler\MouseEventHandler.cpp" />
     <ClCompile Include="src\events\WindowResizedEventHandler\WindowResizedEventHandler.cpp" />
-    <ClCompile Include="src\main.cpp" />
-    <ClCompile Include="src\Application.cpp" />
+    <ClCompile Include="src\modules\Configuration\Configuration.cpp" />
     <ClCompile Include="src\modules\Cursor\Cursor.cpp" />
-    <ClCompile Include="src\Renderer.cpp" />
-    <ClCompile Include="src\events\DragEventHandler\DragEventHandler.cpp" />
     <ClCompile Include="src\modules\GUI\Bottom_Left_GUI\Bottom_Left_GUI.cpp" />
+    <ClCompile Include="src\modules\GUI\Bottom_Right_GUI\Bottom_Right_GUI.cpp" />
     <ClCompile Include="src\modules\GUI\GUI.cpp" />
     <ClCompile Include="src\modules\GUI\Top_Left_GUI\Top_Left_GUI.cpp" />
     <ClCompile Include="src\modules\GUI\Top_Right_GUI\Top_Right_GUI.cpp" />
@@ -126,9 +124,12 @@
     <ClCompile Include="src\modules\User_Camera_Movement\User_Camera_Movement.cpp" />
     <ClCompile Include="src\objects\ImageObject\ImageObject.cpp" />
     <ClCompile Include="src\objects\ModelObject\ModelObject.cpp" />
+    <ClCompile Include="src\objects\ModelObject\Templates\Cone\Cone.cpp" />
     <ClCompile Include="src\objects\ModelObject\Templates\Cube\Cube.cpp" />
+    <ClCompile Include="src\objects\ModelObject\Templates\Cylinder\Cylinder.cpp" />
     <ClCompile Include="src\objects\ModelObject\Templates\Sphere\Sphere.cpp" />
     <ClCompile Include="src\objects\Object3D.cpp" />
+    <ClCompile Include="src\objects\primitiveObject\primitiveObject.cpp" />
     <ClCompile Include="..\..\..\addons\ofxAssimpModelLoader\src\ofxAssimpAnimation.cpp" />
     <ClCompile Include="..\..\..\addons\ofxAssimpModelLoader\src\ofxAssimpMeshHelper.cpp" />
     <ClCompile Include="..\..\..\addons\ofxAssimpModelLoader\src\ofxAssimpModelLoader.cpp" />
@@ -148,19 +149,16 @@
     <ClCompile Include="..\..\..\addons\ofxGui\src\ofxToggle.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="bin\data\nlohmann\json.hpp" />
-    <ClInclude Include="src\objects\ModelObject\Templates\Cone\Cone.h" />
-    <ClInclude Include="src\objects\ModelObject\Templates\Cylinder\Cylinder.h" />
-    <ClInclude Include="src\modules\GUI\Bottom_Right_GUI\Bottom_Right_GUI.h" />
-    <ClInclude Include="src\modules\Configuration\Configuration.h" />
     <ClInclude Include="src\Application.h" />
+    <ClInclude Include="src\Renderer.h" />
+    <ClInclude Include="src\events\DragEventHandler\DragEventHandler.h" />
     <ClInclude Include="src\events\KeyEventHandler\KeyEventHandler.h" />
     <ClInclude Include="src\events\MouseEventHandler\MouseEventHandler.h" />
     <ClInclude Include="src\events\WindowResizedEventHandler\WindowResizedEventHandler.h" />
+    <ClInclude Include="src\modules\Configuration\Configuration.h" />
     <ClInclude Include="src\modules\Cursor\Cursor.h" />
-    <ClInclude Include="src\Renderer.h" />
-    <ClInclude Include="src\events\DragEventHandler\DragEventHandler.h" />
     <ClInclude Include="src\modules\GUI\Bottom_Left_GUI\Bottom_Left_GUI.h" />
+    <ClInclude Include="src\modules\GUI\Bottom_Right_GUI\Bottom_Right_GUI.h" />
     <ClInclude Include="src\modules\GUI\GUI.h" />
     <ClInclude Include="src\modules\GUI\Top_Left_GUI\Top_Left_GUI.h" />
     <ClInclude Include="src\modules\GUI\Top_Right_GUI\Top_Right_GUI.h" />
@@ -170,9 +168,12 @@
     <ClInclude Include="src\modules\User_Camera_Movement\User_Camera_Movement.h" />
     <ClInclude Include="src\objects\ImageObject\ImageObject.h" />
     <ClInclude Include="src\objects\ModelObject\ModelObject.h" />
+    <ClInclude Include="src\objects\ModelObject\Templates\Cone\Cone.h" />
     <ClInclude Include="src\objects\ModelObject\Templates\Cube\Cube.h" />
+    <ClInclude Include="src\objects\ModelObject\Templates\Cylinder\Cylinder.h" />
     <ClInclude Include="src\objects\ModelObject\Templates\Sphere\Sphere.h" />
     <ClInclude Include="src\objects\Object3D.h" />
+    <ClInclude Include="src\objects\primitiveObject\primitiveObject.h" />
     <ClInclude Include="..\..\..\addons\ofxAssimpModelLoader\src\ofxAssimpAnimation.h" />
     <ClInclude Include="..\..\..\addons\ofxAssimpModelLoader\src\ofxAssimpMeshHelper.h" />
     <ClInclude Include="..\..\..\addons\ofxAssimpModelLoader\src\ofxAssimpModelLoader.h" />

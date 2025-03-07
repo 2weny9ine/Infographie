@@ -33,6 +33,11 @@ void Bottom_Right_GUI::setup(GUI* gui_manager)
     this->gui_manager = gui_manager;
 }
 
+ofxDatGui* Bottom_Right_GUI::getGui()
+{
+    return gui;
+}
+
 void Bottom_Right_GUI::setupCategories(const nlohmann::json& config)
 {
     if (config.contains("Categories"))

@@ -9,25 +9,42 @@ void MouseEventHandler::handleMousePressed(int x, int y, int button)
 {
     Application& app = Application::getInstance();
     Scene& scene = app.getScene();
-    if (button == 0) // Left mouse button pressed
+    bool mouseOverGui = false;
+    for (ofxDatGui* gui : app.getGui().guis)
     {
-        scene.is_mouse_button_pressed = true;
-        scene.mouse_current_x = x;
-        scene.mouse_current_y = y;
-        scene.mouse_press_x = x;
-        scene.mouse_press_y = y;
-        scene.cursor.setState(CursorState::PRESSED);
-
-        if (scene.isDrawingMode)
+        float rectX = gui->getPosition().x;
+        float rectY = gui->getPosition().y;
+        float rectW = gui->getWidth();
+        float rectH = gui->getHeight();
+        if (x >= rectX && x <= rectX + rectW &&
+            y >= rectY && y <= rectY + rectH)
         {
-            scene.startDrawing(x, y);
+            mouseOverGui = true;
+            break;
         }
     }
-    else if (button == 2) // Right mouse button pressed
+    if (!mouseOverGui)
     {
-        isRightMouseButtonDown = true;
-        // Store the initial mouse position
-        scene.lastMouseScreen.set(x, y);
+        if (button == 0) // Left mouse button pressed
+        {
+            scene.is_mouse_button_pressed = true;
+            scene.mouse_current_x = x;
+            scene.mouse_current_y = y;
+            scene.mouse_press_x = x;
+            scene.mouse_press_y = y;
+            scene.cursor.setState(CursorState::PRESSED);
+
+            if (scene.isDrawingMode)
+            {
+                scene.startDrawing(x, y);
+            }
+        }
+        else if (button == 2) // Right mouse button pressed
+        {
+            isRightMouseButtonDown = true;
+            // Store the initial mouse position
+            scene.lastMouseScreen.set(x, y);
+        }
     }
 }
 
