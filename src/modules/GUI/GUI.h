@@ -18,6 +18,7 @@ public:
     std::unique_ptr<Top_Right_GUI> top_right;
     std::unique_ptr<Bottom_Left_GUI> bottom_left;
     std::unique_ptr<Bottom_Right_GUI> bottom_right;
+
 private:
     Scene* scene;
 

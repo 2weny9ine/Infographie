@@ -1,0 +1,20 @@
+{
+    "Categories": {
+        "Bounding Box": {
+            "type": ["category"],
+            "stripeColor": "FFFF00",
+            "contents": {
+                "Line Color": {
+                    "type": ["color"],
+                    "defaultValue": "1B8EE0",
+                    "stripeColor": "FFFFFF"
+                },
+                "Line Width": {
+                    "type": ["slider", 0.5, 100],
+                    "defaultValue": 2.0,
+                    "stripeColor": "FFFFFF"
+                }
+            }
+        }
+    }
+}

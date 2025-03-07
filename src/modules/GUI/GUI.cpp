@@ -2,6 +2,7 @@
 #include "Top_Left_GUI/Top_Left_GUI.h"
 #include "Top_Right_GUI/Top_Right_GUI.h"
 #include "Bottom_Left_GUI/Bottom_Left_GUI.h"
+#include "Bottom_Right_GUI/Bottom_Right_GUI.h"
 
 GUI::GUI()
     : scene(nullptr),

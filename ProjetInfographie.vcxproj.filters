@@ -699,9 +699,4 @@
   <ItemGroup>
     <ResourceCompile Include="icon.rc" />
   </ItemGroup>
-  <ItemGroup>
-    <None Include="src\modules\Configuration\defaultConfig.json">
-      <Filter>src\modules\Configuration</Filter>
-    </None>
-  </ItemGroup>
 </Project>

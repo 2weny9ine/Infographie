@@ -1,8 +1,9 @@
 #include "Configuration.h"
 #include <fstream>
+#include <sstream>
 #include "ofLog.h"
-#include "json.hpp"
 #include <algorithm>
+#include <iomanip>
 
 Configuration::Configuration() : configFilePath("data/infographie.config")
 {
@@ -22,38 +23,44 @@ Configuration& Configuration::getInstance()
 
 void Configuration::loadConfig()
 {
-    std::ifstream file(configFilePath);
-    if (file.is_open())
+    try
     {
-        file >> configData;
-        file.close();
-    }
-    else
-    {
-        ofLogWarning("Configuration") << "Configuration file not found. Using default configuration.";
+        // Load default configuration
         std::ifstream defaultFile(defaultConfigFilePath);
         if (defaultFile.is_open())
         {
-            defaultFile >> configData;
+            defaultFile >> defaultConfig;
             defaultFile.close();
         }
         else
         {
             ofLogError("Configuration") << "Default configuration file not found.";
+            throw std::runtime_error("Default configuration file not found.");
+        }
+
+        // Load user overrides
+        std::ifstream file(configFilePath);
+        if (file.is_open())
+        {
+            std::string line;
+            while (std::getline(file, line))
+            {
+                size_t delimiterPos = line.find('=');
+                if (delimiterPos != std::string::npos)
+                {
+                    std::string key = line.substr(0, delimiterPos);
+                    std::string value = line.substr(delimiterPos + 1);
+                    configOverrides[key] = value;
+                }
+            }
+            file.close();
         }
     }
-
-    // Ensure all default keys are present
-    std::ifstream defaultFile(defaultConfigFilePath);
-    nlohmann::json defaultConfig;
-    if (defaultFile.is_open())
+    catch (const std::exception& e)
     {
-        defaultFile >> defaultConfig;
-        defaultFile.close();
+        ofLogError("Configuration") << "Exception: " << e.what();
+        abort();
     }
-
-    mergeDefaults(defaultConfig);
-    saveConfig();
 }
 
 void Configuration::saveConfig() const
@@ -61,13 +68,21 @@ void Configuration::saveConfig() const
     std::ofstream file(configFilePath);
     if (file.is_open())
     {
-        file << configData.dump(4);
+        for (const auto& [key, value] : configOverrides.items())
+        {
+            file << key << "=" << value.get<std::string>() << "\n";
+        }
         file.close();
     }
     else
     {
         ofLogError("Configuration") << "Unable to save configuration file.";
     }
+}
+
+void Configuration::save()
+{
+    getInstance().saveConfig();
 }
 
 std::string Configuration::get(const std::string& key)
@@ -78,15 +93,23 @@ std::string Configuration::get(const std::string& key)
 void Configuration::set(const std::string& key, const std::string& value)
 {
     getInstance().setConfig(key, value);
+    save();
+}
+
+nlohmann::json Configuration::getEntireConfig()
+{
+    return getInstance().defaultConfig;
 }
 
 std::string Configuration::getConfig(const std::string& key) const
 {
-    std::string normalizedKey = key;
-    std::replace(normalizedKey.begin(), normalizedKey.end(), ' ', '.');
+    if (configOverrides.contains(key))
+    {
+        return configOverrides[key].get<std::string>();
+    }
 
-    auto keys = splitKey(normalizedKey);
-    const nlohmann::json* currentLevel = &configData;
+    auto keys = splitKey(key);
+    const nlohmann::json* currentLevel = &defaultConfig["Categories"];
 
     for (const auto& k : keys)
     {
@@ -96,61 +119,30 @@ std::string Configuration::getConfig(const std::string& key) const
         }
         else
         {
-            ofLogError("Configuration") << "Configuration key '" << key << "' not found.";
             return "";
         }
     }
 
-    return currentLevel->get<std::string>();
+    if (currentLevel->is_string())
+    {
+        return currentLevel->get<std::string>();
+    }
+    return currentLevel->dump();
 }
 
 void Configuration::setConfig(const std::string& key, const std::string& value)
 {
-    std::string normalizedKey = key;
-    std::replace(normalizedKey.begin(), normalizedKey.end(), ' ', '.');
-
-    auto keys = splitKey(normalizedKey);
-    nlohmann::json* currentLevel = &configData;
-
-    for (size_t i = 0; i < keys.size(); ++i)
-    {
-        if (i == keys.size() - 1)
-        {
-            (*currentLevel)[keys[i]] = value;
-        }
-        else
-        {
-            currentLevel = &((*currentLevel)[keys[i]]);
-        }
-    }
-}
-
-void Configuration::mergeDefaults(const nlohmann::json& defaultConfig)
-{
-    for (auto it = defaultConfig.begin(); it != defaultConfig.end(); ++it)
-    {
-        if (!configData.contains(it.key()))
-        {
-            configData[it.key()] = it.value();
-        }
-        else if (it.value().is_object() && configData[it.key()].is_object())
-        {
-            mergeDefaults(it.value());
-        }
-    }
+    configOverrides[key] = value;
 }
 
 std::vector<std::string> Configuration::splitKey(const std::string& key) const
 {
     std::vector<std::string> keys;
-    size_t start = 0;
-    size_t end = key.find('.');
-    while (end != std::string::npos)
+    std::stringstream ss(key);
+    std::string token;
+    while (std::getline(ss, token, '.'))
     {
-        keys.push_back(key.substr(start, end - start));
-        start = end + 1;
-        end = key.find('.', start);
+        keys.push_back(token);
     }
-    keys.push_back(key.substr(start));
     return keys;
 }

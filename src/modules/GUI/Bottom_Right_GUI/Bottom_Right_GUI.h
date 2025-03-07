@@ -1,8 +1,5 @@
 #pragma once
 #include "ofxDatGui.h"
-#include <vector>
-#include <string>
-
 #include "modules/Configuration/Configuration.h"
 
 class GUI;
@@ -15,4 +12,7 @@ public:
 private:
     GUI* gui_manager;
     ofxDatGui* gui;
+
+    void setupCategories(const nlohmann::json& config);
+    void createComponent(ofxDatGuiFolder* folder, const std::string& type, const std::string& label, const nlohmann::json& details);
 };
