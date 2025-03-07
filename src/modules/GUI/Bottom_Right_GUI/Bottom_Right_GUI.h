@@ -1,6 +1,8 @@
 #pragma once
 #include "ofxDatGui.h"
 #include "modules/Configuration/Configuration.h"
+#include <string>
+#include <json.hpp>
 
 class GUI;
 
@@ -15,4 +17,7 @@ private:
 
     void setupCategories(const nlohmann::json& config);
     void createComponent(ofxDatGuiFolder* folder, const std::string& type, const std::string& label, const nlohmann::json& details);
+
+    float safeStof(const std::string& str);
+    int stringToHex(const std::string& hexStr);
 };

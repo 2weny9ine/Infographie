@@ -26,6 +26,8 @@ private:
     void setConfig(const std::string& key, const std::string& value);
     std::vector<std::string> splitKey(const std::string& key) const;
 
+    std::string getDefaultValueForKey(const std::string& key) const;
+
     std::string configFilePath;
     nlohmann::json configOverrides;
     nlohmann::json defaultConfig;

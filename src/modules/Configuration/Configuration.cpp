@@ -1,4 +1,5 @@
 #include "Configuration.h"
+#include "Application.h"
 #include <fstream>
 #include <sstream>
 #include "ofLog.h"
@@ -25,7 +26,7 @@ void Configuration::loadConfig()
 {
     try
     {
-        // Load default configuration
+        // Load default config file
         std::ifstream defaultFile(defaultConfigFilePath);
         if (defaultFile.is_open())
         {
@@ -68,9 +69,9 @@ void Configuration::saveConfig() const
     std::ofstream file(configFilePath);
     if (file.is_open())
     {
-        for (const auto& [key, value] : configOverrides.items())
+        for (const auto& pair : configOverrides.items())
         {
-            file << key << "=" << value.get<std::string>() << "\n";
+            file << pair.key() << "=" << pair.value() << "\n";
         }
         file.close();
     }
@@ -103,36 +104,80 @@ nlohmann::json Configuration::getEntireConfig()
 
 std::string Configuration::getConfig(const std::string& key) const
 {
-    if (configOverrides.contains(key))
+    // First check for user overrides
+    if (configOverrides.find(key) != configOverrides.end())
     {
-        return configOverrides[key].get<std::string>();
+        return configOverrides.at(key);
     }
 
+    // If not in user config, look for it in default config
     auto keys = splitKey(key);
     const nlohmann::json* currentLevel = &defaultConfig["Categories"];
 
+    // Traverse through the keys to find the corresponding value in defaultConfig
     for (const auto& k : keys)
     {
-        if (currentLevel->contains(k))
+        if (currentLevel->find(k) != currentLevel->end())
         {
             currentLevel = &((*currentLevel)[k]);
         }
         else
         {
-            return "";
+            // Key not found in default config, return default value
+            return getDefaultValueForKey(key);
         }
     }
 
+    // Return the value as a string if it's a string type
     if (currentLevel->is_string())
     {
         return currentLevel->get<std::string>();
     }
+
+    // Otherwise, return the entire value serialized to a string
+    return currentLevel->dump();
+}
+
+// Function to get the default value from the JSON config
+std::string Configuration::getDefaultValueForKey(const std::string& key) const
+{
+    // Split the key to find the proper location in defaultConfig
+    auto keys = splitKey(key);
+    const nlohmann::json* currentLevel = &defaultConfig["Categories"];
+
+    for (const auto& k : keys)
+    {
+        if (currentLevel->find(k) != currentLevel->end())
+        {
+            currentLevel = &((*currentLevel)[k]);
+        }
+        else
+        {
+            // If we can't find the key in the default config, return an empty string or fallback value
+            return "";
+        }
+    }
+
+    // Return the default value if found
+    if (currentLevel->is_string())
+    {
+        return currentLevel->get<std::string>();
+    }
+
+    // Fallback to serialized value as default
     return currentLevel->dump();
 }
 
 void Configuration::setConfig(const std::string& key, const std::string& value)
 {
     configOverrides[key] = value;
+
+    if (key.find("Grid.") == 0)
+    {
+        Application* app = &Application::getInstance();
+        Grid* grid = app->getScene().grid;
+        grid->update();
+    }
 }
 
 std::vector<std::string> Configuration::splitKey(const std::string& key) const

@@ -3,6 +3,7 @@
 #include <iostream>
 #include <sstream>
 #include <iomanip>
+#include <cctype>
 
 Bottom_Right_GUI::Bottom_Right_GUI()
     : gui_manager(nullptr), gui(nullptr)
@@ -63,7 +64,7 @@ void Bottom_Right_GUI::createComponent(ofxDatGuiFolder* folder, const std::strin
     if (type == "color")
     {
         std::string defaultColorHex = savedValue.empty() ? details["defaultValue"] : savedValue;
-        int hexColor = std::stoi(defaultColorHex, nullptr, 16);
+        int hexColor = stringToHex(defaultColorHex);
         ofColor defaultColor = ofColor::fromHex(hexColor);
 
         auto colorPicker = folder->addColorPicker(label, defaultColor);
@@ -76,11 +77,64 @@ void Bottom_Right_GUI::createComponent(ofxDatGuiFolder* folder, const std::strin
     }
     else if (type == "slider")
     {
-        float defaultValue = savedValue.empty() ? details["defaultValue"].get<float>() : std::stof(savedValue);
+        float defaultValue = savedValue.empty() ? details["defaultValue"].get<float>() : safeStof(savedValue);
         auto slider = folder->addSlider(label, details["type"][1], details["type"][2], defaultValue);
+
+        if (details["type"].size() > 3)
+        {
+            slider->setPrecision(details["type"][3]);
+        }
+
         slider->onSliderEvent([fullKey](ofxDatGuiSliderEvent e)
         {
             Configuration::set(fullKey, std::to_string(e.value));
         });
+    }
+    else if (type == "number")
+    {
+        float defaultValue = savedValue.empty() ? details["defaultValue"].get<float>() : safeStof(savedValue);
+        auto input = folder->addTextInput(label, to_string(defaultValue));
+        input->setInputType(ofxDatGuiInputType::NUMERIC);
+
+        input->onTextInputEvent([fullKey](ofxDatGuiTextInputEvent e)
+        {
+            Configuration::set(fullKey, e.text);
+        });
+    }
+}
+
+float Bottom_Right_GUI::safeStof(const std::string& str)
+{
+    try
+    {
+        return std::stof(str);
+    }
+    catch (const std::invalid_argument&)
+    {
+        ofLogError("Bottom_Right_GUI") << "Invalid float value: " << str;
+        return 0.0f;
+    }
+    catch (const std::out_of_range&)
+    {
+        ofLogError("Bottom_Right_GUI") << "Float value out of range: " << str;
+        return 0.0f;
+    }
+}
+
+int Bottom_Right_GUI::stringToHex(const std::string& hexStr)
+{
+    try
+    {
+        return std::stoi(hexStr, nullptr, 16);
+    }
+    catch (const std::invalid_argument&)
+    {
+        ofLogError("Bottom_Right_GUI") << "Invalid hex value: " << hexStr;
+        return 0x000000;
+    }
+    catch (const std::out_of_range&)
+    {
+        ofLogError("Bottom_Right_GUI") << "Hex value out of range: " << hexStr;
+        return 0x000000;                                    
     }
 }
