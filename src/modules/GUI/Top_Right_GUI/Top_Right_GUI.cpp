@@ -10,10 +10,24 @@ Top_Right_GUI::Top_Right_GUI()
     objectsFolder = gui->addFolder("Objects", ofColor::white);
     objectsFolder->expand();
     deleteButton = objectsFolder->addButton("Delete Object");
-    selectButton = objectsFolder->addButton("Select Object");
+    deleteButton->onButtonEvent([this](ofxDatGuiButtonEvent e) {
+        for (Object3D* object : gui_manager->getScene()->selectedObjects)
+        {
+            gui_manager->getScene()->removeObject(object);
+        }
+        gui_manager->getScene()->resetSelection();
+        gui_manager->getScene()->update_Attributes();
+
+        auto it = std::find(objectsFolder->children.begin(), objectsFolder->children.end(), lastObjectButton);
+        if (it != objectsFolder->children.end())
+        {
+            objectsFolder->children.erase(it);
+        }
+        objectsFolder->expand();
+        });
 
     toolsFolder = gui->addFolder("Drawing Tools", ofColor::white);
-    toolsFolder->expand();
+    //toolsFolder->expand();
 
     backgroundColorPicker = toolsFolder->addColorPicker("Background", ofColor(31));
     strokeColorPicker = toolsFolder->addColorPicker("Outline", ofColor(255));
@@ -65,16 +79,29 @@ void Top_Right_GUI::onPrimitiveSelected(ofxDatGuiToggleEvent e) {
 
 void Top_Right_GUI::setup(GUI* gui_manager) {
 	this->gui_manager = gui_manager;
+    counter = 0;
 }
 
 void Top_Right_GUI::addObjectToggle(Object3D* object)
 {
-    ofxDatGuiToggle* newObject = new ofxDatGuiToggle("Object " + ofToString(objectsToggle.size() + 1));
-    objectsFolder->addToggle("Object " + ofToString(objectsToggle.size() + 1));
-    objectsToggle.push_back(newObject);
+    counter++;
+    ofxDatGuiButton* newObject = new ofxDatGuiButton("Object " +ofToString(counter));
+    newObject = objectsFolder->addButton("Object " + ofToString(counter));
+    newObject->onButtonEvent([this,object,newObject](ofxDatGuiButtonEvent e) {
+        object->setSelected(!object->getSelected());
+        gui_manager->getScene()->resetSelection();
+        gui_manager->getScene()->update_Attributes();
+        if (object->getSelected())
+        {
+            lastObjectButton = newObject;
+            gui_manager->getScene()->selectedObjects.push_back(object);
+            gui_manager->getScene()->update_Attributes();
+        }
+        else
+            lastObjectButton = nullptr;
+        });
     objectsFolder->expand();
 }
-
 
 void Top_Right_GUI::onOutlineToggle(ofxDatGuiToggleEvent e) {
     outlineEnabled = e.checked; 

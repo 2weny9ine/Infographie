@@ -29,12 +29,10 @@ public:
 
 
 private:
-
-    std::vector<ofxDatGuiToggle*> objectsToggle;
+    ofxDatGuiButton* lastObjectButton;
 
     ofxDatGuiFolder* objectsFolder;
     ofxDatGuiButton* deleteButton;
-    ofxDatGuiButton* selectButton;
     ofxDatGuiFolder* toolsFolder;
     ofxDatGuiColorPicker* backgroundColorPicker;
     ofxDatGuiColorPicker* strokeColorPicker;
@@ -42,7 +40,7 @@ private:
     ofxDatGuiSlider* lineWidthSlider;
 
     bool outlineEnabled = false;
-
+    int counter;
 
     //2.3
     ofxDatGuiToggle* drawingToggle;
