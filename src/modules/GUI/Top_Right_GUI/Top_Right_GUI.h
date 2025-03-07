@@ -26,11 +26,10 @@ public:
     bool isOutlineEnabled() const { return outlineToggle->getChecked(); }
 
     void addObjectToggle(Object3D* object);
+    std::vector<ofxDatGuiButton*> objectButtons;
 
     ofxDatGui* getGui();
 private:
-    ofxDatGuiButton* lastObjectButton;
-
     ofxDatGuiFolder* objectsFolder;
     ofxDatGuiButton* deleteButton;
     ofxDatGuiFolder* toolsFolder;

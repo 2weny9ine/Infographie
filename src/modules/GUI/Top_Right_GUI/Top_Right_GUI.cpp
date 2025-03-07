@@ -11,18 +11,27 @@ Top_Right_GUI::Top_Right_GUI()
     objectsFolder->expand();
     deleteButton = objectsFolder->addButton("Delete Object");
     deleteButton->onButtonEvent([this](ofxDatGuiButtonEvent e) {
+        int index = 0;
         for (Object3D* object : gui_manager->getScene()->selectedObjects)
         {
+            auto it = std::find(gui_manager->getScene()->objects.begin(), gui_manager->getScene()->objects.end(), object);
+                if(it != gui_manager->getScene()->objects.end())
+                {
+                    index = std::distance(gui_manager->getScene()->objects.begin(), it) + 1;
+
+                    auto button = std::find(objectsFolder->children.begin(), objectsFolder->children.end(), objectsFolder->children[index]);
+                    if (button != objectsFolder->children.end())
+                    {
+                        objectsFolder->children.erase(button);
+                    }
+
+                }
+
             gui_manager->getScene()->removeObject(object);
         }
         gui_manager->getScene()->resetSelection();
         gui_manager->getScene()->update_Attributes();
 
-        auto it = std::find(objectsFolder->children.begin(), objectsFolder->children.end(), lastObjectButton);
-        if (it != objectsFolder->children.end())
-        {
-            objectsFolder->children.erase(it);
-        }
         objectsFolder->expand();
         });
 
@@ -93,13 +102,11 @@ void Top_Right_GUI::addObjectToggle(Object3D* object)
         gui_manager->getScene()->update_Attributes();
         if (object->getSelected())
         {
-            lastObjectButton = newObject;
             gui_manager->getScene()->selectedObjects.push_back(object);
             gui_manager->getScene()->update_Attributes();
         }
-        else
-            lastObjectButton = nullptr;
         });
+    objectButtons.push_back(newObject);
     objectsFolder->expand();
 }
 
