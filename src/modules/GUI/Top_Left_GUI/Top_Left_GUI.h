@@ -31,6 +31,7 @@ public:
 private:
     GUI* gui_manager;
     ofxDatGui* gui;
+
     
     ofxDatGuiFolder* camPosition_folder;
     ofxDatGuiTextInput* xCam_position;
@@ -47,6 +48,9 @@ private:
     ofxDatGuiTextInput* x_scale;
     ofxDatGuiTextInput* y_scale;
     ofxDatGuiTextInput* z_scale;
+    ofxDatGuiButton* translateButton;
+    ofxDatGuiButton* rotateButton;
+    ofxDatGuiButton* scaleButton;
     ofxDatGuiButton* duplicateInstanceButton;
 
     void SendTransformations();

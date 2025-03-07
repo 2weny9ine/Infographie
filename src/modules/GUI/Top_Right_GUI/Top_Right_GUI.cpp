@@ -7,6 +7,11 @@ Top_Right_GUI::Top_Right_GUI()
     gui = new ofxDatGui(ofxDatGuiAnchor::TOP_RIGHT);
     gui->setWidth(200);
 
+    objectsFolder = gui->addFolder("Objects", ofColor::white);
+    objectsFolder->expand();
+    deleteButton = objectsFolder->addButton("Delete Object");
+    selectButton = objectsFolder->addButton("Select Object");
+
     toolsFolder = gui->addFolder("Drawing Tools", ofColor::white);
     toolsFolder->expand();
 
@@ -60,6 +65,14 @@ void Top_Right_GUI::onPrimitiveSelected(ofxDatGuiToggleEvent e) {
 
 void Top_Right_GUI::setup(GUI* gui_manager) {
 	this->gui_manager = gui_manager;
+}
+
+void Top_Right_GUI::addObjectToggle(Object3D* object)
+{
+    ofxDatGuiToggle* newObject = new ofxDatGuiToggle("Object " + ofToString(objectsToggle.size() + 1));
+    objectsFolder->addToggle("Object " + ofToString(objectsToggle.size() + 1));
+    objectsToggle.push_back(newObject);
+    objectsFolder->expand();
 }
 
 

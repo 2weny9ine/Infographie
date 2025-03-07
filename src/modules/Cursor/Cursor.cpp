@@ -23,6 +23,7 @@ void Cursor::draw() {
     case CursorState::RESIZE:    drawResize(); break;
     case CursorState::MOVE:      drawMove(); break;
     case CursorState::DRAGGING:  drawDragging(); break;
+    case CursorState::ROTATE:  drawRotate(); break;
     case CursorState::HIDDEN:    break; 
     }
     ofPopStyle();
@@ -63,4 +64,9 @@ void Cursor::drawMove() const {
 void Cursor::drawDragging() const {
     ofSetColor(0, 0, 255); 
     ofDrawCircle(x, y, 8);
+}
+
+void Cursor::drawRotate() const {
+    ofSetColor(ofColor::red);
+    ofDrawBitmapString("<->", x + 5, y + 5);
 }
