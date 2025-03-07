@@ -71,9 +71,8 @@ void Application::draw()
         int posY = gui.top_left->getY() + gui.top_left->getHeight() + 10;
         int widthImg  = 256;
         int heightImg = 100;
-        if (scene.img && scene.img->hasImage())
-        {
-            scene.img->drawHistogram(posX, posY, widthImg, heightImg);
+        if (scene.img && scene.img->hasImage()) {
+            scene.img->selectedHistogram(scene, posX, posY, widthImg, heightImg);
         }
         else
         {

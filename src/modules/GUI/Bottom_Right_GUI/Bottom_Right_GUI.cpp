@@ -68,7 +68,7 @@ void Bottom_Right_GUI::createComponent(ofxDatGuiFolder* folder, const std::strin
 
     if (type == "color")
     {
-        std::string defaultColorHex = savedValue.empty() ? details["defaultValue"] : savedValue;
+        std::string defaultColorHex = savedValue.empty() ? details["defaultValue"].get<std::string>() : savedValue;
         int hexColor = stringToHex(defaultColorHex);
         ofColor defaultColor = ofColor::fromHex(hexColor);
 
