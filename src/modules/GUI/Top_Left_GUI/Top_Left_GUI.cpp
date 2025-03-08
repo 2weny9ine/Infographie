@@ -5,7 +5,7 @@ Top_Left_GUI::Top_Left_GUI()
 {
     gui = new ofxDatGui(ofxDatGuiAnchor::TOP_LEFT);
     
-    camPosition_folder = gui->addFolder("Camera Position", ofColor::white);
+    camPosition_folder = new ofxDatGuiFolder("Camera Position", ofColor::white);
     
     xCam_position = camPosition_folder->addTextInput("X", "N/A");
     xCam_position->setInputType(ofxDatGuiInputType::NUMERIC);
