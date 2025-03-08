@@ -14,6 +14,7 @@ public:
     void setSecondarySeparations(int separations);
     void setPrimaryGridColor(const ofColor& color);
     void setSecondaryGridColor(const ofColor& color);
+    void setVisible(bool visible);
 
     // Getters
     float getGridSize() const;
@@ -28,6 +29,7 @@ private:
     int secondarySeparations;
     ofColor primaryGridColor;
     ofColor secondaryGridColor;
+    bool visible;
 
     void drawPrimaryGrid();
     void drawSecondaryGrid();

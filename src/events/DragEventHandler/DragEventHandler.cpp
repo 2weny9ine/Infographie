@@ -29,7 +29,7 @@ void DragEventHandler::processDragEvent(const ofDragInfo& dragInfo)
             ofLogNotice("DragEventHandler::processDragEvent") << "Attempting to load image: " << file;
             app.getScene().img->importImage(file);
         }
-        else if (extension == "obj" || extension == "dae" || extension == "3ds")
+        else if (extension == "obj" || extension == "dae" || extension == "3ds", extension == "fbx")
         {
             ModelObject* modelObj = new ModelObject();
             ofLogNotice("DragEventHandler::processDragEvent") << "Attempting to load model: " << file;

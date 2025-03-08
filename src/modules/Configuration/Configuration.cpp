@@ -6,7 +6,7 @@
 #include <algorithm>
 #include <iomanip>
 
-Configuration::Configuration() : configFilePath("data/infographie.config"), defaultConfigFilePath("data/default_infographie.config")
+Configuration::Configuration() : configFilePath("data/infographie.config"), defaultConfigFilePath("data/default_infographie.json")
 {
     loadConfig();
 }

@@ -1,6 +1,8 @@
 #include "Image.h"
 #include "Scene.h"
 #include "ImageObject.h"
+#include "Application.h"
+#include "modules/Configuration/Configuration.h"
 
 void Image::importImage(const std::string& path) {
     
@@ -21,6 +23,10 @@ void Image::importImage(const std::string& path) {
 
 void Image::setExportTriggered(bool triggered) {
     exportTriggered = triggered;
+
+    if (triggered) {
+        beforeExport();
+    }
 }
 
 void Image::imageExport(const std::string& name, const std::string& extension) {
@@ -51,7 +57,31 @@ void Image::imageExport(const std::string& name, const std::string& extension) {
         
         captureCount = 0;
         exportTriggered = false;
+
+        afterExport();
     }
+}
+
+void Image::beforeExport() {
+    Application& app = Application::getInstance();
+
+    ofLog() << Configuration::get("Export.Show Grid") << endl;
+
+    if (Configuration::get("Export.Show Grid") == "false") {
+        app.getScene().grid->setVisible(false);
+    }
+
+    if (Configuration::get("Export.Show Node") == "false")
+    {
+        app.getScene().setNodeVisible(false);
+    }
+}
+
+void Image::afterExport() {
+    Application& app = Application::getInstance();
+
+    app.getScene().grid->setVisible(true);
+    app.getScene().setNodeVisible(true);
 }
 
 void Image::setExportDuration(float duration) {

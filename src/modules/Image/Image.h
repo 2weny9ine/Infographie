@@ -2,6 +2,7 @@
 #include "Scene.h"
 #include "ImageObject.h"
 #include "ofMain.h"
+
 class Scene;
 
 class Image{
@@ -34,5 +35,8 @@ public:
 private:
     bool exportTriggered = false;
     float exportDuration = 1.0f;
+
+    void beforeExport();
+    void afterExport();
 };
 

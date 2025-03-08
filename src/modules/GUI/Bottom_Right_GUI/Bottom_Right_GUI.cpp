@@ -45,7 +45,9 @@ void Bottom_Right_GUI::setupCategories(const nlohmann::json& config)
         for (const auto& category : config["Categories"].items())
         {
             std::string categoryName = category.key();
-            ofxDatGuiFolder* folder = gui->addFolder(categoryName, ofColor::white);
+            std::string stripeColorStr = category.value()["stripeColor"].get<std::string>();
+
+            ofxDatGuiFolder* folder = gui->addFolder(categoryName, ofColor::fromHex(stringToHex(stripeColorStr)));
 
             if (category.value().contains("contents"))
             {
@@ -104,6 +106,16 @@ void Bottom_Right_GUI::createComponent(ofxDatGuiFolder* folder, const std::strin
         input->onTextInputEvent([fullKey](ofxDatGuiTextInputEvent e)
         {
             Configuration::set(fullKey, e.text);
+        });
+    }
+    else if (type == "bool")
+    {
+        bool defaultBoolean = savedValue.empty() ? details["defaultValue"].get<bool>() : savedValue == "true";
+        auto input = folder->addToggle(label, defaultBoolean);
+
+        input->onToggleEvent([fullKey](ofxDatGuiToggleEvent e)
+        {
+            Configuration::set(fullKey, e.checked ? "true" : "false");
         });
     }
 }

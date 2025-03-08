@@ -350,6 +350,8 @@ void Scene::duplicateSelectedInstances()
 
 void Scene::draw_locator(float scale)
 {
+	if (!nodeVisible) return;
+
 	ofSetLineWidth(4);
 	ofSetColor(127);
 	ofFill();
@@ -372,6 +374,11 @@ void Scene::draw_locator(float scale)
 	node.draw();
 	ofPopMatrix();
 }
+
+void Scene::setNodeVisible(bool visible) {
+	this->nodeVisible = visible;
+}
+
 
 //void Scene::draw_locator(float scale)
 //{

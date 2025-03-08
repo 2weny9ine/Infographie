@@ -44,6 +44,8 @@ void Grid::update()
 
 void Grid::draw()
 {
+    if (!visible) return;
+
     ofPushStyle();
 
     ofSetColor(primaryGridColor);
@@ -121,6 +123,11 @@ void Grid::setPrimaryGridColor(const ofColor& color)
 void Grid::setSecondaryGridColor(const ofColor& color)
 {
     secondaryGridColor = color;
+}
+
+void Grid::setVisible(bool v)
+{
+    visible = v;
 }
 
 // Getters
