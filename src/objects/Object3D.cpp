@@ -27,10 +27,7 @@ void Object3D::draw() {}
 
 void Object3D::drawBoundingBox()
 {
-    ofNoFill();
-    ofSetColor(strokeColor);
-    ofSetLineWidth(lineWidth);
-    ofDrawBox(position, 100);
+    // Default implementation does nothing.
 }
 
 Object3D* Object3D::copy() const
@@ -50,80 +47,30 @@ void Object3D::initializeDrawingTools()
     lineWidth = 2.0f;
 }
 
+void Object3D::getWorldBounds(glm::vec3& outMin, glm::vec3& outMax) const
+{
+    // Default: return a 1x1x1 cube centered at position.
+    outMin = position - ofVec3f(0.5, 0.5, 0.5);
+    outMax = position + ofVec3f(0.5, 0.5, 0.5);
+}
+
 // Getters
-ofVec3f Object3D::getPosition() const
-{
-    return position;
-}
-
-ofVec3f Object3D::getRotation() const
-{
-    return rotation;
-}
-
-ofVec3f Object3D::getScale() const
-{
-    return scale;
-}
-
-ofColor Object3D::getColor() const
-{
-    return color;
-}
-
-float Object3D::getOpacity() const
-{
-    return opacity;
-}
-
-bool Object3D::getSelected() const
-{
-    return selected;
-}
+ofVec3f Object3D::getPosition() const { return position; }
+ofVec3f Object3D::getRotation() const { return rotation; }
+ofVec3f Object3D::getScale() const { return scale; }
+ofColor Object3D::getColor() const { return color; }
+float Object3D::getOpacity() const { return opacity; }
+bool Object3D::getSelected() const { return selected; }
 
 // Setters
-void Object3D::setPosition(const ofVec3f& position)
-{
-    this->position = position;
-}
-
-void Object3D::setRotation(const ofVec3f& rotation)
-{
-    this->rotation = rotation;
-}
-
-void Object3D::setScale(const ofVec3f& scale)
-{
-    this->scale = scale;
-}
-
-void Object3D::setColor(const ofColor& color)
-{
-    this->color = color;
-}
-
-void Object3D::setOpacity(float opacity)
-{
-    this->opacity = opacity;
-}
-
-void Object3D::setSelected(bool selected)
-{
-    this->selected = selected;
-}
+void Object3D::setPosition(const ofVec3f& pos) { position = pos; }
+void Object3D::setRotation(const ofVec3f& rot) { rotation = rot; }
+void Object3D::setScale(const ofVec3f& s) { scale = s; }
+void Object3D::setColor(const ofColor& c) { color = c; }
+void Object3D::setOpacity(float op) { opacity = op; }
+void Object3D::setSelected(bool sel) { selected = sel; }
 
 // Transform methods
-void Object3D::transformPosition(const ofVec3f& delta)
-{
-    position += delta;
-}
-
-void Object3D::transformRotation(const ofVec3f& delta)
-{
-    rotation += delta;
-}
-
-void Object3D::transformScale(const ofVec3f& delta)
-{
-    scale += delta;
-}
+void Object3D::transformPosition(const ofVec3f& delta) { position += delta; }
+void Object3D::transformRotation(const ofVec3f& delta) { rotation += delta; }
+void Object3D::transformScale(const ofVec3f& delta) { scale += delta; }

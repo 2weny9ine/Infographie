@@ -4,84 +4,6 @@
     <ClCompile Include="src\main.cpp">
       <Filter>src</Filter>
     </ClCompile>
-    <ClCompile Include="src\Application.cpp">
-      <Filter>src</Filter>
-    </ClCompile>
-    <ClCompile Include="src\Renderer.cpp">
-      <Filter>src</Filter>
-    </ClCompile>
-    <ClCompile Include="src\events\DragEventHandler\DragEventHandler.cpp">
-      <Filter>src\events\DragEventHandler</Filter>
-    </ClCompile>
-    <ClCompile Include="src\events\KeyEventHandler\KeyEventHandler.cpp">
-      <Filter>src\events\KeyEventHandler</Filter>
-    </ClCompile>
-    <ClCompile Include="src\events\MouseEventHandler\MouseEventHandler.cpp">
-      <Filter>src\events\MouseEventHandler</Filter>
-    </ClCompile>
-    <ClCompile Include="src\events\WindowResizedEventHandler\WindowResizedEventHandler.cpp">
-      <Filter>src\events\WindowResizedEventHandler</Filter>
-    </ClCompile>
-    <ClCompile Include="src\main.cpp">
-      <Filter>src</Filter>
-    </ClCompile>
-    <ClCompile Include="src\modules\Configuration\Configuration.cpp">
-      <Filter>src\modules\Configuration</Filter>
-    </ClCompile>
-    <ClCompile Include="src\modules\Cursor\Cursor.cpp">
-      <Filter>src\modules\Cursor</Filter>
-    </ClCompile>
-    <ClCompile Include="src\modules\GUI\Bottom_Left_GUI\Bottom_Left_GUI.cpp">
-      <Filter>src\modules\GUI\Bottom_Left_GUI</Filter>
-    </ClCompile>
-    <ClCompile Include="src\modules\GUI\Bottom_Right_GUI\Bottom_Right_GUI.cpp">
-      <Filter>src\modules\GUI\Bottom_Right_GUI</Filter>
-    </ClCompile>
-    <ClCompile Include="src\modules\GUI\GUI.cpp">
-      <Filter>src\modules\GUI</Filter>
-    </ClCompile>
-    <ClCompile Include="src\modules\GUI\Top_Left_GUI\Top_Left_GUI.cpp">
-      <Filter>src\modules\GUI\Top_Left_GUI</Filter>
-    </ClCompile>
-    <ClCompile Include="src\modules\GUI\Top_Right_GUI\Top_Right_GUI.cpp">
-      <Filter>src\modules\GUI\Top_Right_GUI</Filter>
-    </ClCompile>
-    <ClCompile Include="src\modules\Image\Image.cpp">
-      <Filter>src\modules\Image</Filter>
-    </ClCompile>
-    <ClCompile Include="src\modules\Scene\Grid\Grid.cpp">
-      <Filter>src\modules\Scene\Grid</Filter>
-    </ClCompile>
-    <ClCompile Include="src\modules\Scene\Scene.cpp">
-      <Filter>src\modules\Scene</Filter>
-    </ClCompile>
-    <ClCompile Include="src\modules\User_Camera_Movement\User_Camera_Movement.cpp">
-      <Filter>src\modules\User_Camera_Movement</Filter>
-    </ClCompile>
-    <ClCompile Include="src\objects\ImageObject\ImageObject.cpp">
-      <Filter>src\objects\ImageObject</Filter>
-    </ClCompile>
-    <ClCompile Include="src\objects\ModelObject\ModelObject.cpp">
-      <Filter>src\objects\ModelObject</Filter>
-    </ClCompile>
-    <ClCompile Include="src\objects\ModelObject\Templates\Cone\Cone.cpp">
-      <Filter>src\objects\ModelObject\Templates\Cone</Filter>
-    </ClCompile>
-    <ClCompile Include="src\objects\ModelObject\Templates\Cube\Cube.cpp">
-      <Filter>src\objects\ModelObject\Templates\Cube</Filter>
-    </ClCompile>
-    <ClCompile Include="src\objects\ModelObject\Templates\Cylinder\Cylinder.cpp">
-      <Filter>src\objects\ModelObject\Templates\Cylinder</Filter>
-    </ClCompile>
-    <ClCompile Include="src\objects\ModelObject\Templates\Sphere\Sphere.cpp">
-      <Filter>src\objects\ModelObject\Templates\Sphere</Filter>
-    </ClCompile>
-    <ClCompile Include="src\objects\Object3D.cpp">
-      <Filter>src\objects</Filter>
-    </ClCompile>
-    <ClCompile Include="src\objects\primitiveObject\primitiveObject.cpp">
-      <Filter>src\objects\primitiveObject</Filter>
-    </ClCompile>
     <ClCompile Include="..\..\..\addons\ofxAssimpModelLoader\src\ofxAssimpAnimation.cpp">
       <Filter>addons\ofxAssimpModelLoader\src</Filter>
     </ClCompile>
@@ -133,89 +55,89 @@
     <ClCompile Include="..\..\..\addons\ofxGui\src\ofxToggle.cpp">
       <Filter>addons\ofxGui\src</Filter>
     </ClCompile>
+    <ClCompile Include="src\events\DragEventHandler\DragEventHandler.cpp">
+      <Filter>src</Filter>
+    </ClCompile>
+    <ClCompile Include="src\events\KeyEventHandler\KeyEventHandler.cpp">
+      <Filter>src</Filter>
+    </ClCompile>
+    <ClCompile Include="src\events\MouseEventHandler\MouseEventHandler.cpp">
+      <Filter>src</Filter>
+    </ClCompile>
+    <ClCompile Include="src\events\WindowResizedEventHandler\WindowResizedEventHandler.cpp">
+      <Filter>src</Filter>
+    </ClCompile>
+    <ClCompile Include="src\modules\BoundingBox\BoundingBox.cpp">
+      <Filter>src</Filter>
+    </ClCompile>
+    <ClCompile Include="src\modules\Configuration\Configuration.cpp">
+      <Filter>src</Filter>
+    </ClCompile>
+    <ClCompile Include="src\modules\Cursor\Cursor.cpp">
+      <Filter>src</Filter>
+    </ClCompile>
+    <ClCompile Include="src\modules\GUI\Bottom_Left_GUI\Bottom_Left_GUI.cpp">
+      <Filter>src</Filter>
+    </ClCompile>
+    <ClCompile Include="src\modules\GUI\Bottom_Right_GUI\Bottom_Right_GUI.cpp">
+      <Filter>src</Filter>
+    </ClCompile>
+    <ClCompile Include="src\modules\GUI\GUI.cpp">
+      <Filter>src</Filter>
+    </ClCompile>
+    <ClCompile Include="src\modules\GUI\Top_Left_GUI\Top_Left_GUI.cpp">
+      <Filter>src</Filter>
+    </ClCompile>
+    <ClCompile Include="src\modules\GUI\Top_Right_GUI\Top_Right_GUI.cpp">
+      <Filter>src</Filter>
+    </ClCompile>
+    <ClCompile Include="src\modules\Image\Image.cpp">
+      <Filter>src</Filter>
+    </ClCompile>
+    <ClCompile Include="src\modules\Scene\Grid\Grid.cpp">
+      <Filter>src</Filter>
+    </ClCompile>
+    <ClCompile Include="src\modules\Scene\Scene.cpp">
+      <Filter>src</Filter>
+    </ClCompile>
+    <ClCompile Include="src\modules\User_Camera_Movement\User_Camera_Movement.cpp">
+      <Filter>src</Filter>
+    </ClCompile>
+    <ClCompile Include="src\objects\3D\FileMesh\FileMesh.cpp">
+      <Filter>src</Filter>
+    </ClCompile>
+    <ClCompile Include="src\objects\3D\Primitives\Cone\Cone.cpp">
+      <Filter>src</Filter>
+    </ClCompile>
+    <ClCompile Include="src\objects\3D\Primitives\Cube\Cube.cpp">
+      <Filter>src</Filter>
+    </ClCompile>
+    <ClCompile Include="src\objects\3D\Primitives\Cylinder\Cylinder.cpp">
+      <Filter>src</Filter>
+    </ClCompile>
+    <ClCompile Include="src\objects\3D\Primitives\Sphere\Sphere.cpp">
+      <Filter>src</Filter>
+    </ClCompile>
+    <ClCompile Include="src\objects\ImageObject\ImageObject.cpp">
+      <Filter>src</Filter>
+    </ClCompile>
+    <ClCompile Include="src\objects\Object3D.cpp">
+      <Filter>src</Filter>
+    </ClCompile>
+    <ClCompile Include="src\objects\primitiveObject\primitiveObject.cpp">
+      <Filter>src</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Application.cpp">
+      <Filter>src</Filter>
+    </ClCompile>
+    <ClCompile Include="src\main.cpp">
+      <Filter>src</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Renderer.cpp">
+      <Filter>src</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <Filter Include="src">
-      <UniqueIdentifier>{d8376475-7454-4a24-b08a-aac121d3ad6f}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="src\events">
-      <UniqueIdentifier>{C340D790--1CF-1-4C-46-B-E45-287B8FADF9F0}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="src\events\DragEventHandler">
-      <UniqueIdentifier>{336A80D5--4A7-D-40-96-8-46A-09FB88803FCB}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="src\events\KeyEventHandler">
-      <UniqueIdentifier>{A9CC042B--53A-C-47-3C-9-0EB-99F48E7C99C1}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="src\events\MouseEventHandler">
-      <UniqueIdentifier>{9BBE7AB3--A3C-0-47-54-A-371-C4B603B4B0AB}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="src\events\WindowResizedEventHandler">
-      <UniqueIdentifier>{F8FFB541--D89-F-4D-61-A-225-1DDE3D8BBAD8}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="src\modules">
-      <UniqueIdentifier>{DFEC9BD7--3BA-4-4A-35-9-3B6-29486F688B68}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="src\modules\Configuration">
-      <UniqueIdentifier>{80D1BD8C--1AC-2-4E-46-9-326-F53F83A6E571}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="src\modules\Cursor">
-      <UniqueIdentifier>{6EDF8356--870-4-4B-46-B-2A6-3DD6117FC37B}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="src\modules\GUI">
-      <UniqueIdentifier>{D57DDE4A--704-B-46-B9-9-668-B10782B233DD}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="src\modules\GUI\Bottom_Left_GUI">
-      <UniqueIdentifier>{765147EF--D29-1-44-60-9-FED-06178E8663D3}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="src\modules\GUI\Bottom_Right_GUI">
-      <UniqueIdentifier>{F3BE4D08--DDC-0-46-CF-9-44E-42C3A36AB8D9}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="src\modules\GUI\Top_Left_GUI">
-      <UniqueIdentifier>{8F5BF93B--6A6-E-41-41-9-103-468560AC2CBD}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="src\modules\GUI\Top_Right_GUI">
-      <UniqueIdentifier>{B8A0553F--06D-A-4D-29-9-79F-F00E24822D9C}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="src\modules\Image">
-      <UniqueIdentifier>{1CA8E5EF--858-7-43-55-8-0ED-D93457F40BFC}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="src\modules\Scene">
-      <UniqueIdentifier>{493FF057--CDE-0-49-0A-8-C12-5A4967A9E680}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="src\modules\Scene\Grid">
-      <UniqueIdentifier>{464C5EC0--4A0-8-4C-86-B-02B-01E881A78A91}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="src\modules\User_Camera_Movement">
-      <UniqueIdentifier>{CA6D205E--684-F-4A-FE-9-576-8AB0102D1966}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="src\objects">
-      <UniqueIdentifier>{29C038DE--0CD-9-4D-4A-8-55E-DC0E12D6F57C}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="src\objects\ImageObject">
-      <UniqueIdentifier>{E16F5E5E--F33-E-4D-77-B-232-C7E16C96F323}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="src\objects\ModelObject">
-      <UniqueIdentifier>{659E71C4--E5D-F-41-71-8-632-980E5D32C187}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="src\objects\ModelObject\Templates">
-      <UniqueIdentifier>{DF7CA368--E3F-B-4C-AB-9-075-AC97DB785FBA}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="src\objects\ModelObject\Templates\Cone">
-      <UniqueIdentifier>{6DC25239--E20-F-40-A6-A-E3F-1B1A708B4628}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="src\objects\ModelObject\Templates\Cube">
-      <UniqueIdentifier>{91B3EF9C--AF7-4-40-CA-A-3A7-A2369246D488}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="src\objects\ModelObject\Templates\Cylinder">
-      <UniqueIdentifier>{B9A80289--526-4-46-BC-A-9A3-00D37BC1D309}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="src\objects\ModelObject\Templates\Sphere">
-      <UniqueIdentifier>{22BE0129--10E-3-4E-B0-8-D99-EB103541C135}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="src\objects\primitiveObject">
-      <UniqueIdentifier>{CF970304--36D-7-46-11-B-77C-F86A89CB1E3B}</UniqueIdentifier>
-    </Filter>
     <Filter Include="addons">
       <UniqueIdentifier>{0C1339A2--166-5-4E-34-9-DE9-ECC4D5CF6ABE}</UniqueIdentifier>
     </Filter>
@@ -273,83 +195,11 @@
     <Filter Include="addons\ofxGui\src">
       <UniqueIdentifier>{3C62B449--F97-D-49-B6-9-06D-659B2E85ACCB}</UniqueIdentifier>
     </Filter>
+    <Filter Include="src">
+      <UniqueIdentifier>{334590c6-49b9-44ff-90f1-6caf0b802227}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="src\Application.h">
-      <Filter>src</Filter>
-    </ClInclude>
-    <ClInclude Include="src\Renderer.h">
-      <Filter>src</Filter>
-    </ClInclude>
-    <ClInclude Include="src\events\DragEventHandler\DragEventHandler.h">
-      <Filter>src\events\DragEventHandler</Filter>
-    </ClInclude>
-    <ClInclude Include="src\events\KeyEventHandler\KeyEventHandler.h">
-      <Filter>src\events\KeyEventHandler</Filter>
-    </ClInclude>
-    <ClInclude Include="src\events\MouseEventHandler\MouseEventHandler.h">
-      <Filter>src\events\MouseEventHandler</Filter>
-    </ClInclude>
-    <ClInclude Include="src\events\WindowResizedEventHandler\WindowResizedEventHandler.h">
-      <Filter>src\events\WindowResizedEventHandler</Filter>
-    </ClInclude>
-    <ClInclude Include="src\modules\Configuration\Configuration.h">
-      <Filter>src\modules\Configuration</Filter>
-    </ClInclude>
-    <ClInclude Include="src\modules\Cursor\Cursor.h">
-      <Filter>src\modules\Cursor</Filter>
-    </ClInclude>
-    <ClInclude Include="src\modules\GUI\Bottom_Left_GUI\Bottom_Left_GUI.h">
-      <Filter>src\modules\GUI\Bottom_Left_GUI</Filter>
-    </ClInclude>
-    <ClInclude Include="src\modules\GUI\Bottom_Right_GUI\Bottom_Right_GUI.h">
-      <Filter>src\modules\GUI\Bottom_Right_GUI</Filter>
-    </ClInclude>
-    <ClInclude Include="src\modules\GUI\GUI.h">
-      <Filter>src\modules\GUI</Filter>
-    </ClInclude>
-    <ClInclude Include="src\modules\GUI\Top_Left_GUI\Top_Left_GUI.h">
-      <Filter>src\modules\GUI\Top_Left_GUI</Filter>
-    </ClInclude>
-    <ClInclude Include="src\modules\GUI\Top_Right_GUI\Top_Right_GUI.h">
-      <Filter>src\modules\GUI\Top_Right_GUI</Filter>
-    </ClInclude>
-    <ClInclude Include="src\modules\Image\Image.h">
-      <Filter>src\modules\Image</Filter>
-    </ClInclude>
-    <ClInclude Include="src\modules\Scene\Grid\Grid.h">
-      <Filter>src\modules\Scene\Grid</Filter>
-    </ClInclude>
-    <ClInclude Include="src\modules\Scene\Scene.h">
-      <Filter>src\modules\Scene</Filter>
-    </ClInclude>
-    <ClInclude Include="src\modules\User_Camera_Movement\User_Camera_Movement.h">
-      <Filter>src\modules\User_Camera_Movement</Filter>
-    </ClInclude>
-    <ClInclude Include="src\objects\ImageObject\ImageObject.h">
-      <Filter>src\objects\ImageObject</Filter>
-    </ClInclude>
-    <ClInclude Include="src\objects\ModelObject\ModelObject.h">
-      <Filter>src\objects\ModelObject</Filter>
-    </ClInclude>
-    <ClInclude Include="src\objects\ModelObject\Templates\Cone\Cone.h">
-      <Filter>src\objects\ModelObject\Templates\Cone</Filter>
-    </ClInclude>
-    <ClInclude Include="src\objects\ModelObject\Templates\Cube\Cube.h">
-      <Filter>src\objects\ModelObject\Templates\Cube</Filter>
-    </ClInclude>
-    <ClInclude Include="src\objects\ModelObject\Templates\Cylinder\Cylinder.h">
-      <Filter>src\objects\ModelObject\Templates\Cylinder</Filter>
-    </ClInclude>
-    <ClInclude Include="src\objects\ModelObject\Templates\Sphere\Sphere.h">
-      <Filter>src\objects\ModelObject\Templates\Sphere</Filter>
-    </ClInclude>
-    <ClInclude Include="src\objects\Object3D.h">
-      <Filter>src\objects</Filter>
-    </ClInclude>
-    <ClInclude Include="src\objects\primitiveObject\primitiveObject.h">
-      <Filter>src\objects\primitiveObject</Filter>
-    </ClInclude>
     <ClInclude Include="..\..\..\addons\ofxAssimpModelLoader\src\ofxAssimpAnimation.h">
       <Filter>addons\ofxAssimpModelLoader\src</Filter>
     </ClInclude>
@@ -710,8 +560,86 @@
     <ClInclude Include="..\..\..\addons\ofxGui\src\ofxToggle.h">
       <Filter>addons\ofxGui\src</Filter>
     </ClInclude>
-  </ItemGroup>
-  <ItemGroup>
-    <ResourceCompile Include="icon.rc" />
+    <ClInclude Include="src\events\DragEventHandler\DragEventHandler.h">
+      <Filter>src</Filter>
+    </ClInclude>
+    <ClInclude Include="src\events\KeyEventHandler\KeyEventHandler.h">
+      <Filter>src</Filter>
+    </ClInclude>
+    <ClInclude Include="src\events\MouseEventHandler\MouseEventHandler.h">
+      <Filter>src</Filter>
+    </ClInclude>
+    <ClInclude Include="src\events\WindowResizedEventHandler\WindowResizedEventHandler.h">
+      <Filter>src</Filter>
+    </ClInclude>
+    <ClInclude Include="src\modules\BoundingBox\BoundingBox.h">
+      <Filter>src</Filter>
+    </ClInclude>
+    <ClInclude Include="src\modules\Configuration\Configuration.h">
+      <Filter>src</Filter>
+    </ClInclude>
+    <ClInclude Include="src\modules\Cursor\Cursor.h">
+      <Filter>src</Filter>
+    </ClInclude>
+    <ClInclude Include="src\modules\GUI\Bottom_Left_GUI\Bottom_Left_GUI.h">
+      <Filter>src</Filter>
+    </ClInclude>
+    <ClInclude Include="src\modules\GUI\Bottom_Right_GUI\Bottom_Right_GUI.h">
+      <Filter>src</Filter>
+    </ClInclude>
+    <ClInclude Include="src\modules\GUI\GUI.h">
+      <Filter>src</Filter>
+    </ClInclude>
+    <ClInclude Include="src\modules\GUI\Top_Left_GUI\Top_Left_GUI.h">
+      <Filter>src</Filter>
+    </ClInclude>
+    <ClInclude Include="src\modules\GUI\Top_Right_GUI\Top_Right_GUI.h">
+      <Filter>src</Filter>
+    </ClInclude>
+    <ClInclude Include="src\modules\Image\Image.h">
+      <Filter>src</Filter>
+    </ClInclude>
+    <ClInclude Include="src\modules\Properties\Properties.h">
+      <Filter>src</Filter>
+    </ClInclude>
+    <ClInclude Include="src\modules\Scene\Grid\Grid.h">
+      <Filter>src</Filter>
+    </ClInclude>
+    <ClInclude Include="src\modules\Scene\Scene.h">
+      <Filter>src</Filter>
+    </ClInclude>
+    <ClInclude Include="src\modules\User_Camera_Movement\User_Camera_Movement.h">
+      <Filter>src</Filter>
+    </ClInclude>
+    <ClInclude Include="src\objects\3D\FileMesh\FileMesh.h">
+      <Filter>src</Filter>
+    </ClInclude>
+    <ClInclude Include="src\objects\3D\Primitives\Cone\Cone.h">
+      <Filter>src</Filter>
+    </ClInclude>
+    <ClInclude Include="src\objects\3D\Primitives\Cube\Cube.h">
+      <Filter>src</Filter>
+    </ClInclude>
+    <ClInclude Include="src\objects\3D\Primitives\Cylinder\Cylinder.h">
+      <Filter>src</Filter>
+    </ClInclude>
+    <ClInclude Include="src\objects\3D\Primitives\Sphere\Sphere.h">
+      <Filter>src</Filter>
+    </ClInclude>
+    <ClInclude Include="src\objects\ImageObject\ImageObject.h">
+      <Filter>src</Filter>
+    </ClInclude>
+    <ClInclude Include="src\objects\Object3D.h">
+      <Filter>src</Filter>
+    </ClInclude>
+    <ClInclude Include="src\objects\primitiveObject\primitiveObject.h">
+      <Filter>src</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Application.h">
+      <Filter>src</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Renderer.h">
+      <Filter>src</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>

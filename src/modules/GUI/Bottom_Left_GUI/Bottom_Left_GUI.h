@@ -4,10 +4,10 @@
 #include <string>
 
 #include "objects/Object3D.h"
-#include "objects/ModelObject/Templates/Cube/Cube.h"
-#include "objects/ModelObject/Templates/Sphere/Sphere.h"
-#include "objects/ModelObject/Templates/Cylinder/Cylinder.h"
-#include "objects/ModelObject/Templates/Cone/Cone.h"
+#include "objects/3D/Primitives/Cube/Cube.h"
+#include "objects/3D/Primitives/Sphere/Sphere.h"
+#include "objects/3D/Primitives/Cylinder/Cylinder.h"
+#include "objects/3D/Primitives/Cone/Cone.h"
 
 class GUI;
 

@@ -2,7 +2,7 @@
 #include "Application.h"
 
 #include "objects/ImageObject/ImageObject.h"
-#include "objects/ModelObject/ModelObject.h"
+#include "objects/3D/FileMesh/FileMesh.h"
 
 DragEventHandler::DragEventHandler() {}
 
@@ -31,7 +31,7 @@ void DragEventHandler::processDragEvent(const ofDragInfo& dragInfo)
         }
         else if (extension == "obj" || extension == "dae" || extension == "3ds", extension == "fbx")
         {
-            ModelObject* modelObj = new ModelObject();
+            FileMesh* modelObj = new FileMesh();
             ofLogNotice("DragEventHandler::processDragEvent") << "Attempting to load model: " << file;
 
             if (modelObj->loadModel(file))

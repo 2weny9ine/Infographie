@@ -12,6 +12,8 @@ public:
     virtual void update(float dt);
     virtual void draw();
 
+    virtual void drawBoundingBox();
+
     // Getters
     ofVec3f getPosition() const;
     ofVec3f getRotation() const;
@@ -33,10 +35,11 @@ public:
     void transformRotation(const ofVec3f& delta);
     void transformScale(const ofVec3f& delta);
 
-    virtual void drawBoundingBox();
     virtual Object3D* copy() const;
 
     virtual ofRectangle getScreenBoundingBox(ofCamera* cam);
+
+    virtual void getWorldBounds(glm::vec3& outMin, glm::vec3& outMax) const;
 
     ofColor strokeColor;
     ofColor fillColor;

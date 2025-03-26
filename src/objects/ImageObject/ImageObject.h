@@ -5,31 +5,32 @@ class ImageObject : public Object3D {
 public:
     ImageObject();
     virtual ~ImageObject();
-    
+
     bool loadImage(const std::string& path);
-    void drawFilm(const ofColor &film);
+    void drawFilm(const ofColor& film);
     virtual void setup() override;
     virtual void update(float dt) override;
     virtual void draw() override;
-    void applyFilter(const ofColor &filter);
-    virtual void drawBoundingBox() override;
-    
+    void applyFilter(const ofColor& filter);
+
     ofImage& getImage() { return image; }
-    
-    void setPosition(const ofVec3f& pos) {
+
+    void setPosition(const ofVec3f& pos)
+    {
         position = pos;
     }
-    
+
     bool applyUserColor;
     ofColor customUserColor;
     ofPlanePrimitive plane;
-    
-    
-    
-    //yacine
+
+    // yacine
     virtual ofRectangle getScreenBoundingBox(ofCamera* cam) override;
-    
+
+    virtual void getWorldBounds(glm::vec3& outMin, glm::vec3& outMax) const override;
+
+    virtual void drawBoundingBox() override;
+
 private:
     ofImage image;
-    
 };
