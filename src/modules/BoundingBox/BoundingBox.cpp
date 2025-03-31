@@ -1,58 +1,18 @@
 #include "BoundingBox.h"
 
-void BoundingBox::draw()
+void BoundingBox::computeOverallBounds(const std::vector<Object3D*>& objects)
 {
-    glm::vec3 boxSize = maxCorner - minCorner;
-    if (glm::length(boxSize) < 0.0001f)
+    if (objects.empty())
     {
+        minCorner = glm::vec3(0);
+        maxCorner = glm::vec3(0);
+        size = glm::vec3(0);
+        center = glm::vec3(0);
         return;
     }
 
-    std::string lineColor = Configuration::get("Bounding Box.Line Color");
-    ofColor boundingBoxColor = ofColor(255);
-    if (!lineColor.empty())
-    {
-        try
-        {
-            if (lineColor[0] == '#')
-            {
-                lineColor.erase(0, 1);
-            }
-            boundingBoxColor = ofColor::fromHex(std::stoul(lineColor, nullptr, 16));
-        }
-        catch (const std::exception& e)
-        {
-            ofLogError("BoundingBox") << "Invalid hex color format: " << lineColor << " - " << e.what();
-        }
-    }
-    ofSetColor(boundingBoxColor);
+    glm::vec3 tempMin(FLT_MAX), tempMax(-FLT_MAX);
 
-    std::string lineWidthStr = Configuration::get("Bounding Box.Line Width");
-    float boundingBoxThickness = 2.0f;
-    if (!lineWidthStr.empty() &&
-        std::all_of(lineWidthStr.begin(), lineWidthStr.end(),
-                    [](char c) { return std::isdigit(c) || c == '.'; }))
-    {
-        try
-        {
-            boundingBoxThickness = std::stof(lineWidthStr);
-        }
-        catch (const std::exception& e)
-        {
-            ofLogError("BoundingBox") << "Error converting line width: " << lineWidthStr << " - " << e.what();
-        }
-    }
-    else
-    {
-        ofLogError("BoundingBox") << "Invalid or empty line width: '" << lineWidthStr << "'";
-    }
-
-    drawThickBoundingBox(minCorner, maxCorner, boundingBoxThickness);
-}
-
-void BoundingBox::computeOverallBounds(const std::vector<Object3D*>& objects)
-{
-    bool first = true;
     for (auto* obj : objects)
     {
         if (!obj) continue;
@@ -60,76 +20,76 @@ void BoundingBox::computeOverallBounds(const std::vector<Object3D*>& objects)
         glm::vec3 objMin, objMax;
         obj->getWorldBounds(objMin, objMax);
 
-        if (first)
-        {
-            minCorner = objMin;
-            maxCorner = objMax;
-            first = false;
-        }
-        else
-        {
-            minCorner.x = std::min(minCorner.x, objMin.x);
-            minCorner.y = std::min(minCorner.y, objMin.y);
-            minCorner.z = std::min(minCorner.z, objMin.z);
-            maxCorner.x = std::max(maxCorner.x, objMax.x);
-            maxCorner.y = std::max(maxCorner.y, objMax.y);
-            maxCorner.z = std::max(maxCorner.z, objMax.z);
-        }
+        tempMin = glm::min(tempMin, objMin);
+        tempMax = glm::max(tempMax, objMax);
     }
 
-    if (first)
-    {
-        minCorner = glm::vec3(0);
-        maxCorner = glm::vec3(0);
-    }
+    minCorner = tempMin;
+    maxCorner = tempMax;
+    size = maxCorner - minCorner;
+    center = (minCorner + maxCorner) * 0.5f;
 }
 
-void BoundingBox::drawThickBoundingBox(const glm::vec3& minPt,
-                                       const glm::vec3& maxPt,
-                                       float thickness)
+void BoundingBox::draw()
 {
-    // Compute the 8 corners of the bounding box
-    glm::vec3 v0(minPt.x, minPt.y, minPt.z);
-    glm::vec3 v1(maxPt.x, minPt.y, minPt.z);
-    glm::vec3 v2(maxPt.x, maxPt.y, minPt.z);
-    glm::vec3 v3(minPt.x, maxPt.y, minPt.z);
-    glm::vec3 v4(minPt.x, minPt.y, maxPt.z);
-    glm::vec3 v5(maxPt.x, minPt.y, maxPt.z);
-    glm::vec3 v6(maxPt.x, maxPt.y, maxPt.z);
-    glm::vec3 v7(minPt.x, maxPt.y, maxPt.z);
+    if (glm::length(size) < 0.0001f)
+        return;
 
-    // Draw edges between corners
-    drawThickLine(v0, v1, thickness);
-    drawThickLine(v1, v2, thickness);
-    drawThickLine(v2, v3, thickness);
-    drawThickLine(v3, v0, thickness);
+    std::string lineColor = Configuration::get("Bounding Box.Line Color");
+    ofColor boundingBoxColor = ofColor(255);
+    if (!lineColor.empty())
+    {
+        if (lineColor[0] == '#')
+            lineColor.erase(0, 1);
+        boundingBoxColor = ofColor::fromHex(std::stoul(lineColor, nullptr, 16));
+    }
+    ofSetColor(boundingBoxColor);
 
-    drawThickLine(v4, v5, thickness);
-    drawThickLine(v5, v6, thickness);
-    drawThickLine(v6, v7, thickness);
-    drawThickLine(v7, v4, thickness);
+    float boundingBoxThickness = 2.0f;
+    std::string lineWidthStr = Configuration::get("Bounding Box.Line Width");
+    if (!lineWidthStr.empty())
+        boundingBoxThickness = std::stof(lineWidthStr);
 
-    drawThickLine(v0, v4, thickness);
-    drawThickLine(v1, v5, thickness);
-    drawThickLine(v2, v6, thickness);
-    drawThickLine(v3, v7, thickness);
+    drawThickBoundingBox(center, size, boundingBoxThickness);
+}
 
-    // Draw spheres at each corner
+void BoundingBox::drawThickBoundingBox(const glm::vec3& center, const glm::vec3& size, float thickness)
+{
+    glm::vec3 halfSize = size * 0.5f;
+
+    glm::vec3 corners[8] = {
+        center + glm::vec3(-halfSize.x, -halfSize.y, -halfSize.z),
+        center + glm::vec3(halfSize.x, -halfSize.y, -halfSize.z),
+        center + glm::vec3(halfSize.x,  halfSize.y, -halfSize.z),
+        center + glm::vec3(-halfSize.x,  halfSize.y, -halfSize.z),
+        center + glm::vec3(-halfSize.x, -halfSize.y,  halfSize.z),
+        center + glm::vec3(halfSize.x, -halfSize.y,  halfSize.z),
+        center + glm::vec3(halfSize.x,  halfSize.y,  halfSize.z),
+        center + glm::vec3(-halfSize.x,  halfSize.y,  halfSize.z)
+    };
+
+    drawThickLine(corners[0], corners[1], thickness);
+    drawThickLine(corners[1], corners[2], thickness);
+    drawThickLine(corners[2], corners[3], thickness);
+    drawThickLine(corners[3], corners[0], thickness);
+
+    drawThickLine(corners[4], corners[5], thickness);
+    drawThickLine(corners[5], corners[6], thickness);
+    drawThickLine(corners[6], corners[7], thickness);
+    drawThickLine(corners[7], corners[4], thickness);
+
+    drawThickLine(corners[0], corners[4], thickness);
+    drawThickLine(corners[1], corners[5], thickness);
+    drawThickLine(corners[2], corners[6], thickness);
+    drawThickLine(corners[3], corners[7], thickness);
+
     ofFill();
     float sphereRadius = thickness * 0.5f;
-    ofDrawSphere(v0, sphereRadius);
-    ofDrawSphere(v1, sphereRadius);
-    ofDrawSphere(v2, sphereRadius);
-    ofDrawSphere(v3, sphereRadius);
-    ofDrawSphere(v4, sphereRadius);
-    ofDrawSphere(v5, sphereRadius);
-    ofDrawSphere(v6, sphereRadius);
-    ofDrawSphere(v7, sphereRadius);
+    for (auto& corner : corners)
+        ofDrawSphere(corner, sphereRadius);
 }
 
-void BoundingBox::drawThickLine(const glm::vec3& start,
-                                const glm::vec3& end,
-                                float thickness)
+void BoundingBox::drawThickLine(const glm::vec3& start, const glm::vec3& end, float thickness)
 {
     glm::vec3 edge = end - start;
     float length = glm::length(edge);
@@ -137,8 +97,7 @@ void BoundingBox::drawThickLine(const glm::vec3& start,
 
     glm::vec3 midPoint = start + edge * 0.5f;
     glm::vec3 defaultDir(0, 0, 1);
-    glm::vec3 edgeDir = glm::normalize(edge);
-    glm::quat rotation = glm::rotation(defaultDir, edgeDir);
+    glm::quat rotation = glm::rotation(defaultDir, glm::normalize(edge));
 
     ofPushMatrix();
     ofTranslate(midPoint);

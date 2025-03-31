@@ -11,4 +11,6 @@ public:
 
 private:
     bool isRightMouseButtonDown;
+
+    bool isMouseOverAnyGui(int x, int y) const;
 };

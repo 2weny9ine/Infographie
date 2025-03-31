@@ -93,7 +93,7 @@ ofRectangle ImageObject::getScreenBoundingBox(ofCamera* cam)
         glm::vec3(-plane.getWidth() / 2,  plane.getHeight() / 2, 0)
     };
 
-    float minX = FLT_MAX, maxX = FLT_MIN, minY = FLT_MAX, maxY = FLT_MIN;
+    float minX = FLT_MAX, maxX = -FLT_MAX, minY = FLT_MAX, maxY = -FLT_MAX;
     for (auto& corner : corners)
     {
         glm::vec3 screenPos = cam->worldToScreen(corner + position);
@@ -136,7 +136,6 @@ void ImageObject::getWorldBounds(glm::vec3& outMin, glm::vec3& outMax) const
         float y = c.x * m[1] + c.y * m[5] + c.z * m[9];
         float z = c.x * m[2] + c.y * m[6] + c.z * m[10];
         glm::vec3 transformed(x, y, z);
-
         glm::vec3 worldCorner = transformed + position;
         actualMin = glm::min(actualMin, worldCorner);
         actualMax = glm::max(actualMax, worldCorner);
@@ -148,7 +147,18 @@ void ImageObject::getWorldBounds(glm::vec3& outMin, glm::vec3& outMax) const
 
 void ImageObject::drawBoundingBox()
 {
-
+    glm::vec3 bbMin, bbMax;
+    getWorldBounds(bbMin, bbMax);
+    glm::vec3 center = (bbMin + bbMax) * 0.5f;
+    float w = bbMax.x - bbMin.x;
+    float h = bbMax.y - bbMin.y;
+    float d = bbMax.z - bbMin.z;
+    ofPushStyle();
+    ofNoFill();
+    ofSetColor(strokeColor);
+    ofSetLineWidth(lineWidth);
+    ofDrawBox(center, w, h, d);
+    ofPopStyle();
 }
 
 void ImageObject::applyFilter(const ofColor& filter)

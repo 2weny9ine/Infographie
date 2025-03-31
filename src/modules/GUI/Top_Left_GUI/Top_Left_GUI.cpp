@@ -95,3 +95,15 @@ bool Top_Left_GUI::histogramEnabled() const {
     return showHistogram;
 }
 
+bool Top_Left_GUI::isMouseOverGui(int x, int y) const
+{
+    if (!gui) return false;
+
+    float guiX = gui->getPosition().x;
+    float guiY = gui->getPosition().y;
+    float guiWidth = gui->getWidth();
+    float guiHeight = gui->getHeight();
+
+    return (x >= guiX && x <= guiX + guiWidth &&
+            y >= guiY && y <= guiY + guiHeight);
+}

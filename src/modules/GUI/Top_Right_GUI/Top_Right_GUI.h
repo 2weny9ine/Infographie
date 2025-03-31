@@ -30,6 +30,9 @@ public:
     std::vector<ofxDatGuiButton*> objectButtons;
 
     ofxDatGui* getGui();
+
+    bool isMouseOverGui(int x, int y) const;
+
 private:
     ofxDatGuiFolder* objectsFolder;
     ofxDatGuiButton* deleteButton;

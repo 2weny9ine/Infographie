@@ -24,6 +24,9 @@ public:
     ofColor getHSBColor();
 
     ofxDatGui* getGui();
+
+    bool isMouseOverGui(int x, int y) const;
+
     
 private:
     GUI* gui_manager;

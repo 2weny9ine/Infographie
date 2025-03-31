@@ -599,9 +599,6 @@
     <ClInclude Include="src\modules\Image\Image.h">
       <Filter>src</Filter>
     </ClInclude>
-    <ClInclude Include="src\modules\Properties\Properties.h">
-      <Filter>src</Filter>
-    </ClInclude>
     <ClInclude Include="src\modules\Scene\Grid\Grid.h">
       <Filter>src</Filter>
     </ClInclude>
@@ -639,6 +636,9 @@
       <Filter>src</Filter>
     </ClInclude>
     <ClInclude Include="src\Renderer.h">
+      <Filter>src</Filter>
+    </ClInclude>
+    <ClInclude Include="src\modules\Properties\ModularProperties.h">
       <Filter>src</Filter>
     </ClInclude>
   </ItemGroup>

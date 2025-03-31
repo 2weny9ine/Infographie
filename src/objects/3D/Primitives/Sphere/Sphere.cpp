@@ -13,7 +13,7 @@ Sphere::Sphere()
 }
 
 Sphere::Sphere(const Sphere& other)
-    : Object3D(other), sphere(other.sphere)
+    : Object3D(other), sphere(other.sphere), resolution(other.resolution)
 {
     ofLogNotice("Sphere::Sphere(copy)") << "Sphere copy constructor called.";
     setup();
@@ -26,7 +26,7 @@ Sphere::~Sphere()
 
 void Sphere::setup()
 {
-    int resolution = 16;
+    resolution = 16;
     sphere.set(5.0f, resolution);
     sphere.setPosition(0, 0, 0);
 }
@@ -35,7 +35,6 @@ void Sphere::draw()
 {
     ofPushMatrix();
 
-    // Apply local transformations
     ofTranslate(position);
     ofRotateXDeg(rotation.x);
     ofRotateYDeg(rotation.y);
@@ -72,8 +71,8 @@ void Sphere::getWorldBounds(glm::vec3& outMin, glm::vec3& outMax) const
         { localMax.x, localMax.y, localMax.z }
     };
 
-    glm::vec3 actualMin(999999.f);
-    glm::vec3 actualMax(-999999.f);
+    glm::vec3 actualMin(FLT_MAX, FLT_MAX, FLT_MAX);
+    glm::vec3 actualMax(-FLT_MAX, -FLT_MAX, -FLT_MAX);
     const float* m = RS.getPtr();
     for (auto& c : corners)
     {
@@ -108,4 +107,32 @@ void Sphere::drawBoundingBox()
 Sphere* Sphere::copy() const
 {
     return new Sphere(*this);
+}
+
+std::vector<Property> Sphere::getProperties() const
+{
+    std::vector<Property> props = Object3D::getProperties();
+    Property resProp;
+    resProp.name = "resolution";
+    resProp.type = PropertyType::Int;
+    resProp.value = resolution;
+    resProp.min = 1.0f;
+    resProp.max = 64.0f;
+    resProp.step = 1.0f;
+    resProp.decimals = 0;
+    props.push_back(resProp);
+    return props;
+}
+
+void Sphere::setProperty(const Property& prop)
+{
+    if (prop.name == "resolution")
+    {
+        resolution = std::get<int>(prop.value);
+        sphere.set(sphere.getRadius(), resolution);
+    }
+    else
+    {
+        Object3D::setProperty(prop);
+    }
 }

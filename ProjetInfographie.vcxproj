@@ -284,7 +284,7 @@
     <ClInclude Include="src\modules\GUI\Top_Left_GUI\Top_Left_GUI.h" />
     <ClInclude Include="src\modules\GUI\Top_Right_GUI\Top_Right_GUI.h" />
     <ClInclude Include="src\modules\Image\Image.h" />
-    <ClInclude Include="src\modules\Properties\Properties.h" />
+    <ClInclude Include="src\modules\Properties\ModularProperties.h" />
     <ClInclude Include="src\modules\Scene\Grid\Grid.h" />
     <ClInclude Include="src\modules\Scene\Scene.h" />
     <ClInclude Include="src\modules\User_Camera_Movement\User_Camera_Movement.h" />

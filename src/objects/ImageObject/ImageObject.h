@@ -11,7 +11,7 @@ public:
     virtual void setup() override;
     virtual void update(float dt) override;
     virtual void draw() override;
-    void applyFilter(const ofColor& filter);
+    virtual void applyFilter(const ofColor& filter);
 
     ofImage& getImage() { return image; }
 
@@ -26,9 +26,7 @@ public:
 
     // yacine
     virtual ofRectangle getScreenBoundingBox(ofCamera* cam) override;
-
     virtual void getWorldBounds(glm::vec3& outMin, glm::vec3& outMax) const override;
-
     virtual void drawBoundingBox() override;
 
 private:

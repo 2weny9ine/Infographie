@@ -267,51 +267,19 @@ void Scene::selectAllInBounds(float x1, float y1, float x2, float y2)
             object->setSelected(false);
         }
     }
-    update_Attributes();
+    gui->bottom_left->updatePropertyControls();
 
     boundingBoxDirty = true;
 }
 
 void Scene::update_Attributes()
 {
-    if (selectedObjects.size() == 1)
-    {
-        Object3D* currentObject = selectedObjects[0];
-        ofVec3f position = currentObject->getPosition();
-        ofVec3f rotation = currentObject->getRotation();
-        ofVec3f scale = currentObject->getScale();
-
-        gui->bottom_left.get()->inputs[0]->setText(std::to_string(position.x));
-        gui->bottom_left.get()->inputs[1]->setText(std::to_string(position.y));
-        gui->bottom_left.get()->inputs[2]->setText(std::to_string(position.z));
-
-        gui->bottom_left.get()->inputs[3]->setText(std::to_string(rotation.x));
-        gui->bottom_left.get()->inputs[4]->setText(std::to_string(rotation.y));
-        gui->bottom_left.get()->inputs[5]->setText(std::to_string(rotation.z));
-
-        gui->bottom_left.get()->inputs[6]->setText(std::to_string(scale.x));
-        gui->bottom_left.get()->inputs[7]->setText(std::to_string(scale.y));
-        gui->bottom_left.get()->inputs[8]->setText(std::to_string(scale.z));
-    }
-    else if (gui->bottom_left->localTransformations == std::vector<float>{ 0, 0, 0, 0, 0, 0, 0, 0, 0 })
-    {
-        gui->bottom_left->resetTransformations();
-    }
-    else
-    {
-        gui->bottom_left.get()->inputs[0]->setText(std::to_string(gui->bottom_left->localTransformations[0]));
-        gui->bottom_left.get()->inputs[1]->setText(std::to_string(gui->bottom_left->localTransformations[1]));
-        gui->bottom_left.get()->inputs[2]->setText(std::to_string(gui->bottom_left->localTransformations[2]));
-
-        gui->bottom_left.get()->inputs[3]->setText(std::to_string(gui->bottom_left->localTransformations[3]));
-        gui->bottom_left.get()->inputs[4]->setText(std::to_string(gui->bottom_left->localTransformations[4]));
-        gui->bottom_left.get()->inputs[5]->setText(std::to_string(gui->bottom_left->localTransformations[5]));
-
-        gui->bottom_left.get()->inputs[6]->setText(std::to_string(gui->bottom_left->localTransformations[6]));
-        gui->bottom_left.get()->inputs[7]->setText(std::to_string(gui->bottom_left->localTransformations[7]));
-        gui->bottom_left.get()->inputs[8]->setText(std::to_string(gui->bottom_left->localTransformations[8]));
-    }
+    gui->bottom_left->updatePropertyControls();
+    boundingBoxDirty = true;
+    updateBoundingBoxIfNeeded();
 }
+
+
 
 void Scene::apply_Transformations(ofVec3f position, ofVec3f rotation, ofVec3f scale)
 {
@@ -326,12 +294,13 @@ void Scene::apply_Transformations(ofVec3f position, ofVec3f rotation, ofVec3f sc
         for (Object3D* object : selectedObjects)
         {
             object->transformPosition(position);
-            object->transformPosition(rotation);
+            object->transformRotation(rotation);
             object->transformScale(scale);
         }
     }
 
     boundingBoxDirty = true;
+    updateBoundingBoxIfNeeded();
 }
 
 void Scene::duplicateSelectedInstances()

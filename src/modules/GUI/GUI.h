@@ -14,6 +14,8 @@ public:
     void setup(Scene* scene);
     Scene* getScene();
 
+    bool isMouseOverGui(int x, int y) const;
+
     std::unique_ptr<Top_Left_GUI> top_left;
     std::unique_ptr<Top_Right_GUI> top_right;
     std::unique_ptr<Bottom_Left_GUI> bottom_left;
