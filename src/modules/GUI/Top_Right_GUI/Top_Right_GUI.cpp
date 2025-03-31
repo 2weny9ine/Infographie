@@ -123,7 +123,7 @@ ofxDatGui* Top_Right_GUI::getGui()
 
 void Top_Right_GUI::onOutlineToggle(ofxDatGuiToggleEvent e) {
     outlineEnabled = e.checked; 
-}}
+}
 
 bool Top_Right_GUI::isMouseOverGui(int x, int y) const
 {
