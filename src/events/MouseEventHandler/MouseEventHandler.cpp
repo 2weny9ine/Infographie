@@ -16,36 +16,37 @@ void MouseEventHandler::handleMousePressed(int x, int y, int button)
     Application& app = Application::getInstance();
     Scene& scene = app.getScene();
 
-    bool mouseOverGui = isMouseOverAnyGui(x, y);
-    if (button == OF_MOUSE_BUTTON_LEFT)
+    bool mouseOverGui = app.getGui().isMouseOverGui(x, y);
+
+    if (button == 0) // Left mouse button pressed
     {
+        scene.is_mouse_button_pressed = true;
+        scene.mouse_current_x = x;
+        scene.mouse_current_y = y;
         scene.mouse_press_x = x;
         scene.mouse_press_y = y;
+        scene.cursor.setState(CursorState::PRESSED);
 
-        if (!mouseOverGui)
+        if (scene.currentTransform == Scene::TransformMode::None)
         {
-            scene.is_mouse_button_pressed = true;
-            scene.cursor.setState(CursorState::PRESSED);
-
-            if (scene.isDrawingMode)
-            {
-                scene.startDrawing(x, y);
-            }
-            else
+            if (!mouseOverGui)
             {
                 scene.resetSelection();
             }
         }
-    }
-    else if (button == OF_MOUSE_BUTTON_RIGHT)
-    {
-        if (!mouseOverGui)
+
+        if (scene.isDrawingMode && !mouseOverGui)
         {
-            isRightMouseButtonDown = true;
-            scene.lastMouseScreen.set(x, y);
+            scene.startDrawing(x, y);
         }
     }
+    else if (button == 2)
+    {
+        isRightMouseButtonDown = true;
+        scene.lastMouseScreen.set(x, y);
+    }
 }
+
 
 void MouseEventHandler::handleMouseReleased(int x, int y, int button)
 {
