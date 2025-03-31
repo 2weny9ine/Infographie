@@ -39,3 +39,11 @@ void GUI::initializeGUIs() {
 Scene* GUI::getScene() {
     return scene;
 }
+
+bool GUI::isMouseOverGui(int x, int y) const
+{
+    return top_left->isMouseOverGui(x, y) ||
+        top_right->isMouseOverGui(x, y) ||
+        bottom_left->isMouseOverGui(x, y) ||
+        bottom_right->isMouseOverGui(x, y);
+}

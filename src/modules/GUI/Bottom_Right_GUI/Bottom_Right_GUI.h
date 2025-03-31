@@ -11,6 +11,8 @@ public:
     Bottom_Right_GUI();
     void setup(GUI* gui_manager);
     ofxDatGui* getGui();
+
+    bool isMouseOverGui(int x, int y) const;
 private:
     GUI* gui_manager;
     ofxDatGui* gui;

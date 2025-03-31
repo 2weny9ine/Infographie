@@ -104,32 +104,6 @@
     <PostBuildEvent />
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="src\main.cpp" />
-    <ClCompile Include="src\Application.cpp" />
-    <ClCompile Include="src\Renderer.cpp" />
-    <ClCompile Include="src\events\DragEventHandler\DragEventHandler.cpp" />
-    <ClCompile Include="src\events\KeyEventHandler\KeyEventHandler.cpp" />
-    <ClCompile Include="src\events\MouseEventHandler\MouseEventHandler.cpp" />
-    <ClCompile Include="src\events\WindowResizedEventHandler\WindowResizedEventHandler.cpp" />
-    <ClCompile Include="src\modules\Configuration\Configuration.cpp" />
-    <ClCompile Include="src\modules\Cursor\Cursor.cpp" />
-    <ClCompile Include="src\modules\GUI\Bottom_Left_GUI\Bottom_Left_GUI.cpp" />
-    <ClCompile Include="src\modules\GUI\Bottom_Right_GUI\Bottom_Right_GUI.cpp" />
-    <ClCompile Include="src\modules\GUI\GUI.cpp" />
-    <ClCompile Include="src\modules\GUI\Top_Left_GUI\Top_Left_GUI.cpp" />
-    <ClCompile Include="src\modules\GUI\Top_Right_GUI\Top_Right_GUI.cpp" />
-    <ClCompile Include="src\modules\Image\Image.cpp" />
-    <ClCompile Include="src\modules\Scene\Grid\Grid.cpp" />
-    <ClCompile Include="src\modules\Scene\Scene.cpp" />
-    <ClCompile Include="src\modules\User_Camera_Movement\User_Camera_Movement.cpp" />
-    <ClCompile Include="src\objects\ImageObject\ImageObject.cpp" />
-    <ClCompile Include="src\objects\ModelObject\ModelObject.cpp" />
-    <ClCompile Include="src\objects\ModelObject\Templates\Cone\Cone.cpp" />
-    <ClCompile Include="src\objects\ModelObject\Templates\Cube\Cube.cpp" />
-    <ClCompile Include="src\objects\ModelObject\Templates\Cylinder\Cylinder.cpp" />
-    <ClCompile Include="src\objects\ModelObject\Templates\Sphere\Sphere.cpp" />
-    <ClCompile Include="src\objects\Object3D.cpp" />
-    <ClCompile Include="src\objects\primitiveObject\primitiveObject.cpp" />
     <ClCompile Include="..\..\..\addons\ofxAssimpModelLoader\src\ofxAssimpAnimation.cpp" />
     <ClCompile Include="..\..\..\addons\ofxAssimpModelLoader\src\ofxAssimpMeshHelper.cpp" />
     <ClCompile Include="..\..\..\addons\ofxAssimpModelLoader\src\ofxAssimpModelLoader.cpp" />
@@ -147,33 +121,35 @@
     <ClCompile Include="..\..\..\addons\ofxGui\src\ofxSlider.cpp" />
     <ClCompile Include="..\..\..\addons\ofxGui\src\ofxSliderGroup.cpp" />
     <ClCompile Include="..\..\..\addons\ofxGui\src\ofxToggle.cpp" />
+    <ClCompile Include="src\Application.cpp" />
+    <ClCompile Include="src\events\DragEventHandler\DragEventHandler.cpp" />
+    <ClCompile Include="src\events\KeyEventHandler\KeyEventHandler.cpp" />
+    <ClCompile Include="src\events\MouseEventHandler\MouseEventHandler.cpp" />
+    <ClCompile Include="src\events\WindowResizedEventHandler\WindowResizedEventHandler.cpp" />
+    <ClCompile Include="src\main.cpp" />
+    <ClCompile Include="src\modules\BoundingBox\BoundingBox.cpp" />
+    <ClCompile Include="src\modules\Configuration\Configuration.cpp" />
+    <ClCompile Include="src\modules\Cursor\Cursor.cpp" />
+    <ClCompile Include="src\modules\GUI\Bottom_Left_GUI\Bottom_Left_GUI.cpp" />
+    <ClCompile Include="src\modules\GUI\Bottom_Right_GUI\Bottom_Right_GUI.cpp" />
+    <ClCompile Include="src\modules\GUI\GUI.cpp" />
+    <ClCompile Include="src\modules\GUI\Top_Left_GUI\Top_Left_GUI.cpp" />
+    <ClCompile Include="src\modules\GUI\Top_Right_GUI\Top_Right_GUI.cpp" />
+    <ClCompile Include="src\modules\Image\Image.cpp" />
+    <ClCompile Include="src\modules\Scene\Grid\Grid.cpp" />
+    <ClCompile Include="src\modules\Scene\Scene.cpp" />
+    <ClCompile Include="src\modules\User_Camera_Movement\User_Camera_Movement.cpp" />
+    <ClCompile Include="src\objects\3D\FileMesh\FileMesh.cpp" />
+    <ClCompile Include="src\objects\3D\Primitives\Cone\Cone.cpp" />
+    <ClCompile Include="src\objects\3D\Primitives\Cube\Cube.cpp" />
+    <ClCompile Include="src\objects\3D\Primitives\Cylinder\Cylinder.cpp" />
+    <ClCompile Include="src\objects\3D\Primitives\Sphere\Sphere.cpp" />
+    <ClCompile Include="src\objects\ImageObject\ImageObject.cpp" />
+    <ClCompile Include="src\objects\Object3D.cpp" />
+    <ClCompile Include="src\objects\primitiveObject\primitiveObject.cpp" />
+    <ClCompile Include="src\Renderer.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="src\Application.h" />
-    <ClInclude Include="src\Renderer.h" />
-    <ClInclude Include="src\events\DragEventHandler\DragEventHandler.h" />
-    <ClInclude Include="src\events\KeyEventHandler\KeyEventHandler.h" />
-    <ClInclude Include="src\events\MouseEventHandler\MouseEventHandler.h" />
-    <ClInclude Include="src\events\WindowResizedEventHandler\WindowResizedEventHandler.h" />
-    <ClInclude Include="src\modules\Configuration\Configuration.h" />
-    <ClInclude Include="src\modules\Cursor\Cursor.h" />
-    <ClInclude Include="src\modules\GUI\Bottom_Left_GUI\Bottom_Left_GUI.h" />
-    <ClInclude Include="src\modules\GUI\Bottom_Right_GUI\Bottom_Right_GUI.h" />
-    <ClInclude Include="src\modules\GUI\GUI.h" />
-    <ClInclude Include="src\modules\GUI\Top_Left_GUI\Top_Left_GUI.h" />
-    <ClInclude Include="src\modules\GUI\Top_Right_GUI\Top_Right_GUI.h" />
-    <ClInclude Include="src\modules\Image\Image.h" />
-    <ClInclude Include="src\modules\Scene\Grid\Grid.h" />
-    <ClInclude Include="src\modules\Scene\Scene.h" />
-    <ClInclude Include="src\modules\User_Camera_Movement\User_Camera_Movement.h" />
-    <ClInclude Include="src\objects\ImageObject\ImageObject.h" />
-    <ClInclude Include="src\objects\ModelObject\ModelObject.h" />
-    <ClInclude Include="src\objects\ModelObject\Templates\Cone\Cone.h" />
-    <ClInclude Include="src\objects\ModelObject\Templates\Cube\Cube.h" />
-    <ClInclude Include="src\objects\ModelObject\Templates\Cylinder\Cylinder.h" />
-    <ClInclude Include="src\objects\ModelObject\Templates\Sphere\Sphere.h" />
-    <ClInclude Include="src\objects\Object3D.h" />
-    <ClInclude Include="src\objects\primitiveObject\primitiveObject.h" />
     <ClInclude Include="..\..\..\addons\ofxAssimpModelLoader\src\ofxAssimpAnimation.h" />
     <ClInclude Include="..\..\..\addons\ofxAssimpModelLoader\src\ofxAssimpMeshHelper.h" />
     <ClInclude Include="..\..\..\addons\ofxAssimpModelLoader\src\ofxAssimpModelLoader.h" />
@@ -294,17 +270,38 @@
     <ClInclude Include="..\..\..\addons\ofxGui\src\ofxSlider.h" />
     <ClInclude Include="..\..\..\addons\ofxGui\src\ofxSliderGroup.h" />
     <ClInclude Include="..\..\..\addons\ofxGui\src\ofxToggle.h" />
+    <ClInclude Include="src\Application.h" />
+    <ClInclude Include="src\events\DragEventHandler\DragEventHandler.h" />
+    <ClInclude Include="src\events\KeyEventHandler\KeyEventHandler.h" />
+    <ClInclude Include="src\events\MouseEventHandler\MouseEventHandler.h" />
+    <ClInclude Include="src\events\WindowResizedEventHandler\WindowResizedEventHandler.h" />
+    <ClInclude Include="src\modules\BoundingBox\BoundingBox.h" />
+    <ClInclude Include="src\modules\Configuration\Configuration.h" />
+    <ClInclude Include="src\modules\Cursor\Cursor.h" />
+    <ClInclude Include="src\modules\GUI\Bottom_Left_GUI\Bottom_Left_GUI.h" />
+    <ClInclude Include="src\modules\GUI\Bottom_Right_GUI\Bottom_Right_GUI.h" />
+    <ClInclude Include="src\modules\GUI\GUI.h" />
+    <ClInclude Include="src\modules\GUI\Top_Left_GUI\Top_Left_GUI.h" />
+    <ClInclude Include="src\modules\GUI\Top_Right_GUI\Top_Right_GUI.h" />
+    <ClInclude Include="src\modules\Image\Image.h" />
+    <ClInclude Include="src\modules\Properties\ModularProperties.h" />
+    <ClInclude Include="src\modules\Scene\Grid\Grid.h" />
+    <ClInclude Include="src\modules\Scene\Scene.h" />
+    <ClInclude Include="src\modules\User_Camera_Movement\User_Camera_Movement.h" />
+    <ClInclude Include="src\objects\3D\FileMesh\FileMesh.h" />
+    <ClInclude Include="src\objects\3D\Primitives\Cone\Cone.h" />
+    <ClInclude Include="src\objects\3D\Primitives\Cube\Cube.h" />
+    <ClInclude Include="src\objects\3D\Primitives\Cylinder\Cylinder.h" />
+    <ClInclude Include="src\objects\3D\Primitives\Sphere\Sphere.h" />
+    <ClInclude Include="src\objects\ImageObject\ImageObject.h" />
+    <ClInclude Include="src\objects\Object3D.h" />
+    <ClInclude Include="src\objects\primitiveObject\primitiveObject.h" />
+    <ClInclude Include="src\Renderer.h" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="$(OF_ROOT)\libs\openFrameworksCompiled\project\vs\openframeworksLib.vcxproj">
       <Project>{5837595d-aca9-485c-8e76-729040ce4b0b}</Project>
     </ProjectReference>
-  </ItemGroup>
-  <ItemGroup>
-    <ResourceCompile Include="icon.rc">
-      <AdditionalOptions Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">/D_DEBUG %(AdditionalOptions)</AdditionalOptions>
-      <AdditionalIncludeDirectories>$(OF_ROOT)\libs\openFrameworksCompiled\project\vs</AdditionalIncludeDirectories>
-    </ResourceCompile>
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ProjectExtensions>

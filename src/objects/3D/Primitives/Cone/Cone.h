@@ -1,24 +1,26 @@
 #pragma once
-#include "objects/ModelObject/ModelObject.h"
+#include "objects/Object3D.h"
 #include "ofMesh.h"
 
-class Cylinder : public ModelObject {
+class Cone : public Object3D {
 public:
-    Cylinder();
-    Cylinder(const Cylinder& instance);
-    ~Cylinder() override;
+    Cone();
+    Cone(const Cone& instance);
+    ~Cone() override;
 
     void setup() override;
     void draw() override;
+
+    void getWorldBounds(glm::vec3& outMin, glm::vec3& outMax) const override;
+
     void drawBoundingBox() override;
 
-    Cylinder* copy() const override;
+    Cone* copy() const override;
 
 private:
     ofMesh mesh;
     float radius;
     float height;
     int radialRes;
-    int heightRes;
     void generateMesh();
 };

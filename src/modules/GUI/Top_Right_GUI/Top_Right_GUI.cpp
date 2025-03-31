@@ -124,3 +124,16 @@ ofxDatGui* Top_Right_GUI::getGui()
 void Top_Right_GUI::onOutlineToggle(ofxDatGuiToggleEvent e) {
     outlineEnabled = e.checked; 
 }
+
+bool Top_Right_GUI::isMouseOverGui(int x, int y) const
+{
+    if (!gui) return false;
+
+    float guiX = gui->getPosition().x;
+    float guiY = gui->getPosition().y;
+    float guiWidth = gui->getWidth();
+    float guiHeight = gui->getHeight();
+
+    return (x >= guiX && x <= guiX + guiWidth &&
+            y >= guiY && y <= guiY + guiHeight);
+}
