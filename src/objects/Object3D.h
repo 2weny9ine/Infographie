@@ -1,6 +1,7 @@
 #pragma once
 #include "ofMain.h"
 #include "modules/Properties/ModularProperties.h"
+#include "enums/SurfaceType.h"
 
 class Object3D : public IPropertyProvider {
 public:
@@ -41,6 +42,7 @@ public:
 protected:
     void initializeDrawingTools();
 
+    SurfaceType surfaceType;
     ofVec3f position, rotation, scale;
     ofColor color;
     float opacity;

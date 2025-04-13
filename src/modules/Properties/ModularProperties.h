@@ -10,7 +10,8 @@ enum class PropertyType {
     Int,
     String,
     Color,
-    Percent
+    Percent,
+    SurfaceType
 };
 
 using PropertyValue = std::variant<bool, float, int, std::string, ofColor>;
