@@ -1,5 +1,6 @@
 #include "Scene.h"
 #include "Image.h"
+#include "IlluminationClassique.h"  
 #include "ofMain.h"
 #include "GUI.h"
 #include "primitiveObject.h"
@@ -156,46 +157,57 @@ Scene::Scene()
 
 void Scene::draw()
 {
-    // 3D space
+    // ---------- 3D ----------
     camera->begin();
     ofPushMatrix();
 
+    // Toujours afficher la grille
     grid->draw();
 
-    // Draw scene origin
+    // Activer le test de profondeur pour le rendu des objets 3D
     glEnable(GL_DEPTH_TEST);
 
-    for (auto obj : objects)
-    {
-        obj->draw();
+    // Choix du mode de rendu selon le contexte
+    if (materialPassEnabled && illumination) {
+        // Passe matériaux
+        illumination->renderMaterialPass();
     }
+    else if (illumination && illumination->getMode() != IlluminationClassique::Mode::AUCUN) {
+        // Passe shader classique (Lambert, Gouraud, Phong, Blinn-Phong)
+        illumination->draw();
+    }
+    else {
+        // Rendu "brut" sans éclairage ni shader
+        for (auto* obj : objects) {
+            obj->draw();
+        }
+    }
+
+    // Désactiver le test de profondeur après le rendu des objets
     glDisable(GL_DEPTH_TEST);
 
-    if (!selectedObjects.empty())
-    {
+    // Affichage de la bounding box si des objets sont sélectionnés
+    if (!selectedObjects.empty()) {
         updateBoundingBoxIfNeeded();
         boundingBoxAll.draw();
     }
 
+    // Affichage du locator
     draw_locator(10.0f);
+
     ofPopMatrix();
     camera->end();
 
-    // Selection rectangle if user is dragging
-    if (is_mouse_button_pressed && currentTransform == TransformMode::None)
-    {
-        draw_zone(
-            mouse_press_x,
-            mouse_press_y,
-            mouse_current_x,
-            mouse_current_y);
+    // Affichage du rectangle de sélection si le bouton de la souris est pressé
+    if (is_mouse_button_pressed && currentTransform == TransformMode::None) {
+        draw_zone(mouse_press_x, mouse_press_y, mouse_current_x, mouse_current_y);
     }
 
-    //2.3
+    // Dessin des formes 2D
     for (auto& shape : shapes) drawShape(shape);
     if (isDrawing) drawShape(currentShape);
-    //cursor.draw();
 }
+
 
 void Scene::updateBoundingBoxIfNeeded()
 {

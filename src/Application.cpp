@@ -11,6 +11,7 @@ Application::Application()
 Application::~Application()
 {
 
+    
 }
 
 Application& Application::getInstance()
@@ -35,6 +36,11 @@ void Application::setup()
     scene.cursor.setState(CursorState::DEFAULT);
 
     backgroundColor = ofColor(31);
+    
+    illuminationClassique = new IlluminationClassique(&scene);
+    illuminationClassique->setup();
+    scene.setIlluminationPtr(illuminationClassique);
+    gui.top_left->setIlluminationPtr(illuminationClassique);
 }
 
 void Application::update()
@@ -58,10 +64,18 @@ void Application::update()
     
     isDrawingMode = gui.top_right->isDrawingEnabled();
     scene.isDrawingMode = isDrawingMode;
+    
+    illuminationClassique->update(ofGetLastFrameTime());
+
 }
+
+
+
 
 void Application::draw()
 {
+    //illuminationClassique->draw();
+    scene.setMaterialPassEnabled( gui.top_left->isMaterialEffectEnabled() );
     ofSetBackgroundColor(backgroundColor);
     scene.draw();
 
@@ -97,10 +111,13 @@ void Application::draw()
             imgObj->applyUserColor = false;
         }
     }
+    
+
 
     scene.img->imageExport("exportImage", "png");
     scene.drawCursor();
 }
+
 
 void Application::windowResized(int w, int h)
 {

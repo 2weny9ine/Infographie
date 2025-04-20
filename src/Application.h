@@ -3,6 +3,7 @@
 #include "Renderer.h"
 #include "modules/Scene/Scene.h"
 #include "modules/Image/Image.h"
+#include "modules/IlluminationClassique/IlluminationClassique.h"
 #include "modules/User_Camera_Movement/User_Camera_Movement.h"
 #include "modules/GUI/GUI.h"
 #include "events/MouseEventHandler/MouseEventHandler.h"
@@ -15,6 +16,7 @@ public:
     GUI gui;
     Scene scene;
     Renderer renderer;
+    
     User_Camera_Movement user_camera_movement;
 
     ofFbo sceneFbo;
@@ -64,7 +66,8 @@ public:
     void setBackgroundColor(const ofColor& backgroundColor);
 
     static Application& getInstance();
-
+    
+    IlluminationClassique* getIllumination() { return illuminationClassique; }
 private:
     Application();
     ~Application();
@@ -73,4 +76,5 @@ private:
     WindowResizedEventHandler windowResizedHandler;
     KeyEventHandler keyEventHandler;
     DragEventHandler dragEventHandler;
+    IlluminationClassique* illuminationClassique;
 };
