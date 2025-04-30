@@ -87,6 +87,12 @@ void IlluminationClassique::appliquerEtatLumieres()
         lightSpot.enable();
     else
         lightSpot.disable();
+    
+    if (activeMouseLight)
+        lightMouse.enable();
+    else
+        lightMouse.disable();
+
 }
 
 
@@ -175,8 +181,6 @@ void IlluminationClassique::afficherSymboleLumieres() {
 }
 
 
-
-
 void IlluminationClassique::draw()
 {
     if (modeCourant == Mode::AUCUN) return;
@@ -191,13 +195,13 @@ void IlluminationClassique::draw()
     // Déterminer la position de la lumière active
     glm::vec3 lightPosition(0.0f);
     if (activeLightSpot) {
-        lightPosition = lightSpot.getGlobalPosition();
-    } else if (activeLightPoint) {
-        lightPosition = lightPoint.getGlobalPosition();
-    } else if (activeLightDirectional) {
-        lightPosition = lightDirectional.getGlobalPosition();
-    } else if (useMouseLight) {
-        lightPosition = lightMouse.getGlobalPosition();
+        lightPosition += lightSpot.getGlobalPosition();
+    } if (activeLightPoint) {
+        lightPosition += lightPoint.getGlobalPosition();
+    } if (activeLightDirectional) {
+        lightPosition += lightDirectional.getGlobalPosition();
+    } if (activeMouseLight) {
+        lightPosition += lightMouse.getGlobalPosition();
     }
 
     shader.setUniform3f("light_position", lightPosition);
@@ -231,10 +235,6 @@ void IlluminationClassique::draw()
     ofDisableLighting();
     ofDisableDepthTest();
 }
-
-
-
-
 
 
 
