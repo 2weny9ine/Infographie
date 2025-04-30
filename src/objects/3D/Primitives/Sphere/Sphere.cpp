@@ -35,6 +35,7 @@ void Sphere::setup()
     ofTexture& tex = Application::getInstance().getTextureManager().getCheckerboardTexture();
     sphere.mapTexCoordsFromTexture(tex);
     hasTexture = true;
+    filterManager.setup(&Application::getInstance().getTextureManager().getCheckerboardTexture());
     //texture
 
 }
@@ -52,7 +53,14 @@ void Sphere::draw()
     ofSetColor(color, opacity * 255);
     // texture
     if (hasTexture) {
-        ofTexture& tex = Application::getInstance().getTextureManager().getCheckerboardTexture();
+        // Apply filter only when the filter changes
+        if (currentFilter != lastAppliedFilter) {
+            ofLogNotice("[Filter]") << "Applying: " << static_cast<int>(currentFilter);
+            filterManager.applyFilter(currentFilter);
+            lastAppliedFilter = currentFilter;
+        }
+
+        ofTexture& tex = filterManager.getFilteredTexture();
         tex.bind();
         sphere.draw();
         tex.unbind();
@@ -146,6 +154,17 @@ std::vector<Property> Sphere::getProperties() const
     textureProp.value = hasTexture;
     props.push_back(textureProp);
 
+    //filter
+    // filter
+    Property filterProp;
+    filterProp.name = "Filter";
+    filterProp.type = PropertyType::String;
+    filterProp.value = std::string("None");
+    filterProp.options = { "None", "Emboss", "Sharpen", "EdgeDetect" }; // <-- ADD THIS
+    props.push_back(filterProp);
+
+
+
     return props;
 }
 
@@ -160,6 +179,14 @@ void Sphere::setProperty(const Property& prop)
     {
         hasTexture = std::get<bool>(prop.value);
     }
+    else if (prop.name == "Filter") {
+    std::string val = std::get<std::string>(prop.value);
+    if (val == "Emboss") currentFilter = TextureFilterType::Emboss;
+    else if (val == "Sharpen") currentFilter = TextureFilterType::Sharpen;
+    else if (val == "EdgeDetect") currentFilter = TextureFilterType::EdgeDetect;
+    else currentFilter = TextureFilterType::None;
+}
+
     else
     {
         Object3D::setProperty(prop);

@@ -7,18 +7,18 @@ TextureManager& TextureManager::get() {
 
 void TextureManager::setup() {
     if (!loaded) {
-        if (checkerboardImage.load("textures/checkerboard.jpg")) {
+        if (checkerboardImage.load("textures/wood.jpg")) {
             checkerboardTexture = checkerboardImage.getTexture();
             checkerboardTexture.setTextureWrap(GL_REPEAT, GL_REPEAT);
             loaded = true;
         }
         else {
-            ofLogError("TextureManager") << "Failed to load checkerboard texture!";
+            ofLogError("TextureManager") << "Failed to load wood texture!";
         }
     }
 }
 
 ofTexture& TextureManager::getCheckerboardTexture() {
-    if (!loaded) setup();  // fallback to lazy-load
+    if (!loaded) setup(); 
     return checkerboardTexture;
 }

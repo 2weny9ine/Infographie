@@ -41,7 +41,9 @@ void Application::setup()
     illuminationClassique->setup();
     scene.setIlluminationPtr(illuminationClassique);
     gui.top_left->setIlluminationPtr(illuminationClassique);
+    //texture
     TextureManager::get().setup();
+    imageFilterManager.setup(&Application::getInstance().getTextureManager().getCheckerboardTexture());
 
 
 
@@ -195,6 +197,9 @@ float Application::getTimeElapsed() const { return time_elapsed; }
 float Application::getTimeLast() const { return time_last; }
 bool Application::getIsDrawingMode() const { return isDrawingMode; }
 ofColor Application::getBackgroundColor() const { return backgroundColor; }
+
+ImageFilterManager& Application::getImageFilterManager() {return imageFilterManager;} //texture
+
 
 // Setters
 void Application::setScene(const Scene& scene) { this->scene = scene; }

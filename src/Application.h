@@ -11,6 +11,7 @@
 #include "events/KeyEventHandler/KeyEventHandler.h"
 #include "events/DragEventHandler/DragEventHandler.h"
 #include "modules/Texture/TextureManager.h"
+#include "modules/Texture/ImageFilterManager.h"
 
 
 class Application : public ofBaseApp {
@@ -55,6 +56,8 @@ public:
     float getTimeLast() const;
     bool getIsDrawingMode() const;
     ofColor getBackgroundColor() const;
+
+    ImageFilterManager& getImageFilterManager();//texture
    
 
 
@@ -82,4 +85,5 @@ private:
     KeyEventHandler keyEventHandler;
     DragEventHandler dragEventHandler;
     IlluminationClassique* illuminationClassique;
+    ImageFilterManager imageFilterManager;//texture
 };
