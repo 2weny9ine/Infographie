@@ -4,10 +4,6 @@
 
 class Scene;
 
-/// ---------------------------------------------------------------------------
-/// ExportScene – ray-trace exporter (MIRROR, GLASS, NONE) avec gestion d’opacité
-/// Fallback ofSaveScreen si tous les objets sont NONE.
-/// ---------------------------------------------------------------------------
 class ExportScene {
 public:
     explicit ExportScene(Scene& scn);
@@ -15,6 +11,9 @@ public:
 
     void setExportTriggered(bool triggered);
     void setExportDuration(float seconds);
+
+    void setMaxDepth(unsigned int depth) { maxDepth = depth; }
+
     void exportFrames(const std::string& base,
                       const std::string& ext);
 
@@ -25,9 +24,11 @@ private:
                               const std::string& ext);
 
     Scene& scene;
-    bool  exportTriggered = false;
-    float exportDuration = 1.0f;
-    int   captureCount = 0;
-    float startTime = 0.0f;
-    float lastCaptureTime = 0.0f;
+    bool   exportTriggered = false;
+    float  exportDuration = 1.0f;
+    int    captureCount = 0;
+    float  startTime = 0.0f;
+    float  lastCaptureTime = 0.0f;
+
+    unsigned int maxDepth = 5;
 };
