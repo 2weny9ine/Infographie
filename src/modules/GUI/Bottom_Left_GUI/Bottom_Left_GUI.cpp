@@ -122,8 +122,7 @@ void Bottom_Left_GUI::createShape(ofxDatGuiButtonEvent e)
         modelObj = new Cylinder();
     else if (selectedShape == "CONE")
     {
-        // Assuming you have a Cone class.
-        // modelObj = new Cone();
+        modelObj = new Cone();
     }
 
     if (modelObj)

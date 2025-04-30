@@ -41,6 +41,10 @@ void Application::setup()
     illuminationClassique->setup();
     scene.setIlluminationPtr(illuminationClassique);
     gui.top_left->setIlluminationPtr(illuminationClassique);
+    TextureManager::get().setup();
+
+
+
 }
 
 void Application::update()

@@ -21,4 +21,6 @@ public:
 private:
     ofSpherePrimitive sphere;
     int resolution;
+    ofImage textureImage;////texture
+    bool hasTexture = false;////texture
 };

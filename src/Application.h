@@ -10,6 +10,8 @@
 #include "events/WindowResizedEventHandler/WindowResizedEventHandler.h"
 #include "events/KeyEventHandler/KeyEventHandler.h"
 #include "events/DragEventHandler/DragEventHandler.h"
+#include "modules/Texture/TextureManager.h"
+
 
 class Application : public ofBaseApp {
 public:
@@ -53,6 +55,8 @@ public:
     float getTimeLast() const;
     bool getIsDrawingMode() const;
     ofColor getBackgroundColor() const;
+   
+
 
     void setScene(const Scene& scene);
     void setRenderer(const Renderer& renderer);
@@ -68,6 +72,7 @@ public:
     static Application& getInstance();
     
     IlluminationClassique* getIllumination() { return illuminationClassique; }
+    TextureManager& getTextureManager() { return TextureManager::get(); } //texture
 private:
     Application();
     ~Application();

@@ -5,6 +5,8 @@
 #include <algorithm>
 #include <sstream>
 #include <glm/gtx/quaternion.hpp>
+#include "modules/Texture/TextureManager.h"
+
 
 Sphere::Sphere()
 {
@@ -29,6 +31,12 @@ void Sphere::setup()
     resolution = 16;
     sphere.set(5.0f, resolution);
     sphere.setPosition(0, 0, 0);
+    //texture
+    ofTexture& tex = Application::getInstance().getTextureManager().getCheckerboardTexture();
+    sphere.mapTexCoordsFromTexture(tex);
+    hasTexture = true;
+    //texture
+
 }
 
 void Sphere::draw()
@@ -42,8 +50,17 @@ void Sphere::draw()
     ofScale(scale);
 
     ofSetColor(color, opacity * 255);
-    sphere.draw();
-
+    // texture
+    if (hasTexture) {
+        ofTexture& tex = Application::getInstance().getTextureManager().getCheckerboardTexture();
+        tex.bind();
+        sphere.draw();
+        tex.unbind();
+    }
+    else {
+        sphere.draw();
+    }
+    //texture
     ofPopMatrix();
 }
 
@@ -121,6 +138,14 @@ std::vector<Property> Sphere::getProperties() const
     resProp.step = 1.0f;
     resProp.decimals = 0;
     props.push_back(resProp);
+
+    // Texture toggle
+    Property textureProp;
+    textureProp.name = "Texture";
+    textureProp.type = PropertyType::Bool;
+    textureProp.value = hasTexture;
+    props.push_back(textureProp);
+
     return props;
 }
 
@@ -130,6 +155,10 @@ void Sphere::setProperty(const Property& prop)
     {
         resolution = std::get<int>(prop.value);
         sphere.set(sphere.getRadius(), resolution);
+    }
+    else if (prop.name == "Texture")
+    {
+        hasTexture = std::get<bool>(prop.value);
     }
     else
     {
