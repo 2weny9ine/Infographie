@@ -121,6 +121,10 @@
     <ClCompile Include="..\..\..\addons\ofxGui\src\ofxSlider.cpp" />
     <ClCompile Include="..\..\..\addons\ofxGui\src\ofxSliderGroup.cpp" />
     <ClCompile Include="..\..\..\addons\ofxGui\src\ofxToggle.cpp" />
+    <ClCompile Include="src\modules\ExportScene\ExportScene.cpp" />
+    <ClCompile Include="src\modules\Raytracing\Intersection\Intersection.cpp" />
+    <ClCompile Include="src\modules\Raytracing\Ray\Ray.cpp" />
+    <ClCompile Include="src\modules\Raytracing\Raytracing.cpp" />
     <ClCompile Include="src\Application.cpp" />
     <ClCompile Include="src\events\DragEventHandler\DragEventHandler.cpp" />
     <ClCompile Include="src\events\KeyEventHandler\KeyEventHandler.cpp" />
@@ -270,6 +274,10 @@
     <ClInclude Include="..\..\..\addons\ofxGui\src\ofxSlider.h" />
     <ClInclude Include="..\..\..\addons\ofxGui\src\ofxSliderGroup.h" />
     <ClInclude Include="..\..\..\addons\ofxGui\src\ofxToggle.h" />
+    <ClInclude Include="src\modules\ExportScene\ExportScene.h" />
+    <ClInclude Include="src\modules\Raytracing\Intersection\Intersection.h" />
+    <ClInclude Include="src\modules\Raytracing\Ray\Ray.h" />
+    <ClInclude Include="src\modules\Raytracing\Raytracing.h" />
     <ClInclude Include="src\Application.h" />
     <ClInclude Include="src\events\DragEventHandler\DragEventHandler.h" />
     <ClInclude Include="src\events\KeyEventHandler\KeyEventHandler.h" />

@@ -141,6 +141,8 @@ void Scene::update()
     /**************************************************************************/
     cursor.update(mouse_current_x, mouse_current_y, is_mouse_button_pressed);
     /**************************************************************************/
+
+    //img->update();
 }
 
 Scene::Scene()
@@ -195,6 +197,9 @@ void Scene::draw()
     for (auto& shape : shapes) drawShape(shape);
     if (isDrawing) drawShape(currentShape);
     //cursor.draw();
+
+    //img->draw();
+
 }
 
 void Scene::updateBoundingBoxIfNeeded()

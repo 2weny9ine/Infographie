@@ -136,3 +136,31 @@ void Sphere::setProperty(const Property& prop)
 		Object3D::setProperty(prop);
 	}
 }
+
+bool Sphere::intersect(const Ray& ray, Intersection& intersection)
+{
+	glm::vec3 C = position;
+	float    R = sphere.getRadius() * scale.x;
+
+	glm::vec3 L = C - ray.origin;
+	float tca = glm::dot(L, ray.direction);
+	if (tca < 0.0f) return false;
+
+	float d2 = glm::dot(L, L) - tca * tca;
+	if (d2 > R * R)  return false;
+
+	float thc = sqrt(R * R - d2);
+	float t0 = tca - thc;
+	float t1 = tca + thc;
+	float t = (t0 >= 0.0f) ? t0 : t1;
+	if (t < 0.0f) return false;
+
+	intersection.hit = true;
+	intersection.distance = t;
+	intersection.point = ray.origin + ray.direction * t;
+
+	glm::vec3 N = (intersection.point - C) / R;
+	intersection.normal = glm::normalize(N);
+	intersection.object = this;
+	return true;
+}

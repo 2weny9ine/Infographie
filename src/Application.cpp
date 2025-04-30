@@ -86,19 +86,20 @@ void Application::draw()
 
     if (gui.top_left->colorFilterEnabled())
     {
-        ofColor rgbColor = gui.top_left->getRGBColor();
-        ofColor hsbColor = gui.top_left->getHSBColor();
-        scene.img->colorFilterSelected(scene, rgbColor, hsbColor);
+        ofColor rgb = gui.top_left->getRGBColor();
+        ofColor hsb = gui.top_left->getHSBColor();
+        scene.img->colorFilterSelected(scene, rgb, hsb);
     }
     else
     {
-        for (auto& imgObj : scene.img->images)
+        for (auto* imgObj : scene.img->getImages())
         {
             imgObj->applyUserColor = false;
         }
     }
 
     scene.img->imageExport("exportImage", "png");
+    scene.img->exportFrames("exportImage", "png");
     scene.drawCursor();
 }
 
