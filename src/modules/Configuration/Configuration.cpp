@@ -172,6 +172,7 @@ std::string Configuration::getConfig(const std::string& key) const
 
     for (const auto& k : keys)
     {
+        
         if (currentLevel->contains(k))
         {
             currentLevel = &((*currentLevel)[k]);
