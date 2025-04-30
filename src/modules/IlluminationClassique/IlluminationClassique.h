@@ -5,7 +5,7 @@
 class Scene;
 class IlluminationClassique {
 public:
-    enum class Mode { AUCUN, LAMBERT, GOURAUD, PHONG, BLINN_PHONG };
+    enum class Mode { AUCUN, LAMBERT, GOURAUD, PHONG, BLINN_PHONG,TOON };
     
     explicit IlluminationClassique(Scene* scene);
     ~IlluminationClassique();
@@ -51,7 +51,7 @@ private:
     Scene*      scene;
     Mode        modeCourant = Mode::AUCUN;
     
-    ofShader    shaderLambert, shaderGouraud, shaderPhong, shaderBlinn;
+    ofShader    shaderLambert, shaderGouraud, shaderPhong, shaderBlinn,shaderToon;
     ofLight     lightDirectional, lightPoint,lightSpot;
     ofFloatColor globalAmbientColor;
 

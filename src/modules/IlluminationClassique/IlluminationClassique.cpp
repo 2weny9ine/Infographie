@@ -8,10 +8,12 @@ IlluminationClassique::IlluminationClassique(Scene* sc)
 {}
 
 void IlluminationClassique::chargerShaders() {
-    shaderLambert.load( "shaders/lambert_vs.glsl",     "shaders/lambert_fs.glsl");
-    shaderGouraud.load( "shaders/gouraud_vs.glsl",     "shaders/gouraud_fs.glsl");
-    shaderPhong  .load( "shaders/phong_vs.glsl",       "shaders/phong_fs.glsl");
-    shaderBlinn  .load( "shaders/blinn_phong_vs.glsl", "shaders/blinn_phong_fs.glsl");
+    shaderLambert.load( "shaders/lambert_vs.glsl","shaders/lambert_fs.glsl");
+    shaderGouraud.load( "shaders/gouraud_vs.glsl","shaders/gouraud_fs.glsl");
+    shaderPhong.load( "shaders/phong_vs.glsl","shaders/phong_fs.glsl");
+    shaderBlinn.load( "shaders/blinn_phong_vs.glsl", "shaders/blinn_phong_fs.glsl");
+    shaderToon.load("shaders/toon_vs.glsl", "shaders/toon_fs.glsl");
+    
 }
 
 void IlluminationClassique::initialisationEclairage(){
@@ -45,13 +47,13 @@ void IlluminationClassique::initialiserLumieres()
     lightDirectional.setDiffuseColor(ofColor(255));
     lightDirectional.setSpecularColor(ofColor(255));
     lightDirectional.setOrientation({0, -90, 0});
-
+    
     
     // Lumière ponctuelle
     lightPoint.setPointLight();
     lightPoint.setDiffuseColor(ofColor(255, 200, 50));
     lightPoint.setSpecularColor(ofColor(255));
-
+    
     
     // Projecteur (Spotlight)
     lightSpot.setSpotlight();
@@ -59,7 +61,7 @@ void IlluminationClassique::initialiserLumieres()
     lightSpot.setSpecularColor(ofColor(255));
     lightSpot.setSpotlightCutOff(45);
     lightSpot.setSpotConcentration(128);
-
+    
     
     
     globalAmbientColor = ofFloatColor(0.3f);
@@ -92,7 +94,7 @@ void IlluminationClassique::appliquerEtatLumieres()
         lightMouse.enable();
     else
         lightMouse.disable();
-
+    
 }
 
 
@@ -107,6 +109,11 @@ void IlluminationClassique::setup() {
     lightDirectional.setDiffuseColor (ofColor::white);
     lightDirectional.setSpecularColor(ofColor::white);
     lightDirectional.setOrientation  ({0, -90, 0});
+    
+    if (!shaderToon.isLoaded()) {
+        ofLogError() << "Erreur de chargement du shader Toon.";
+    }
+
 }
 
 ofShader& IlluminationClassique::shaderActuel() {
@@ -119,6 +126,9 @@ ofShader& IlluminationClassique::shaderActuel() {
             return shaderPhong;
         case Mode::BLINN_PHONG:
             return shaderBlinn;
+        case Mode::TOON:
+            return shaderToon;
+
         default:
             return shaderLambert;
     }
@@ -184,14 +194,14 @@ void IlluminationClassique::afficherSymboleLumieres() {
 void IlluminationClassique::draw()
 {
     if (modeCourant == Mode::AUCUN) return;
-
+    
     ofEnableDepthTest();
     ofEnableLighting();
     appliquerEtatLumieres();
-
+    
     ofShader& shader = shaderActuel();
     shader.begin();
-
+    
     // Déterminer la position de la lumière active
     glm::vec3 lightPosition(0.0f);
     if (activeLightSpot) {
@@ -203,19 +213,19 @@ void IlluminationClassique::draw()
     } if (activeMouseLight) {
         lightPosition += lightMouse.getGlobalPosition();
     }
-
+    
     shader.setUniform3f("light_position", lightPosition);
-
+    
     for (auto* object : scene->objects)
     {
         int matIndex = scene->gui->top_left->getCurrentMaterialIndex();
         const ofMaterial* baseMaterial = &matDiffuse;
-
+        
         if (matIndex == 1) baseMaterial = &matPlastique;
         else if (matIndex == 2) baseMaterial = &matMetal;
-
+        
         ofMaterial finalMaterial = *baseMaterial;
-
+        
         if (materialEffectEnabled) {
             finalMaterial.setDiffuseColor(object->getColor());
         } else {
@@ -223,15 +233,15 @@ void IlluminationClassique::draw()
             finalMaterial.setSpecularColor(ofFloatColor(0.3f));
             finalMaterial.setShininess(8.0f);
         }
-
+        
         appliquerUniformsMateriau(finalMaterial);
         object->draw();
     }
-
+    
     shader.end();
-
+    
     afficherSymboleLumieres();
-
+    
     ofDisableLighting();
     ofDisableDepthTest();
 }
@@ -242,32 +252,32 @@ void IlluminationClassique::applyMaterials()
 {
     int materialIndex = scene->gui->top_left->getCurrentMaterialIndex();
     const ofMaterial* selectedMaterial = &matDiffuse;
-
+    
     if (materialIndex == 1) {
         selectedMaterial = &matPlastique;
     } else if (materialIndex == 2) {
         selectedMaterial = &matMetal;
     }
-
+    
     ofShader& shader = shaderActuel();
     glm::vec3 lightPos = useMouseLight
-                         ? lightMouse.getGlobalPosition()
-                         : lightDirectional.getGlobalPosition();
-
+    ? lightMouse.getGlobalPosition()
+    : lightDirectional.getGlobalPosition();
+    
     
     shader.begin();
     shader.setUniform3f("light_position", lightPos);
-
+    
     for (auto* obj : scene->objects) {
         if (!obj->getSelected()) continue;
-
+        
         ofMaterial matToApply = *selectedMaterial;
         matToApply.setDiffuseColor(obj->getColor());
-
+        
         appliquerUniformsMateriau(matToApply);
         obj->draw();
     }
-
+    
     shader.end();
 }
 
@@ -293,39 +303,39 @@ void IlluminationClassique::renderMaterialPass()
 void IlluminationClassique::update(float dt)
 {
     if (!scene || scene->selectedObjects.empty()) return;
-
+    
     Object3D* selected = scene->selectedObjects[0];
-
+    
     glm::vec3 minBound, maxBound;
     selected->getWorldBounds(minBound, maxBound);
-
+    
     glm::vec3 size = (maxBound - minBound) * 0.5f;
     glm::vec3 center = selected->getPosition();
-
+    
     if (activeLightDirectional) {
         glm::vec3 offset(0, size.y * 2.5f, size.z * 2.5f);
         lightDirectional.setPosition(center + offset);
         lightDirectional.lookAt(center);
     }
-
+    
     if (activeLightPoint) {
         glm::vec3 offset(size.x * 1.5f, 0, 0);
         lightPoint.setPosition(center + offset);
     }
-
+    
     if (activeLightSpot) {
         glm::vec3 offset(0, size.y * 1.5f, -size.z * 1.5f);
         lightSpot.setPosition(center + offset);
         lightSpot.lookAt(center);
     }
-
+    
     if (activeMouseLight && scene->camera) {
         glm::vec3 mouseScreen(ofGetMouseX(), ofGetMouseY(), 0);
-
+        
         glm::vec3 near = scene->camera->screenToWorld(mouseScreen + glm::vec3(0, 0, scene->camera->getNearClip()));
         glm::vec3 far  = scene->camera->screenToWorld(mouseScreen + glm::vec3(0, 0, scene->camera->getFarClip()));
         glm::vec3 dir  = glm::normalize(far - near);
-
+        
         if (std::abs(dir.y) > 1e-6f) {
             float t = -near.y / dir.y;
             if (t > 0.0f) {
