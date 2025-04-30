@@ -302,7 +302,8 @@ void Bottom_Left_GUI::updatePropertyControls()
                 int current = std::get<int>(prop.value);
                 const std::vector<std::pair<std::string, SurfaceType>> surfaceOptions = {
                     {"NONE", SurfaceType::NONE},
-                    {"MIRROR", SurfaceType::MIRROR}
+                    {"MIRROR", SurfaceType::MIRROR},
+                    {"GLASS", SurfaceType::GLASS }
                 };
 
                 for (const auto& [label, enumVal] : surfaceOptions)

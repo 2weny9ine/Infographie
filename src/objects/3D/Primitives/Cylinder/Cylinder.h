@@ -18,6 +18,10 @@ public:
 
     Cylinder* copy() const override;
 
+    virtual std::vector<Property> getProperties() const override;
+
+    bool intersect(const Ray& ray, Intersection& intersection) override;
+
 private:
     ofMesh mesh;
     float radius;
