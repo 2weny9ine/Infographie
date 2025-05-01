@@ -46,7 +46,7 @@ private:
     
     bool debugLights = true;
     ofLight lightMouse;     
-    bool    useMouseLight = true;
+
     
     Scene*      scene;
     Mode        modeCourant = Mode::AUCUN;

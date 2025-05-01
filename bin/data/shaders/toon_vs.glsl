@@ -1,4 +1,3 @@
-
 #version 330
 
 in vec4 position;
@@ -10,13 +9,12 @@ out vec3 surface_normal;
 uniform mat4x4 modelViewMatrix;
 uniform mat4x4 projectionMatrix;
 
-void main()
-{
-  mat4x4 normalMatrix = transpose(inverse(modelViewMatrix));
+void main() {
+    mat4x4 normalMatrix = transpose(inverse(modelViewMatrix));
 
-  surface_normal = vec3(normalMatrix * normal);
+    surface_normal = vec3(normalMatrix * normal);
 
-  surface_position = vec3(modelViewMatrix * position);
+    surface_position = vec3(modelViewMatrix * position);
 
-  gl_Position = projectionMatrix * modelViewMatrix * position;
+    gl_Position = projectionMatrix * modelViewMatrix * position;
 }

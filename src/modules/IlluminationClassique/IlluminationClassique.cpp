@@ -113,7 +113,7 @@ void IlluminationClassique::setup() {
     if (!shaderToon.isLoaded()) {
         ofLogError() << "Erreur de chargement du shader Toon.";
     }
-
+    
 }
 
 ofShader& IlluminationClassique::shaderActuel() {
@@ -128,7 +128,7 @@ ofShader& IlluminationClassique::shaderActuel() {
             return shaderBlinn;
         case Mode::TOON:
             return shaderToon;
-
+            
         default:
             return shaderLambert;
     }
@@ -194,6 +194,7 @@ void IlluminationClassique::afficherSymboleLumieres() {
 void IlluminationClassique::draw()
 {
     if (modeCourant == Mode::AUCUN) return;
+    update(0);
     
     ofEnableDepthTest();
     ofEnableLighting();
@@ -202,19 +203,24 @@ void IlluminationClassique::draw()
     ofShader& shader = shaderActuel();
     shader.begin();
     
-    // Déterminer la position de la lumière active
-    glm::vec3 lightPosition(0.0f);
-    if (activeLightSpot) {
-        lightPosition += lightSpot.getGlobalPosition();
-    } if (activeLightPoint) {
-        lightPosition += lightPoint.getGlobalPosition();
-    } if (activeLightDirectional) {
-        lightPosition += lightDirectional.getGlobalPosition();
-    } if (activeMouseLight) {
-        lightPosition += lightMouse.getGlobalPosition();
+    
+    std::vector<glm::vec3> activeLightPositions;
+    if (activeLightPoint)       activeLightPositions.push_back(lightPoint.getGlobalPosition());
+    if (activeLightSpot)        activeLightPositions.push_back(lightSpot.getGlobalPosition());
+    if (activeLightDirectional) activeLightPositions.push_back(lightDirectional.getGlobalPosition());
+    if (activeMouseLight)       activeLightPositions.push_back(lightMouse.getGlobalPosition());
+    
+    int count = std::min((int)activeLightPositions.size(), 4);
+    shader.setUniform1i("num_active_lights", count);
+    
+    if (count > 0) {
+        
+        shader.setUniform3fv("light_positions",
+                             &activeLightPositions[0].x,
+                             count);
     }
     
-    shader.setUniform3f("light_position", lightPosition);
+    
     
     for (auto* object : scene->objects)
     {
@@ -260,7 +266,7 @@ void IlluminationClassique::applyMaterials()
     }
     
     ofShader& shader = shaderActuel();
-    glm::vec3 lightPos = useMouseLight
+    glm::vec3 lightPos = activeMouseLight
     ? lightMouse.getGlobalPosition()
     : lightDirectional.getGlobalPosition();
     
