@@ -350,7 +350,7 @@ void IlluminationClassique::update(float dt)
     
     if (activeMouseLight && scene->camera) {
         glm::vec3 mouseScreen(ofGetMouseX(), ofGetMouseY(), 0);
-        
+
         glm::vec3 n = scene->camera->screenToWorld(mouseScreen + glm::vec3(0, 0, scene->camera->getNearClip()));
         glm::vec3 f  = scene->camera->screenToWorld(mouseScreen + glm::vec3(0, 0, scene->camera->getFarClip()));
         glm::vec3 dir  = glm::normalize(f - n);

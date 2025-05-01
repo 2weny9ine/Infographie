@@ -45,7 +45,7 @@ Top_Left_GUI::Top_Left_GUI()
     exportButton->onButtonEvent([this](ofxDatGuiButtonEvent e) {
         if (imagePtr) {
             imagePtr->setExportDuration(exportDurationSlider->getValue());
-            imagePtr->setExportTriggered(true);
+            imagePtr->triggerExport(true);
         }
     });
     

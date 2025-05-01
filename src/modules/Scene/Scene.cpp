@@ -143,6 +143,8 @@ void Scene::update()
     /**************************************************************************/
     cursor.update(mouse_current_x, mouse_current_y, is_mouse_button_pressed);
     /**************************************************************************/
+
+    //img->update();
 }
 
 Scene::Scene()
@@ -200,13 +202,12 @@ void Scene::draw()
         draw_zone(mouse_press_x, mouse_press_y, mouse_current_x, mouse_current_y);
     }
 
-    for (auto& shape : shapes) {
-        drawShape(shape);
-    }
+    //2.3
+    for (auto& shape : shapes) drawShape(shape);
+    if (isDrawing) drawShape(currentShape);
+    //cursor.draw();
 
-    if (isDrawing) {
-        drawShape(currentShape);
-    }
+    //img->draw();
 }
 
 

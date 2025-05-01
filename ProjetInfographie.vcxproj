@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
+﻿<?xml version="1.0" encoding="utf-8"?>
 <Project DefaultTargets="Build" ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup Label="ProjectConfigurations">
     <ProjectConfiguration Include="Debug|x64">
@@ -104,7 +104,28 @@
     <PostBuildEvent />
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="src\main.cpp" />
+
+    <ClCompile Include="..\..\..\addons\ofxAssimpModelLoader\src\ofxAssimpAnimation.cpp" />
+    <ClCompile Include="..\..\..\addons\ofxAssimpModelLoader\src\ofxAssimpMeshHelper.cpp" />
+    <ClCompile Include="..\..\..\addons\ofxAssimpModelLoader\src\ofxAssimpModelLoader.cpp" />
+    <ClCompile Include="..\..\..\addons\ofxAssimpModelLoader\src\ofxAssimpTexture.cpp" />
+    <ClCompile Include="..\..\..\addons\ofxDatGui\src\core\ofxDatGuiComponent.cpp" />
+    <ClCompile Include="..\..\..\addons\ofxDatGui\src\libs\ofxSmartFont\ofxSmartFont.cpp" />
+    <ClCompile Include="..\..\..\addons\ofxDatGui\src\ofxDatGui.cpp" />
+    <ClCompile Include="..\..\..\addons\ofxGui\src\ofxBaseGui.cpp" />
+    <ClCompile Include="..\..\..\addons\ofxGui\src\ofxButton.cpp" />
+    <ClCompile Include="..\..\..\addons\ofxGui\src\ofxColorPicker.cpp" />
+    <ClCompile Include="..\..\..\addons\ofxGui\src\ofxGuiGroup.cpp" />
+    <ClCompile Include="..\..\..\addons\ofxGui\src\ofxInputField.cpp" />
+    <ClCompile Include="..\..\..\addons\ofxGui\src\ofxLabel.cpp" />
+    <ClCompile Include="..\..\..\addons\ofxGui\src\ofxPanel.cpp" />
+    <ClCompile Include="..\..\..\addons\ofxGui\src\ofxSlider.cpp" />
+    <ClCompile Include="..\..\..\addons\ofxGui\src\ofxSliderGroup.cpp" />
+    <ClCompile Include="..\..\..\addons\ofxGui\src\ofxToggle.cpp" />
+    <ClCompile Include="src\modules\ExportScene\ExportScene.cpp" />
+    <ClCompile Include="src\modules\Raytracing\Intersection\Intersection.cpp" />
+    <ClCompile Include="src\modules\Raytracing\Ray\Ray.cpp" />
+    <ClCompile Include="src\modules\Raytracing\Raytracing.cpp" />
     <ClCompile Include="src\Application.cpp" />
     <ClCompile Include="src\Renderer.cpp" />
     <ClCompile Include="src\events\DragEventHandler\DragEventHandler.cpp" />
@@ -301,6 +322,39 @@
     <ClInclude Include="..\..\..\addons\ofxGui\src\ofxSlider.h" />
     <ClInclude Include="..\..\..\addons\ofxGui\src\ofxSliderGroup.h" />
     <ClInclude Include="..\..\..\addons\ofxGui\src\ofxToggle.h" />
+
+    <ClInclude Include="src\modules\ExportScene\ExportScene.h" />
+    <ClInclude Include="src\modules\Raytracing\Intersection\Intersection.h" />
+    <ClInclude Include="src\modules\Raytracing\Ray\Ray.h" />
+    <ClInclude Include="src\modules\Raytracing\Raytracing.h" />
+    <ClInclude Include="src\Application.h" />
+    <ClInclude Include="src\events\DragEventHandler\DragEventHandler.h" />
+    <ClInclude Include="src\events\KeyEventHandler\KeyEventHandler.h" />
+    <ClInclude Include="src\events\MouseEventHandler\MouseEventHandler.h" />
+    <ClInclude Include="src\events\WindowResizedEventHandler\WindowResizedEventHandler.h" />
+    <ClInclude Include="src\modules\BoundingBox\BoundingBox.h" />
+    <ClInclude Include="src\modules\Configuration\Configuration.h" />
+    <ClInclude Include="src\modules\Cursor\Cursor.h" />
+    <ClInclude Include="src\modules\GUI\Bottom_Left_GUI\Bottom_Left_GUI.h" />
+    <ClInclude Include="src\modules\GUI\Bottom_Right_GUI\Bottom_Right_GUI.h" />
+    <ClInclude Include="src\modules\GUI\GUI.h" />
+    <ClInclude Include="src\modules\GUI\Top_Left_GUI\Top_Left_GUI.h" />
+    <ClInclude Include="src\modules\GUI\Top_Right_GUI\Top_Right_GUI.h" />
+    <ClInclude Include="src\modules\Image\Image.h" />
+    <ClInclude Include="src\modules\Properties\ModularProperties.h" />
+    <ClInclude Include="src\modules\Scene\Grid\Grid.h" />
+    <ClInclude Include="src\modules\Scene\Scene.h" />
+    <ClInclude Include="src\modules\User_Camera_Movement\User_Camera_Movement.h" />
+    <ClInclude Include="src\objects\3D\FileMesh\FileMesh.h" />
+    <ClInclude Include="src\objects\3D\Primitives\Cone\Cone.h" />
+    <ClInclude Include="src\objects\3D\Primitives\Cube\Cube.h" />
+    <ClInclude Include="src\objects\3D\Primitives\Cylinder\Cylinder.h" />
+    <ClInclude Include="src\objects\3D\Primitives\Sphere\Sphere.h" />
+    <ClInclude Include="src\objects\ImageObject\ImageObject.h" />
+    <ClInclude Include="src\objects\Object3D.h" />
+    <ClInclude Include="src\objects\primitiveObject\primitiveObject.h" />
+    <ClInclude Include="src\Renderer.h" />
+
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="$(OF_ROOT)\libs\openFrameworksCompiled\project\vs\openframeworksLib.vcxproj">
@@ -308,10 +362,9 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
-    <ResourceCompile Include="icon.rc">
-      <AdditionalOptions Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">/D_DEBUG %(AdditionalOptions)</AdditionalOptions>
-      <AdditionalIncludeDirectories>$(OF_ROOT)\libs\openFrameworksCompiled\project\vs</AdditionalIncludeDirectories>
-    </ResourceCompile>
+
+    <None Include="src\enums\SurfaceType.h" />
+
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ProjectExtensions>

@@ -142,6 +142,10 @@
     <ClCompile Include="..\..\..\addons\ofxGui\src\ofxToggle.cpp">
       <Filter>addons\ofxGui\src</Filter>
     </ClCompile>
+    <ClCompile Include="src\modules\Raytracing\Raytracing.cpp" />
+    <ClCompile Include="src\modules\Raytracing\Ray\Ray.cpp" />
+    <ClCompile Include="src\modules\Raytracing\Intersection\Intersection.cpp" />
+    <ClCompile Include="src\modules\ExportScene\ExportScene.cpp" />
   </ItemGroup>
   <ItemGroup>
     <Filter Include="src">
@@ -746,8 +750,94 @@
     <ClInclude Include="..\..\..\addons\ofxGui\src\ofxToggle.h">
       <Filter>addons\ofxGui\src</Filter>
     </ClInclude>
+
+    <ClInclude Include="src\events\DragEventHandler\DragEventHandler.h">
+      <Filter>src</Filter>
+    </ClInclude>
+    <ClInclude Include="src\events\KeyEventHandler\KeyEventHandler.h">
+      <Filter>src</Filter>
+    </ClInclude>
+    <ClInclude Include="src\events\MouseEventHandler\MouseEventHandler.h">
+      <Filter>src</Filter>
+    </ClInclude>
+    <ClInclude Include="src\events\WindowResizedEventHandler\WindowResizedEventHandler.h">
+      <Filter>src</Filter>
+    </ClInclude>
+    <ClInclude Include="src\modules\BoundingBox\BoundingBox.h">
+      <Filter>src</Filter>
+    </ClInclude>
+    <ClInclude Include="src\modules\Configuration\Configuration.h">
+      <Filter>src</Filter>
+    </ClInclude>
+    <ClInclude Include="src\modules\Cursor\Cursor.h">
+      <Filter>src</Filter>
+    </ClInclude>
+    <ClInclude Include="src\modules\GUI\Bottom_Left_GUI\Bottom_Left_GUI.h">
+      <Filter>src</Filter>
+    </ClInclude>
+    <ClInclude Include="src\modules\GUI\Bottom_Right_GUI\Bottom_Right_GUI.h">
+      <Filter>src</Filter>
+    </ClInclude>
+    <ClInclude Include="src\modules\GUI\GUI.h">
+      <Filter>src</Filter>
+    </ClInclude>
+    <ClInclude Include="src\modules\GUI\Top_Left_GUI\Top_Left_GUI.h">
+      <Filter>src</Filter>
+    </ClInclude>
+    <ClInclude Include="src\modules\GUI\Top_Right_GUI\Top_Right_GUI.h">
+      <Filter>src</Filter>
+    </ClInclude>
+    <ClInclude Include="src\modules\Image\Image.h">
+      <Filter>src</Filter>
+    </ClInclude>
+    <ClInclude Include="src\modules\Scene\Grid\Grid.h">
+      <Filter>src</Filter>
+    </ClInclude>
+    <ClInclude Include="src\modules\Scene\Scene.h">
+      <Filter>src</Filter>
+    </ClInclude>
+    <ClInclude Include="src\modules\User_Camera_Movement\User_Camera_Movement.h">
+      <Filter>src</Filter>
+    </ClInclude>
+    <ClInclude Include="src\objects\3D\FileMesh\FileMesh.h">
+      <Filter>src</Filter>
+    </ClInclude>
+    <ClInclude Include="src\objects\3D\Primitives\Cone\Cone.h">
+      <Filter>src</Filter>
+    </ClInclude>
+    <ClInclude Include="src\objects\3D\Primitives\Cube\Cube.h">
+      <Filter>src</Filter>
+    </ClInclude>
+    <ClInclude Include="src\objects\3D\Primitives\Cylinder\Cylinder.h">
+      <Filter>src</Filter>
+    </ClInclude>
+    <ClInclude Include="src\objects\3D\Primitives\Sphere\Sphere.h">
+      <Filter>src</Filter>
+    </ClInclude>
+    <ClInclude Include="src\objects\ImageObject\ImageObject.h">
+      <Filter>src</Filter>
+    </ClInclude>
+    <ClInclude Include="src\objects\Object3D.h">
+      <Filter>src</Filter>
+    </ClInclude>
+    <ClInclude Include="src\objects\primitiveObject\primitiveObject.h">
+      <Filter>src</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Application.h">
+      <Filter>src</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Renderer.h">
+      <Filter>src</Filter>
+    </ClInclude>
+    <ClInclude Include="src\modules\Properties\ModularProperties.h">
+      <Filter>src</Filter>
+    </ClInclude>
+    <ClInclude Include="src\modules\Raytracing\Raytracing.h" />
+    <ClInclude Include="src\modules\Raytracing\Ray\Ray.h" />
+    <ClInclude Include="src\modules\Raytracing\Intersection\Intersection.h" />
+    <ClInclude Include="src\modules\ExportScene\ExportScene.h" />
   </ItemGroup>
   <ItemGroup>
-    <ResourceCompile Include="icon.rc" />
+    <None Include="src\enums\SurfaceType.h" />
   </ItemGroup>
 </Project>
