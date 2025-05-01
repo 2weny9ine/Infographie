@@ -166,18 +166,18 @@ void IlluminationModerne::appliquerUniformsMateriau(const ofMaterial& m) {
     shaderPBR.setUniform1f("material_occlusion", 1.0f);
     shaderPBR.setUniform3f("material_fresnel_ior", 0.04f, 0.04f, 0.04f);
 
-    shaderPBR.setUniform1f("tone_mapping_toggle", false);
+    shaderPBR.setUniform1f("tone_mapping_toggle", true);
     shaderPBR.setUniform1f("tone_mapping_exposure", 1.0f);
-    shaderPBR.setUniform1f("tone_mapping_gamma", 100.0f);
+    shaderPBR.setUniform1f("tone_mapping_gamma", 2.2f);
 
     shaderPBR.setUniformTexture("texture_diffuse", diffuse.getTexture(), 1);
     shaderPBR.setUniformTexture("texture_metallic", metallic.getTexture(), 2);
     shaderPBR.setUniformTexture("texture_roughness", roughness.getTexture(), 3);
     shaderPBR.setUniformTexture("texture_occlusion", ao.getTexture(), 4);
 
-    shaderPBR.setUniform3f("light_position", ofVec3f(10,10,10));
+    shaderPBR.setUniform3f("light_position", ofVec3f(25,25,25));
     shaderPBR.setUniform3f("light_color", ofColor(255).r / 255.0f, ofColor(255).g / 255.0f, ofColor(255).b / 255.0f);
-    shaderPBR.setUniform1f("light_intensity", 1.0f);
+    shaderPBR.setUniform1f("light_intensity", 0.4f);
 
 }
 
