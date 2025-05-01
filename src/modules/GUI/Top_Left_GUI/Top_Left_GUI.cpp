@@ -87,14 +87,35 @@ Top_Left_GUI::Top_Left_GUI()
         ofLogNotice() << "Effet Matériau : " << (materialEffectEnabled ? "activé" : "désactivé");
     });
 
-    materialOptions = { "Mat", "Plastique", "Métallique" };
+    materialOptions = { "Mat", "Plastique", "Métallique", "PBR"};
     currentMaterialIndex = 0;
 
     materialButton = material_folder->addButton(materialOptions[currentMaterialIndex]);
-    materialButton->onButtonEvent([this](ofxDatGuiButtonEvent) {
+    auto sliderMetallicity = material_folder->addSlider("Metallicité ", 0.0f, 1.0f);
+    sliderMetallicity->onSliderEvent([this](ofxDatGuiSliderEvent e) {
+        illuminationModerne->metallicityAmount = e.value;
+        });
+    sliderMetallicity->setVisible(false);
+    auto sliderRugosity = material_folder->addSlider("Rugosité ", 0.0f, 1.0f);
+    sliderRugosity->onSliderEvent([this](ofxDatGuiSliderEvent e) {
+        illuminationModerne->roughnessAmount = e.value;
+        });
+    sliderRugosity->setVisible(false);
+    materialButton->onButtonEvent([this, sliderMetallicity, sliderRugosity](ofxDatGuiButtonEvent) {
         currentMaterialIndex = (currentMaterialIndex + 1) % materialOptions.size();
         materialButton->setLabel(materialOptions[currentMaterialIndex]);
         ofLogNotice() << "Matériau sélectionné : " << materialOptions[currentMaterialIndex];
+
+        if (currentMaterialIndex == 3 && illumBtn->getLabel() == "PBR" && illuminationModerne)
+        {
+            sliderMetallicity->setVisible(true);
+            sliderRugosity->setVisible(true);
+        }
+        else
+        {
+            sliderMetallicity->setVisible(false);
+            sliderRugosity->setVisible(false);
+        }
     });
 
     // Dossier : Illumination
@@ -173,10 +194,10 @@ Top_Left_GUI::Top_Left_GUI()
         illuminationClassique->lightPoint.setDiffuseColor(intensityColor);
         illuminationClassique->lightSpot.setDiffuseColor(intensityColor);
         illuminationClassique->lightMouse.setDiffuseColor(intensityColor);
-        /*illuminationModerne->lightDirectional.setDiffuseColor(intensityColor);
+        illuminationModerne->lightDirectional.setDiffuseColor(intensityColor);
         illuminationModerne->lightPoint.setDiffuseColor(intensityColor);
         illuminationModerne->lightSpot.setDiffuseColor(intensityColor);
-        illuminationModerne->lightMouse.setDiffuseColor(intensityColor);*/
+        illuminationModerne->lightMouse.setDiffuseColor(intensityColor);
     });
     
     auto pickerGlobalColor = lightsFolder->addColorPicker("Couleur ", ofColor::white);
@@ -194,10 +215,10 @@ Top_Left_GUI::Top_Left_GUI()
         illuminationClassique->lightPoint.setDiffuseColor(color);
         illuminationClassique->lightSpot.setDiffuseColor(color);
         illuminationClassique->lightMouse.setDiffuseColor(color);
-       /* illuminationModerne->lightDirectional.setDiffuseColor(color);
+        illuminationModerne->lightDirectional.setDiffuseColor(color);
         illuminationModerne->lightPoint.setDiffuseColor(color);
         illuminationModerne->lightSpot.setDiffuseColor(color);
-        illuminationModerne->lightMouse.setDiffuseColor(color);*/
+        illuminationModerne->lightMouse.setDiffuseColor(color);
     });
 
     

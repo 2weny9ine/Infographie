@@ -13,14 +13,15 @@ void IlluminationModerne::chargerShaders() {
 void IlluminationModerne::chargerTextures()
 {
     ofDisableArbTex();
-    diffuse.load("texture/metal_plate_diffuse_1k.jpg");
-    metallic.load("texture/metal_plate_metallic_1k.jpg");
-    roughness.load("texture/metal_plate_roughness_1k.jpg");
-    ao.load("texture/metal_plate_ao_1k.jpg");
-    diffuse.getTexture().setTextureWrap(GL_REPEAT, GL_REPEAT);
-    metallic.getTexture().setTextureWrap(GL_REPEAT, GL_REPEAT);
-    roughness.getTexture().setTextureWrap(GL_REPEAT, GL_REPEAT);
-    ao.getTexture().setTextureWrap(GL_REPEAT, GL_REPEAT);
+    image_diffuse.load("texture/worn-shiny-metal-albedo.png");
+    image_metallic.load("texture/worn-shiny-metal-Metallic.png");
+    image_roughness.load("texture/worn-shiny-metal-Roughness.png");
+    image_ao.load("texture/worn-shiny-metal-ao.png");
+
+    image_diffuse.getTexture().setTextureWrap(GL_REPEAT, GL_REPEAT);
+    image_metallic.getTexture().setTextureWrap(GL_REPEAT, GL_REPEAT);
+    image_roughness.getTexture().setTextureWrap(GL_REPEAT, GL_REPEAT);
+    image_ao.getTexture().setTextureWrap(GL_REPEAT, GL_REPEAT);
 
 }
 void IlluminationModerne::initialisationEclairage() {
@@ -113,56 +114,26 @@ void IlluminationModerne::setup() {
     initialiserLumieres();
 }
 
-
-void IlluminationModerne::appliqueCouleur(const ofFloatColor& col) {
-
-    if (activeLightAmbient)
-        shaderPBR.setUniform3f("material_color_ambient", col.r * 0.2f, col.g * 0.2f, col.b * 0.2f);
-    else
-        shaderPBR.setUniform3f("material_color_ambient", 0.0f, 0.0f, 0.0f);
-
-    shaderPBR.setUniform3f("material_color_diffuse", col.r, col.g, col.b);
-    shaderPBR.setUniform3f("material_color_specular", 0.3f, 0.3f, 0.3f);
-    shaderPBR.setUniform1f("material_brightness", 1.0f);
-
-    shaderPBR.setUniform1f("material_metallic", 0.50f);
-    shaderPBR.setUniform1f("material_roughness", 0.50f);
-    shaderPBR.setUniform1f("material_occlusion", 1.0f);
-    shaderPBR.setUniform3f("material_fresnel_ior", 0.3f, 0.3f, 0.3f);
-
-    shaderPBR.setUniform1f("tone_mapping_toggle", false);
-    shaderPBR.setUniform1f("tone_mapping_exposure", 1.0f);
-    shaderPBR.setUniform1f("tone_mapping_gamma", 2.5f);
-
-    shaderPBR.setUniformTexture("texture_diffuse", diffuse.getTexture(), 1);
-    shaderPBR.setUniformTexture("texture_metallic", metallic.getTexture(), 2);
-    shaderPBR.setUniformTexture("texture_roughness", roughness.getTexture(), 3);
-    shaderPBR.setUniformTexture("texture_occlusion", ao.getTexture(), 4);
-
-    shaderPBR.setUniform3f("light_position", lightDirectional.getGlobalPosition());
-    shaderPBR.setUniform3f("light_color", ofColor(255).r/255.0f, ofColor(255).g / 255.0f, ofColor(255).b / 255.0f);
-    shaderPBR.setUniform1f("light_intensity", 1.0f);
-
-}
-
 void IlluminationModerne::appliquerUniformsMateriau(const ofMaterial& m) {
     ofFloatColor d = m.getDiffuseColor();
     ofFloatColor s = m.getSpecularColor();
+    float metallicity = m.getMetallic();
+    float roughness = m.getRoughness();
     ofColor cambiant = ofColor(63, 63, 63);
     ofColor cdiffuse = ofColor(255, 255, 255);
     ofColor cspecular = ofColor(255, 255, 255);
 
     if (activeLightAmbient)
-        shaderPBR.setUniform3f("material_color_ambient", cambiant.r/255.0f, cambiant.g / 255.0f, cambiant.b / 255.0f);
+        shaderPBR.setUniform3f("material_color_ambient", cdiffuse.r/255.0f * 0.2, cdiffuse.g / 255.0f * 0.2, cdiffuse.b / 255.0f * 0.2);
     else
-        shaderPBR.setUniform3f("material_color_ambient", cambiant.r / 255.0f, cambiant.g / 255.0f, cambiant.b / 255.0f);
+        shaderPBR.setUniform3f("material_color_ambient", 0,0,0);
 
     shaderPBR.setUniform3f("material_color_diffuse", cdiffuse.r / 255.0f, cdiffuse.g / 255.0f, cdiffuse.b / 255.0f);
-    shaderPBR.setUniform3f("material_color_specular", cspecular.r/255.0f, cspecular.g / 255.0f, cspecular.b / 255.0f);
+    shaderPBR.setUniform3f("material_color_specular", cdiffuse.r/255.0f, cdiffuse.g / 255.0f, cdiffuse.b / 255.0f);
     shaderPBR.setUniform1f("material_brightness", 1.0f);
 
-    shaderPBR.setUniform1f("material_metallic", 0.5f);
-    shaderPBR.setUniform1f("material_roughness", 0.5f);
+    shaderPBR.setUniform1f("material_metallic", metallicity);
+    shaderPBR.setUniform1f("material_roughness", roughness);
     shaderPBR.setUniform1f("material_occlusion", 1.0f);
     shaderPBR.setUniform3f("material_fresnel_ior", 0.04f, 0.04f, 0.04f);
 
@@ -170,14 +141,10 @@ void IlluminationModerne::appliquerUniformsMateriau(const ofMaterial& m) {
     shaderPBR.setUniform1f("tone_mapping_exposure", 1.0f);
     shaderPBR.setUniform1f("tone_mapping_gamma", 2.2f);
 
-    shaderPBR.setUniformTexture("texture_diffuse", diffuse.getTexture(), 1);
-    shaderPBR.setUniformTexture("texture_metallic", metallic.getTexture(), 2);
-    shaderPBR.setUniformTexture("texture_roughness", roughness.getTexture(), 3);
-    shaderPBR.setUniformTexture("texture_occlusion", ao.getTexture(), 4);
-
-    shaderPBR.setUniform3f("light_position", ofVec3f(25,25,25));
-    shaderPBR.setUniform3f("light_color", ofColor(255).r / 255.0f, ofColor(255).g / 255.0f, ofColor(255).b / 255.0f);
-    shaderPBR.setUniform1f("light_intensity", 0.4f);
+    shaderPBR.setUniformTexture("texture_diffuse", image_diffuse.getTexture(), 1);
+    shaderPBR.setUniformTexture("texture_metallic", image_metallic.getTexture(), 2);
+    shaderPBR.setUniformTexture("texture_roughness", image_roughness.getTexture(), 3);
+    shaderPBR.setUniformTexture("texture_occlusion", image_ao.getTexture(), 4);
 
 }
 
@@ -218,15 +185,17 @@ void IlluminationModerne::draw()
     ofEnableDepthTest();
     ofEnableLighting();
     appliquerEtatLumieres();
-
     shaderPBR.begin();
-
-    applyMaterials();
-
-
 
     std::vector<glm::vec3> activeLightPositions;
     std::vector<glm::vec3> activeLightColors;
+    std::vector<float> activeLightIntensities;
+    activeLightIntensities.push_back(100.0f);
+    activeLightIntensities.push_back(100.0f);
+    activeLightIntensities.push_back(100.0f);
+    activeLightIntensities.push_back(100.0f);
+    activeLightIntensities.push_back(100.0f);
+    shaderPBR.setUniform1fv("light_intensities", &activeLightIntensities[0], 5);
 
     if (activeLightPoint) {
         activeLightPositions.push_back(lightPoint.getGlobalPosition());
@@ -250,44 +219,39 @@ void IlluminationModerne::draw()
 
     }
 
-    int count = std::min((int)activeLightPositions.size(), 4);
-    //shader.setUniform1i("num_active_lights", count);
-    /*if (count > 0) {
-        shader.setUniform3fv("light_positions",
+
+    int count = (int)activeLightPositions.size();
+    /*shaderPBR.setUniform1i("num_active_lights", count);
+    if (count > 0) {
+        shaderPBR.setUniform3fv("light_positions",
             &activeLightPositions[0].x,
             count);
-        shader.setUniform3fv("light_colors",
+        shaderPBR.setUniform3fv("light_colors",
             &activeLightColors[0].x,
             count);
     }*/
 
 
+
+
+    //applyMaterials();
+    glm::vec3 lightPos = activeMouseLight
+        ? lightMouse.getGlobalPosition()
+        : lightDirectional.getGlobalPosition();
+
+    shaderPBR.setUniform3f("light_position", lightPos);
+    shaderPBR.setUniform3f("light_color", ofColor(255).r / 255.0f, ofColor(255).g / 255.0f, ofColor(255).b / 255.0f);
+    shaderPBR.setUniform1f("light_intensity", 1.0f);
+
+
+
     for (auto* object : scene->objects)
     {
-        /*int matIndex = scene->gui->top_left->getCurrentMaterialIndex();
-        const ofMaterial* baseMaterial = &matDiffuse;
-        if (matIndex == 1) baseMaterial = &matPlastique;
-        else if (matIndex == 2) baseMaterial = &matMetal;
-
-        ofMaterial finalMaterial = *baseMaterial;
-        if (materialEffectEnabled) {
-            finalMaterial.setDiffuseColor(object->getColor());
-        }
-        else {
-            finalMaterial.setDiffuseColor(object->getColor());
-            finalMaterial.setSpecularColor(ofFloatColor(0.3f));
-            finalMaterial.setShininess(8.0f);
-        }*/
-
-        appliquerUniformsMateriau(matDiffuse);
         object->draw();
     }
-    //appliquerUniformsMateriau(matDiffuse);
-
 
     shaderPBR.end();
     afficherSymboleLumieres();
-
     ofDisableLighting();
     ofDisableDepthTest();
 }
@@ -297,31 +261,20 @@ void IlluminationModerne::draw()
 void IlluminationModerne::applyMaterials()
 {
     int materialIndex = scene->gui->top_left->getCurrentMaterialIndex();
-    const ofMaterial* selectedMaterial = &matDiffuse;
-
-    if (materialIndex == 1) {
-        selectedMaterial = &matPlastique;
-    }
-    else if (materialIndex == 2) {
-        selectedMaterial = &matMetal;
-    }
-
-    glm::vec3 lightPos = activeMouseLight
-        ? lightMouse.getGlobalPosition()
-        : lightDirectional.getGlobalPosition();
-
-
     shaderPBR.begin();
     ofPushMatrix();
-    //shaderPBR.setUniform3f("light_position", lightPos);
 
     for (auto* obj : scene->objects) {
         if (!obj->getSelected()) continue;
+        if (materialIndex == 3)
+        {
+            ofMaterial matToApply;
+            matToApply.setDiffuseColor(obj->getColor());
+            matToApply.setMetallic(metallicityAmount);
+            matToApply.setRoughness(roughnessAmount);
+            appliquerUniformsMateriau(matToApply);
+        }
 
-        ofMaterial matToApply = *selectedMaterial;
-        matToApply.setDiffuseColor(obj->getColor());
-
-        appliquerUniformsMateriau(matToApply);
         obj->draw();
     }
     ofPopMatrix();
@@ -333,7 +286,7 @@ void IlluminationModerne::renderMaterialPass()
     if (scene->selectedObjects.empty()) return;
 
     ofEnableDepthTest();
-    lightDirectional.enable();
+    //lightDirectional.enable();
 
     glDepthFunc(GL_EQUAL);
 
@@ -341,7 +294,7 @@ void IlluminationModerne::renderMaterialPass()
 
 
     glDepthFunc(GL_LESS);
-    lightDirectional.disable();
+    //lightDirectional.disable();
     ofDisableDepthTest();
 }
 

@@ -22,12 +22,14 @@ public:
     bool activeLightPoint = false;
     bool activeLightSpot = false;
     bool activeMouseLight = false;
+    float metallicityAmount = 0;
+    float roughnessAmount = 0;
     ofLight     lightDirectional, lightPoint, lightSpot, lightMouse;
 
     float globalIntensity = 1.0f;
 private:
 
-    void appliqueCouleur(const ofFloatColor& col);
+    void appliquerCouleur(const ofFloatColor& col);
     void chargerShaders();
     void chargerTextures();
     void initialisationEclairage();
@@ -50,7 +52,7 @@ private:
 
     ofFloatColor globalAmbientColor;
 
-    ofImage ao, diffuse, metallic, roughness;
+    ofImage image_ao, image_diffuse, image_metallic, image_roughness;
 
     ofMaterial  matDiffuse, matPlastique, matMetal;
 };
