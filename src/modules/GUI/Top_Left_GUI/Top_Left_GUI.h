@@ -43,7 +43,6 @@ public:
     ofxDatGuiToggle* toggleMouseLight;
     
     
-    
     bool isAmbianteOn()       const { return toggleAmbiante      && toggleAmbiante->getEnabled(); }
     bool isDirectionnelleOn() const { return toggleDirectionnelle&& toggleDirectionnelle->getEnabled(); }
     bool isPonctuelleOn()     const { return togglePonctuelle    && togglePonctuelle->getEnabled(); }

@@ -97,7 +97,7 @@ Top_Left_GUI::Top_Left_GUI()
     // Dossier : Illumination
     illumFolder = gui->addFolder("Illumination", ofColor::white);
 
-    illumNames = { "Off", "Lambert", "Gouraud", "Phong", "Blinn‑Phong" };
+    illumNames = { "Off", "Lambert", "Gouraud", "Phong", "Blinn‑Phong", "Toon" };
     illumIdx = 0;
 
     illumBtn = illumFolder->addButton(illumNames[illumIdx]);
@@ -112,6 +112,7 @@ Top_Left_GUI::Top_Left_GUI()
             ofLogError() << "Pointeur d’illumination nul.";
         }
     });
+    
 
     // Dossier : Types de lumières
     lightsFolder = gui->addFolder("Lumières", ofColor::white);
