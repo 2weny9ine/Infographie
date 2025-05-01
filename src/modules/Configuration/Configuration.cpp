@@ -6,7 +6,9 @@
 #include <algorithm>
 #include <iomanip>
 
-Configuration::Configuration() : configFilePath("data/infographie.config"), defaultConfigFilePath("data/default_infographie.json")
+Configuration::Configuration()
+    : configFilePath(ofToDataPath("infographie.config", true)),
+      defaultConfigFilePath(ofToDataPath("default_infographie.json", true))
 {
     loadConfig();
 }
@@ -170,6 +172,7 @@ std::string Configuration::getConfig(const std::string& key) const
 
     for (const auto& k : keys)
     {
+        
         if (currentLevel->contains(k))
         {
             currentLevel = &((*currentLevel)[k]);

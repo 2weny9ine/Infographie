@@ -3,6 +3,7 @@
 #include "ofGraphics.h"
 #include "ofMain.h"
 #include "Image.h"
+
 #include <vector>
 
 #include "objects/Object3D.h"
@@ -36,7 +37,7 @@ struct Locator {
 
 class GUI;
 class Image;
-
+class IlluminationClassique;
 class Scene {
 public:
     enum class TransformMode {
@@ -121,8 +122,12 @@ public:
     std::vector<Object3D*> objects;
 
     void setNodeVisible(bool visible);
-
+    void setIlluminationPtr(IlluminationClassique* ptr) { illumination = ptr; }
+    void setMaterialPassEnabled(bool enabled) { materialPassEnabled = enabled; }
+    
 private:
+    IlluminationClassique* illumination;
+    bool materialPassEnabled = false; 
     // 2.3
     std::vector<Shape> shapes;
     Shape currentShape;
