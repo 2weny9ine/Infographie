@@ -43,7 +43,8 @@ void Application::setup()
     gui.top_left->setIlluminationPtr(illuminationClassique);
     //texture
     TextureManager::get().setup();
-    imageFilterManager.setup(&Application::getInstance().getTextureManager().getCheckerboardTexture());
+    imageFilterManager.setup(&Application::getInstance().getTextureManager().getTexture("wood"));
+
 
 
 

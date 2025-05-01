@@ -32,10 +32,10 @@ void Sphere::setup()
     sphere.set(5.0f, resolution);
     sphere.setPosition(0, 0, 0);
     //texture
-    ofTexture& tex = Application::getInstance().getTextureManager().getCheckerboardTexture();
+    ofTexture& tex = Application::getInstance().getTextureManager().getTexture(textureName);
     sphere.mapTexCoordsFromTexture(tex);
     hasTexture = true;
-    filterManager.setup(&Application::getInstance().getTextureManager().getCheckerboardTexture());
+    filterManager.setup(&tex);
     //texture
 
 }
@@ -53,7 +53,6 @@ void Sphere::draw()
     ofSetColor(color, opacity * 255);
     // texture
     if (hasTexture) {
-        // Apply filter only when the filter changes
         if (currentFilter != lastAppliedFilter) {
             ofLogNotice("[Filter]") << "Applying: " << static_cast<int>(currentFilter);
             filterManager.applyFilter(currentFilter);
@@ -154,13 +153,26 @@ std::vector<Property> Sphere::getProperties() const
     textureProp.value = hasTexture;
     props.push_back(textureProp);
 
+    //texture choice
+    Property texChoiceProp;
+    texChoiceProp.name = "TextureType";
+    texChoiceProp.type = PropertyType::String;
+    texChoiceProp.value = textureName;
+    texChoiceProp.options = { "wood", "tree", "brick", "checkerboard" };
+    props.push_back(texChoiceProp);
+
+
     //filter
-    // filter
     Property filterProp;
     filterProp.name = "Filter";
     filterProp.type = PropertyType::String;
-    filterProp.value = std::string("None");
-    filterProp.options = { "None", "Emboss", "Sharpen", "EdgeDetect" }; // <-- ADD THIS
+    switch (currentFilter) {
+    case TextureFilterType::Emboss: filterProp.value = "Emboss"; break;
+    case TextureFilterType::Sharpen: filterProp.value = "Sharpen"; break;
+    case TextureFilterType::EdgeDetect: filterProp.value = "EdgeDetect"; break;
+    default: filterProp.value = "None"; break;
+    }
+    filterProp.options = { "None", "Emboss", "Sharpen", "EdgeDetect" };
     props.push_back(filterProp);
 
 
@@ -178,6 +190,16 @@ void Sphere::setProperty(const Property& prop)
     else if (prop.name == "Texture")
     {
         hasTexture = std::get<bool>(prop.value);
+    }
+    else if (prop.name == "TextureType") {
+        textureName = std::get<std::string>(prop.value);
+
+        ofTexture& newTex = Application::getInstance().getTextureManager().getTexture(textureName);
+
+        sphere.mapTexCoordsFromTexture(newTex);
+        filterManager.setup(&newTex);
+
+        lastAppliedFilter = TextureFilterType::None;
     }
     else if (prop.name == "Filter") {
     std::string val = std::get<std::string>(prop.value);

@@ -303,6 +303,34 @@ void Bottom_Left_GUI::updatePropertyControls()
                             });
                     }
                 }
+                else if (prop.name == "TextureType") {
+                    std::string currentVal = std::get<std::string>(prop.value);
+                    std::vector<std::string> textures = { "wood", "tree", "brick", "checkerboard" };
+
+                    attributes_folder->addLabel("Texture Type");
+
+                    for (const auto& texName : textures) {
+                        bool isSelected = (texName == currentVal);
+                        auto* toggle = attributes_folder->addToggle(texName, isSelected);
+
+                        toggle->onToggleEvent([this, texName, propName, prop](ofxDatGuiToggleEvent e) mutable {
+                            if (!e.checked) return; 
+
+                            Property updatedProp = prop;
+                            updatedProp.value = texName;
+
+                            for (auto* obj : gui_manager->getScene()->selectedObjects) {
+                                auto objProps = obj->getProperties();
+                                if (std::any_of(objProps.begin(), objProps.end(),
+                                    [&propName](const Property& p) { return p.name == propName; })) {
+                                    obj->setProperty(updatedProp);
+                                }
+                            }
+
+                            updatePropertyControls();
+                            });
+                    }
+                }
                 else {
                     std::string strVal = std::get<std::string>(prop.value);
                     auto textInput = attributes_folder->addTextInput(prop.name, strVal);

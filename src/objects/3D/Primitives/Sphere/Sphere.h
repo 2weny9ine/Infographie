@@ -25,6 +25,7 @@ private:
     int resolution;
     ofImage textureImage;////texture
     bool hasTexture = false;////texture
+    std::string textureName = "wood";//texture
     TextureFilterType currentFilter = TextureFilterType::None;
     ImageFilterManager filterManager;
     TextureFilterType lastAppliedFilter = TextureFilterType::None;

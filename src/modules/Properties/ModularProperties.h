@@ -25,7 +25,7 @@ struct Property {
     float         step = 0.1f;
     int           decimals = 2;
 
-    std::vector<std::string> options; // For string-based dropdowns (e.g., "Filter")
+    std::vector<std::string> options; 
 
 };
 
