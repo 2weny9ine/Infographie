@@ -19,7 +19,7 @@ void IlluminationClassique::chargerShaders() {
 void IlluminationClassique::initialisationEclairage(){
     lightMouse.setPointLight();
     lightMouse.setDiffuseColor(ofColor::white);
-    lightMouse.setSpecularColor(ofColor(191));
+    lightMouse.setSpecularColor(ofColor(255));
     lightMouse.setAttenuation(1.0f, 0.002f, 0.0001f);
     
 }
@@ -51,13 +51,13 @@ void IlluminationClassique::initialiserLumieres()
     
     // Lumière ponctuelle
     lightPoint.setPointLight();
-    lightPoint.setDiffuseColor(ofColor(255, 200, 50));
+    lightPoint.setDiffuseColor(ofColor(255));
     lightPoint.setSpecularColor(ofColor(255));
     
     
     // Projecteur (Spotlight)
     lightSpot.setSpotlight();
-    lightSpot.setDiffuseColor(ofColor(200, 200, 255));
+    lightSpot.setDiffuseColor(ofColor(255));
     lightSpot.setSpecularColor(ofColor(255));
     lightSpot.setSpotlightCutOff(45);
     lightSpot.setSpotConcentration(128);
@@ -105,10 +105,6 @@ void IlluminationClassique::setup() {
     initialisationMateriaux();
     initialiserLumieres();
     
-    
-    lightDirectional.setDiffuseColor (ofColor::white);
-    lightDirectional.setSpecularColor(ofColor::white);
-    lightDirectional.setOrientation  ({0, -90, 0});
     
     if (!shaderToon.isLoaded()) {
         ofLogError() << "Erreur de chargement du shader Toon.";
@@ -194,7 +190,11 @@ void IlluminationClassique::afficherSymboleLumieres() {
 void IlluminationClassique::draw()
 {
     if (modeCourant == Mode::AUCUN) return;
-    update(0);
+
+    update(ofGetLastFrameTime());
+    
+    
+
     
     ofEnableDepthTest();
     ofEnableLighting();
@@ -202,36 +202,53 @@ void IlluminationClassique::draw()
     
     ofShader& shader = shaderActuel();
     shader.begin();
+    shader.setUniform1f("global_intensity", globalIntensity);
     
-    
+  
     std::vector<glm::vec3> activeLightPositions;
-    if (activeLightPoint)       activeLightPositions.push_back(lightPoint.getGlobalPosition());
-    if (activeLightSpot)        activeLightPositions.push_back(lightSpot.getGlobalPosition());
-    if (activeLightDirectional) activeLightPositions.push_back(lightDirectional.getGlobalPosition());
-    if (activeMouseLight)       activeLightPositions.push_back(lightMouse.getGlobalPosition());
+    std::vector<glm::vec3> activeLightColors;
+    
+    if (activeLightPoint) {
+        activeLightPositions.push_back(lightPoint.getGlobalPosition());
+        auto c = lightPoint.getDiffuseColor();
+        activeLightColors.push_back(glm::vec3(c.r, c.g, c.b));
+    }
+    if (activeLightSpot) {
+        activeLightPositions.push_back(lightSpot.getGlobalPosition());
+        auto c = lightSpot.getDiffuseColor();
+        activeLightColors.push_back(glm::vec3(c.r, c.g, c.b));
+    }
+    if (activeLightDirectional) {
+        activeLightPositions.push_back(lightDirectional.getGlobalPosition());
+        auto c = lightDirectional.getDiffuseColor();
+        activeLightColors.push_back(glm::vec3(c.r, c.g, c.b));
+    }
+    if (activeMouseLight) {
+        activeLightPositions.push_back(lightMouse.getGlobalPosition());
+        auto c = lightMouse.getDiffuseColor();
+        activeLightColors.push_back(glm::vec3(c.r, c.g, c.b));
+    }
     
     int count = std::min((int)activeLightPositions.size(), 4);
     shader.setUniform1i("num_active_lights", count);
-    
     if (count > 0) {
-        
         shader.setUniform3fv("light_positions",
                              &activeLightPositions[0].x,
                              count);
+        shader.setUniform3fv("light_colors",
+                             &activeLightColors[0].x,
+                             count);
     }
     
-    
-    
+
     for (auto* object : scene->objects)
     {
         int matIndex = scene->gui->top_left->getCurrentMaterialIndex();
         const ofMaterial* baseMaterial = &matDiffuse;
-        
         if (matIndex == 1) baseMaterial = &matPlastique;
         else if (matIndex == 2) baseMaterial = &matMetal;
         
         ofMaterial finalMaterial = *baseMaterial;
-        
         if (materialEffectEnabled) {
             finalMaterial.setDiffuseColor(object->getColor());
         } else {
@@ -245,7 +262,6 @@ void IlluminationClassique::draw()
     }
     
     shader.end();
-    
     afficherSymboleLumieres();
     
     ofDisableLighting();
@@ -350,6 +366,3 @@ void IlluminationClassique::update(float dt)
         }
     }
 }
-
-
-
