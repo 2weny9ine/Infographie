@@ -26,8 +26,9 @@ public:
     bool activeLightPoint        = false;
     bool activeLightSpot         = false;
     bool activeMouseLight        = false;
-
+    ofLight     lightDirectional, lightPoint,lightSpot,lightMouse;
     
+    float globalIntensity = 1.0f;
 private:
     
     void appliqueCouleur(const ofFloatColor& col);
@@ -45,14 +46,13 @@ private:
 
     
     bool debugLights = true;
-    ofLight lightMouse;     
 
     
     Scene*      scene;
     Mode        modeCourant = Mode::AUCUN;
     
     ofShader    shaderLambert, shaderGouraud, shaderPhong, shaderBlinn,shaderToon;
-    ofLight     lightDirectional, lightPoint,lightSpot;
+
     ofFloatColor globalAmbientColor;
 
    

@@ -95,7 +95,7 @@ Top_Left_GUI::Top_Left_GUI()
     });
 
     // Dossier : Illumination
-    illumFolder = gui->addFolder("Illumination", ofColor::white);
+    illumFolder = gui->addFolder("Illumination", ofColor::purple);
 
     illumNames = { "Off", "Lambert", "Gouraud", "Phong", "Blinn‑Phong", "Toon" };
     illumIdx = 0;
@@ -142,6 +142,38 @@ Top_Left_GUI::Top_Left_GUI()
     toggleMouseLight->onToggleEvent([this](ofxDatGuiToggleEvent e) {
         if (illumination) illumination->activeMouseLight = e.checked;
         ofLogNotice() << "Lumière Souris : " << (e.checked ? "ON" : "OFF");
+    });
+    
+    auto sliderGlobalIntensity = lightsFolder->addSlider("Intensité ", 0.0f, 1.0f); 
+    sliderGlobalIntensity->setValue(1.0f);
+    sliderGlobalIntensity->onSliderEvent([this](ofxDatGuiSliderEvent e){
+        if (!illumination) return;
+        float I = e.value;
+
+     
+        ofFloatColor intensityColor(I, I, I);
+        
+        illumination->lightDirectional.setDiffuseColor(intensityColor);
+        illumination->lightPoint.setDiffuseColor(intensityColor);
+        illumination->lightSpot.setDiffuseColor(intensityColor);
+        illumination->lightMouse.setDiffuseColor(intensityColor);
+    });
+    
+    auto pickerGlobalColor = lightsFolder->addColorPicker("Couleur ", ofColor::white);
+    pickerGlobalColor->onColorPickerEvent([this](ofxDatGuiColorPickerEvent e){
+        if (!illumination) return;
+        
+
+        ofFloatColor color(
+            e.color.r / 255.0f,
+            e.color.g / 255.0f,
+            e.color.b / 255.0f
+        );
+
+        illumination->lightDirectional.setDiffuseColor(color);
+        illumination->lightPoint.setDiffuseColor(color);
+        illumination->lightSpot.setDiffuseColor(color);
+        illumination->lightMouse.setDiffuseColor(color);
     });
 
     

@@ -74,7 +74,7 @@ void Application::update()
 
 void Application::draw()
 {
-    //illuminationClassique->draw();
+
     scene.setMaterialPassEnabled( gui.top_left->isMaterialEffectEnabled() );
     ofSetBackgroundColor(backgroundColor);
     scene.draw();
