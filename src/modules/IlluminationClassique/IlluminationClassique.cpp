@@ -354,14 +354,14 @@ void IlluminationClassique::update(float dt)
     if (activeMouseLight && scene->camera) {
         glm::vec3 mouseScreen(ofGetMouseX(), ofGetMouseY(), 0);
         
-        glm::vec3 near = scene->camera->screenToWorld(mouseScreen + glm::vec3(0, 0, scene->camera->getNearClip()));
-        glm::vec3 far  = scene->camera->screenToWorld(mouseScreen + glm::vec3(0, 0, scene->camera->getFarClip()));
-        glm::vec3 dir  = glm::normalize(far - near);
+        glm::vec3 vnear = scene->camera->screenToWorld(mouseScreen + glm::vec3(0, 0, scene->camera->getNearClip()));
+        glm::vec3 vfar  = scene->camera->screenToWorld(mouseScreen + glm::vec3(0, 0, scene->camera->getFarClip()));
+        glm::vec3 dir  = glm::normalize(vfar - vnear);
         
         if (std::abs(dir.y) > 1e-6f) {
-            float t = -near.y / dir.y;
+            float t = -vnear.y / dir.y;
             if (t > 0.0f) {
-                lightMouse.setGlobalPosition(near + dir * t);
+                lightMouse.setGlobalPosition(vnear + dir * t);
             }
         }
     }
