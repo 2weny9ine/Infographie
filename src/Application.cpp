@@ -24,6 +24,7 @@ void Application::setup()
 {
     ofSetWindowTitle("Infographie");
     ofLog() << "Application démarre...";
+    ofDisableArbTex();
 
     scene.setup(&user_camera_movement.camera, &gui);
     user_camera_movement.setup(scene);

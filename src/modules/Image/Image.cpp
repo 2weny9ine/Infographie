@@ -9,10 +9,11 @@ void Image::importImage(const std::string& path) {
     ofImage img;
     auto imageObject = new ImageObject();
     if (imageObject->loadImage(path)) {
+        imageObject->setup();
         images.push_back(imageObject);
         scene.addObject(imageObject);
-        
         showImage();
+
     } else {
         delete imageObject;
         ofLog() << "Erreur l'image : " << path;
