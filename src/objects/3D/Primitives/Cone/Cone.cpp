@@ -154,3 +154,91 @@ Cone* Cone::copy() const
 {
     return new Cone(*this);
 }
+
+std::vector<Property> Cone::getProperties() const
+{
+    std::vector<Property> props = Object3D::getProperties();
+
+    std::vector<Property> coneProps = {
+        {"surface type", PropertyType::SurfaceType, PropertyValue{static_cast<int>(surfaceType)} }
+    };
+
+
+    props.insert(props.end(), coneProps.begin(), coneProps.end());
+    return props;
+}
+
+
+bool Cone::intersect(const Ray& ray, Intersection& intersection)
+{
+    glm::vec3 euler{ rotation.x, rotation.y, rotation.z };
+    glm::quat q = glm::quat(glm::radians(euler));
+    glm::quat invQ = glm::inverse(q);
+
+    glm::vec3 localOrigin = invQ * ((ray.origin - position) / scale);
+    glm::vec3 localDir = glm::normalize(invQ * (ray.direction / scale));
+
+    float halfH = height * 0.5f;
+    float apexY = halfH;
+    float baseY = -halfH;
+    float k2 = (radius / height) * (radius / height);
+
+    float Oy = localOrigin.y - apexY;
+    float a = localDir.x * localDir.x + localDir.z * localDir.z - k2 * localDir.y * localDir.y;
+    float b = 2 * (localOrigin.x * localDir.x + localOrigin.z * localDir.z - k2 * Oy * localDir.y);
+    float c = localOrigin.x * localOrigin.x + localOrigin.z * localOrigin.z - k2 * Oy * Oy;
+
+    float tSide = std::numeric_limits<float>::infinity();
+    glm::vec3 nSide(0.0f);
+
+    float disc = b * b - 4 * a * c;
+    if (disc >= 0 && fabs(a) > 1e-6f)
+    {
+        float sq = sqrt(disc);
+        float t0 = (-b - sq) / (2 * a);
+        float t1 = (-b + sq) / (2 * a);
+        for (float t : {t0, t1})
+        {
+            if (t > 0)
+            {
+                float y = localOrigin.y + localDir.y * t;
+                if (y <= apexY && y >= baseY && t < tSide)
+                {
+                    tSide = t;
+                    glm::vec3 P = localOrigin + localDir * t;
+                    glm::vec3 grad{ P.x, -k2 * (P.y - apexY), P.z };
+                    nSide = glm::normalize(grad);
+                }
+            }
+        }
+    }
+
+    float tCap = std::numeric_limits<float>::infinity();
+    glm::vec3 nCap(0.0f);
+    if (fabs(localDir.y) > 1e-6f)
+    {
+        float t = (baseY - localOrigin.y) / localDir.y;
+        if (t > 0)
+        {
+            glm::vec3 P = localOrigin + localDir * t;
+            if (P.x * P.x + P.z * P.z <= radius * radius)
+            {
+                tCap = t;
+                nCap = { 0,-1,0 };
+            }
+        }
+    }
+
+    float t = std::min(tSide, tCap);
+    if (!std::isfinite(t)) return false;
+
+    glm::vec3 localHit = localOrigin + localDir * t;
+    glm::vec3 localN = (tSide < tCap) ? nSide : nCap;
+
+    intersection.hit = true;
+    intersection.distance = t;
+    intersection.point = position + (q * (localHit * scale));
+    intersection.normal = glm::normalize(q * localN);
+    intersection.object = this;
+    return true;
+}

@@ -162,3 +162,92 @@ Cylinder* Cylinder::copy() const
 {
     return new Cylinder(*this);
 }
+
+std::vector<Property> Cylinder::getProperties() const
+{
+    std::vector<Property> props = Object3D::getProperties();
+
+    std::vector<Property> cylinderProps = {
+        {"surface type", PropertyType::SurfaceType, PropertyValue{static_cast<int>(surfaceType)} }
+    };
+
+
+    props.insert(props.end(), cylinderProps.begin(), cylinderProps.end());
+    return props;
+}
+
+bool Cylinder::intersect(const Ray& ray, Intersection& intersection)
+{
+    // Convert ofVec3f rotation to glm::vec3 before calling glm::radians()
+    glm::vec3 euler{ rotation.x, rotation.y, rotation.z };
+    glm::quat q = glm::quat(glm::radians(euler));
+    glm::quat invQ = glm::inverse(q);
+
+    glm::vec3 localOrigin = invQ * ((ray.origin - position) / scale);
+    glm::vec3 localDir = glm::normalize(invQ * (ray.direction / scale));
+
+    float halfH = height * 0.5f;
+
+    // Solve quadratic for cylindrical side
+    float a = localDir.x * localDir.x + localDir.z * localDir.z;
+    float b = 2.0f * (localOrigin.x * localDir.x + localOrigin.z * localDir.z);
+    float c = localOrigin.x * localOrigin.x + localOrigin.z * localOrigin.z - radius * radius;
+    float disc = b * b - 4 * a * c;
+
+    float tSide = std::numeric_limits<float>::infinity();
+    glm::vec3 nSide(0.0f);
+
+    if (disc >= 0.0f && fabs(a) > 1e-6f)
+    {
+        float sq = sqrt(disc);
+        float t0 = (-b - sq) / (2 * a);
+        float t1 = (-b + sq) / (2 * a);
+        for (float t : {t0, t1})
+        {
+            if (t > 0)
+            {
+                float y = localOrigin.y + t * localDir.y;
+                if (y >= -halfH && y <= halfH && t < tSide)
+                {
+                    tSide = t;
+                    glm::vec3 hit = localOrigin + localDir * t;
+                    nSide = glm::normalize(glm::vec3(hit.x, 0, hit.z));
+                }
+            }
+        }
+    }
+
+    // Caps
+    float tCap = std::numeric_limits<float>::infinity();
+    glm::vec3 nCap(0.0f);
+    if (fabs(localDir.y) > 1e-6f)
+    {
+        for (float yc : { halfH, -halfH })
+        {
+            float t = (yc - localOrigin.y) / localDir.y;
+            if (t > 0)
+            {
+                glm::vec3 hit = localOrigin + localDir * t;
+                if (hit.x * hit.x + hit.z * hit.z <= radius * radius && t < tCap)
+                {
+                    tCap = t;
+                    nCap = glm::vec3(0, yc > 0 ? 1 : -1, 0);
+                }
+            }
+        }
+    }
+
+    float t = std::min(tSide, tCap);
+    if (!std::isfinite(t)) return false;
+
+    intersection.hit = true;
+    intersection.distance = t;
+
+    glm::vec3 localHit = localOrigin + localDir * t;
+    glm::vec3 localN = (tSide < tCap) ? nSide : nCap;
+
+    intersection.point = position + (q * (localHit * scale));
+    intersection.normal = glm::normalize(q * localN);
+    intersection.object = this;
+    return true;
+}

@@ -1,6 +1,8 @@
 #pragma once
 #include "ofMain.h"
 #include "modules/Properties/ModularProperties.h"
+#include "modules/Raytracing/Raytracing.h"
+#include "enums/SurfaceType.h"
 
 class Object3D : public IPropertyProvider {
 public:
@@ -19,6 +21,7 @@ public:
     ofColor getColor() const;
     float getOpacity() const;
     bool getSelected() const;
+    SurfaceType getSurfaceType() const;
 
     void setPosition(const ofVec3f& position);
     void setRotation(const ofVec3f& rotation);
@@ -38,9 +41,12 @@ public:
     virtual std::vector<Property> getProperties() const override;
     virtual void setProperty(const Property& prop) override;
 
+    virtual bool intersect(const Ray& ray, Intersection& isect);
+
 protected:
     void initializeDrawingTools();
 
+    SurfaceType surfaceType;
     ofVec3f position, rotation, scale;
     ofColor color;
     float opacity;
