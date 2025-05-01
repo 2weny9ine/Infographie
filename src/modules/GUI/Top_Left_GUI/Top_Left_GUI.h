@@ -1,9 +1,9 @@
 #pragma once
 #include "ofxDatGui.h"
 #include "Image.h"
-//#include "modules/IlluminationClassique/IlluminationClassique.h"
 
 class IlluminationClassique;
+class IlluminationModerne;
 class GUI;
 
 class Top_Left_GUI
@@ -32,7 +32,8 @@ public:
     bool isMaterialEffectEnabled() const { return materialEffectEnabled; }
     
     
-    void setIlluminationPtr(IlluminationClassique* ptr) { illumination = ptr; }
+    void setIlluminationClassiquePtr(IlluminationClassique* ptr) { illuminationClassique = ptr; }
+    void setIlluminationModernePtr(IlluminationModerne* ptr) { illuminationModerne = ptr; }
     
     
     
@@ -47,8 +48,8 @@ public:
     bool isDirectionnelleOn() const { return toggleDirectionnelle&& toggleDirectionnelle->getEnabled(); }
     bool isPonctuelleOn()     const { return togglePonctuelle    && togglePonctuelle->getEnabled(); }
     bool isProjecteurOn()     const { return toggleProjecteur    && toggleProjecteur->getEnabled(); }
-    void setIllumination(IlluminationClassique* ptr) {
-        illumination = ptr;
+    void setIlluminationClassique(IlluminationClassique* ptr) {
+        illuminationClassique = ptr;
     }
     
 private:
@@ -89,7 +90,8 @@ private:
     int currentMaterialIndex;
     
     
-    IlluminationClassique* illumination;
+    IlluminationClassique* illuminationClassique;
+    IlluminationModerne* illuminationModerne;
     ofxDatGuiFolder* illumFolder;
     ofxDatGuiButton* illumBtn;
     int illumIdx;

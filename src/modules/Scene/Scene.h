@@ -38,6 +38,7 @@ struct Locator {
 class GUI;
 class Image;
 class IlluminationClassique;
+class IlluminationModerne;
 class Scene {
 public:
     enum class TransformMode {
@@ -83,7 +84,6 @@ public:
     bool isMouseOverObject(int mouseX, int mouseY); // yacine
     /**************************************************************************/
 
-    void dispatch_locators(int count, float range);
     void draw_locator(float scale);
 
     void resetSelection();
@@ -122,11 +122,13 @@ public:
     std::vector<Object3D*> objects;
 
     void setNodeVisible(bool visible);
-    void setIlluminationPtr(IlluminationClassique* ptr) { illumination = ptr; }
+    void setIlluminationClassiquePtr(IlluminationClassique* ptr) { illuminationClassique = ptr; }
+    void setIlluminationModernePtr(IlluminationModerne* ptr) { illuminationModerne = ptr; }
     void setMaterialPassEnabled(bool enabled) { materialPassEnabled = enabled; }
     
 private:
-    IlluminationClassique* illumination;
+    IlluminationClassique* illuminationClassique;
+    IlluminationModerne* illuminationModerne;
     bool materialPassEnabled = false; 
     // 2.3
     std::vector<Shape> shapes;
