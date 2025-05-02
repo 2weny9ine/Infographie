@@ -306,6 +306,9 @@ void IlluminationModerne::update(float dt)
 
     Object3D* selected = scene->selectedObjects[0];
 
+    glm::vec3 scale = selected->getScale();
+    if (scale.x < 1.0f) return;
+    
     glm::vec3 minBound, maxBound;
     selected->getWorldBounds(minBound, maxBound);
 

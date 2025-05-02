@@ -5,7 +5,7 @@
 #include "Image.h"
 
 #include <vector>
-
+#include "Topologie.h"
 #include "objects/Object3D.h"
 #include "Grid/Grid.h"
 #include "modules/Cursor/Cursor.h"
@@ -95,7 +95,7 @@ public:
 
     Scene();
     ~Scene();
-
+    Topologie* topologie = nullptr;
     ofVec3f calculProfondeur(const ofVec2f& pointEcran, float profondeur);
 
     void updateDrawingProperties(const ofColor& stroke, const ofColor& fill, float width, bool outline);
@@ -114,6 +114,14 @@ public:
     void setIlluminationClassiquePtr(IlluminationClassique* ptr) { illuminationClassique = ptr; }
     void setIlluminationModernePtr(IlluminationModerne* ptr) { illuminationModerne = ptr; }
     void setMaterialPassEnabled(bool enabled) { materialPassEnabled = enabled; }
+    
+
+
+       /// Permet de changer la visibilité de la topologie
+       void setTopologyVisible(bool v) {
+           if (topologie) topologie->setVisible(v);
+       }
+
     
 private:
     IlluminationClassique* illuminationClassique;

@@ -20,37 +20,43 @@ Application& Application::getInstance()
     return instance;
 }
 
+
 void Application::setup()
 {
     ofSetWindowTitle("Infographie");
-    ofLog() << "Application démarre...";
+    ofLog() << "Application démarre…";
     ofDisableArbTex();
 
-    scene.setup(&user_camera_movement.camera, &gui);
-    user_camera_movement.setup(scene);
 
     gui.setup(&scene);
     gui.top_left->setImage(scene.img);
 
-    sceneFbo.allocate(ofGetWidth(), ofGetHeight(), GL_RGBA);
+ 
+    scene.setup(&user_camera_movement.camera, &gui);
+    user_camera_movement.setup(scene);
 
-    scene.cursor.setState(CursorState::DEFAULT);
 
-    backgroundColor = ofColor(31);
-    
     illuminationClassique = new IlluminationClassique(&scene);
     illuminationClassique->setup();
     scene.setIlluminationClassiquePtr(illuminationClassique);
     gui.top_left->setIlluminationClassiquePtr(illuminationClassique);
+
 
     illuminationModerne = new IlluminationModerne(&scene);
     illuminationModerne->setup();
     scene.setIlluminationModernePtr(illuminationModerne);
     gui.top_left->setIlluminationModernePtr(illuminationModerne);
 
+
+    sceneFbo.allocate(ofGetWidth(), ofGetHeight(), GL_RGBA);
+    scene.cursor.setState(CursorState::DEFAULT);
+    backgroundColor = ofColor(31);
+
+
     TextureManager::get().setup();
-    imageFilterManager.setup(&Application::getInstance().getTextureManager().getTexture("wood"));
+    imageFilterManager.setup(&TextureManager::get().getTexture("wood"));
 }
+
 
 void Application::update()
 {
