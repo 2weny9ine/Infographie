@@ -1,118 +1,107 @@
 {
     "Categories": {
-        "Bounding Box": {
-            "type": [
-                "category"
-            ],
-            "stripeColor": "634490",
-            "contents": {
-                "Line Color": {
-                    "type": [
-                        "color"
-                    ],
-                    "defaultValue": "1B8EE0",
-                    "stripeColor": "FFFFFF"
-                },
-                "Line Width": {
-                    "type": [
-                        "slider",
-                        1,
-                        20
-                    ],
-                    "defaultValue": 5,
-                    "stripeColor": "FFFFFF"
-                }
-            }
-        },
-
-
-        "Export": {
-            "type": [
-                "category"
-            ],
-            "stripeColor": "00C4D4",
-            "contents": {
-                "Show Grid": {
-                    "type": [
-                        "bool"
-                    ],
-                    "defaultValue": true,
-                    "stripeColor": "FFFFFF"
-                },
-                "Show Node": {
-                    "type": [
-                        "bool"
-                    ],
-                    "defaultValue": false,
-                    "stripeColor": "FFFFFF"
-                }
-            }
-        },
-
-
-        "Grid": {
-            "type": [
-                "category"
-            ],
-            "stripeColor": "FF9838",
-            "contents": {
-                "Grid Size": {
-                    "type": [
-                        "number"
-                    ],
-                    "defaultValue": 10000,
-                    "stripeColor": "FFFFFF"
-                },
-                "Grid Spacing": {
-                    "type": [
-                        "number"
-                    ],
-                    "defaultValue": 100,
-                    "stripeColor": "FFFFFF"
-                },
-                "Subdivisions": {
-                    "type": [
-                        "slider",
-                        0,
-                        10,
-                        0
-                    ],
-                    "defaultValue": 3,
-                    "stripeColor": "FFFFFF"
-                },
-                "Primary Color": {
-                    "type": [
-                        "color"
-                    ],
-                    "defaultValue": "646464",
-                    "stripeColor": "FFFFFF"
-                },
-                "Secondary Color": {
-                    "type": [
-                        "color"
-                    ],
-                    "defaultValue": "969696",
-                    "stripeColor": "FFFFFF"
-                },
-                "Primary Opacity": {
-                    "type": [
-                        "slider",
-                        0,
-                        1
-                    ],
-                    "defaultValue": 0.8,
-                    "stripeColor": "FFFFFF"
-                },
-                "Secondary Opacity": {
-                    "type": [
-                        "slider",
-                        0,
-                        1
-                    ],
-                    "defaultValue": 0.1,
-                    "stripeColor": "FFFFFF"
-                }
-            }
+      "Bounding Box": {
+        "type": ["category"],
+        "stripeColor": "634490",
+        "contents": {
+          "Line Color": {
+            "type": ["color"],
+            "defaultValue": "1B8EE0",
+            "stripeColor": "FFFFFF"
+          },
+          "Line Width": {
+            "type": ["slider", 1, 20],
+            "defaultValue": 5,
+            "stripeColor": "FFFFFF"
+          }
         }
+      },
+  
+      "Export": {
+        "type": ["category"],
+        "stripeColor": "00C4D4",
+        "contents": {
+          "Show Grid": {
+            "type": ["bool"],
+            "defaultValue": true,
+            "stripeColor": "FFFFFF"
+          },
+          "Show Node": {
+            "type": ["bool"],
+            "defaultValue": false,
+            "stripeColor": "FFFFFF"
+          }
+        }
+      },
+  
+      "Grid": {
+        "type": ["category"],
+        "stripeColor": "FF9838",
+        "contents": {
+          "Grid Size": {
+            "type": ["number"],
+            "defaultValue": 10000,
+            "stripeColor": "FFFFFF"
+          },
+          "Grid Spacing": {
+            "type": ["number"],
+            "defaultValue": 100,
+            "stripeColor": "FFFFFF"
+          },
+          "Subdivisions": {
+            "type": ["slider", 0, 10, 0],
+            "defaultValue": 3,
+            "stripeColor": "FFFFFF"
+          },
+          "Primary Color": {
+            "type": ["color"],
+            "defaultValue": "646464",
+            "stripeColor": "FFFFFF"
+          },
+          "Secondary Color": {
+            "type": ["color"],
+            "defaultValue": "969696",
+            "stripeColor": "FFFFFF"
+          },
+          "Primary Opacity": {
+            "type": ["slider", 0, 1],
+            "defaultValue": 0.8,
+            "stripeColor": "FFFFFF"
+          },
+          "Secondary Opacity": {
+            "type": ["slider", 0, 1],
+            "defaultValue": 0.1,
+            "stripeColor": "FFFFFF"
+          }
+        }
+      },
+  
+      "Raytracing": {
+        "type": ["category"],
+        "stripeColor": "B27CFF",
+        "contents": {
+          "Max Depth": {
+            "type": ["slider", 1, 20, 0],
+            "defaultValue": 3,
+            "stripeColor": "FFFFFF"
+          },
+          "Samples Per Pixel": {
+            "type": ["slider", 1, 256, 0],
+            "defaultValue": 8,
+            "stripeColor": "FFFFFF"
+          },
+          "Ambient": {
+            "type": ["slider", 0, 1],
+            "defaultValue": 1.0,
+            "stripeColor": "FFFFFF"
+          },
+          "IOR Glass": {
+            "type": ["slider", 1.0, 2.5],
+            "defaultValue": 1.5,
+            "stripeColor": "FFFFFF"
+          }
+        }
+      }
     }
-}
+  }
+  
