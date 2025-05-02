@@ -4,6 +4,7 @@
 #include "ofMain.h"
 #include "GUI.h"
 #include "primitiveObject.h"
+#include "Topologie.h"
 
 void Scene::setup(ofCamera* cam, GUI* gui)
 {
@@ -39,7 +40,10 @@ void Scene::setup(ofCamera* cam, GUI* gui)
     /**************************************************************************/
     cursor.setup();
     /**************************************************************************/
-    
+    topologie = new Topologie(this);
+    topologie->setup();
+
+
     boundingBoxDirty = true;
 }
 
@@ -142,6 +146,8 @@ void Scene::update()
     /**************************************************************************/
     cursor.update(mouse_current_x, mouse_current_y, is_mouse_button_pressed);
     /**************************************************************************/
+    
+    topologie->update( ofGetLastFrameTime() );
 }
 
 Scene::Scene()
@@ -151,7 +157,7 @@ Scene::Scene()
     scaleFactor = 0.2f;
     rotationSpeed = 0.5f;
     planeZ = 0.0f;
-    
+    topologie = new Topologie(this);
     boundingBoxDirty = true;
 }
 
@@ -170,6 +176,8 @@ void Scene::draw()
             obj->draw();
         }
     }
+    
+    topologie->draw();
 
     if (materialPassEnabled && !selectedObjects.empty() && illumination) {
         illumination->renderMaterialPass();
@@ -198,6 +206,7 @@ void Scene::draw()
     if (isDrawing) {
         drawShape(currentShape);
     }
+
 }
 
 
@@ -532,4 +541,5 @@ Scene::~Scene()
         delete obj;
     }
     std::free(locators);
+        
 }

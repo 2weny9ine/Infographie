@@ -20,28 +20,33 @@ Application& Application::getInstance()
     return instance;
 }
 
+
 void Application::setup()
 {
     ofSetWindowTitle("Infographie");
-    ofLog() << "Application démarre...";
+    ofLog() << "Application démarre…";
+
+    gui.setup(&scene);
+
+
+    gui.top_left->setImage(scene.img);
+
 
     scene.setup(&user_camera_movement.camera, &gui);
     user_camera_movement.setup(scene);
 
-    gui.setup(&scene);
-    gui.top_left->setImage(scene.img);
 
-    sceneFbo.allocate(ofGetWidth(), ofGetHeight(), GL_RGBA);
-
-    scene.cursor.setState(CursorState::DEFAULT);
-
-    backgroundColor = ofColor(31);
-    
     illuminationClassique = new IlluminationClassique(&scene);
     illuminationClassique->setup();
     scene.setIlluminationPtr(illuminationClassique);
     gui.top_left->setIlluminationPtr(illuminationClassique);
+
+
+    sceneFbo.allocate(ofGetWidth(), ofGetHeight(), GL_RGBA);
+    scene.cursor.setState(CursorState::DEFAULT);
+    backgroundColor = ofColor(31);
 }
+
 
 void Application::update()
 {

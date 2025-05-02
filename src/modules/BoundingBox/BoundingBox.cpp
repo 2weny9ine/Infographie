@@ -2,33 +2,39 @@
 
 void BoundingBox::computeOverallBounds(const std::vector<Object3D*>& objects)
 {
-    if (objects.empty())
-    {
-        minCorner = glm::vec3(0);
-        maxCorner = glm::vec3(0);
-        size = glm::vec3(0);
-        center = glm::vec3(0);
-        return;
-    }
-
     glm::vec3 tempMin(FLT_MAX), tempMax(-FLT_MAX);
+    bool hasValid = false;
 
     for (auto* obj : objects)
     {
         if (!obj) continue;
+        if (obj->getScale().x < 1.0f) continue;
 
         glm::vec3 objMin, objMax;
         obj->getWorldBounds(objMin, objMax);
 
         tempMin = glm::min(tempMin, objMin);
         tempMax = glm::max(tempMax, objMax);
+        hasValid = true;
     }
 
-    minCorner = tempMin;
-    maxCorner = tempMax;
-    size = maxCorner - minCorner;
-    center = (minCorner + maxCorner) * 0.5f;
+    if (!hasValid)
+    {
+        minCorner = glm::vec3(0);
+        maxCorner = glm::vec3(0);
+        size      = glm::vec3(0);
+        center    = glm::vec3(0);
+    }
+    else
+    {
+        minCorner = tempMin;
+        maxCorner = tempMax;
+        size      = maxCorner - minCorner;
+        center    = (minCorner + maxCorner) * 0.5f;
+    }
 }
+
+
 
 void BoundingBox::draw()
 {

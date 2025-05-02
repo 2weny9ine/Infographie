@@ -325,39 +325,43 @@ void IlluminationClassique::renderMaterialPass()
 void IlluminationClassique::update(float dt)
 {
     if (!scene || scene->selectedObjects.empty()) return;
-    
+
     Object3D* selected = scene->selectedObjects[0];
-    
+    glm::vec3 scale = selected->getScale();
+    if (scale.x < 1.0f) return;
+
     glm::vec3 minBound, maxBound;
     selected->getWorldBounds(minBound, maxBound);
-    
+
     glm::vec3 size = (maxBound - minBound) * 0.5f;
     glm::vec3 center = selected->getPosition();
-    
+
     if (activeLightDirectional) {
         glm::vec3 offset(0, size.y * 2.5f, size.z * 2.5f);
         lightDirectional.setPosition(center + offset);
         lightDirectional.lookAt(center);
     }
-    
+
     if (activeLightPoint) {
         glm::vec3 offset(size.x * 1.5f, 0, 0);
         lightPoint.setPosition(center + offset);
     }
-    
+
     if (activeLightSpot) {
         glm::vec3 offset(0, size.y * 1.5f, -size.z * 1.5f);
         lightSpot.setPosition(center + offset);
         lightSpot.lookAt(center);
     }
-    
+
     if (activeMouseLight && scene->camera) {
         glm::vec3 mouseScreen(ofGetMouseX(), ofGetMouseY(), 0);
-        
-        glm::vec3 near = scene->camera->screenToWorld(mouseScreen + glm::vec3(0, 0, scene->camera->getNearClip()));
-        glm::vec3 far  = scene->camera->screenToWorld(mouseScreen + glm::vec3(0, 0, scene->camera->getFarClip()));
+
+        glm::vec3 near = scene->camera->screenToWorld(
+            mouseScreen + glm::vec3(0, 0, scene->camera->getNearClip()));
+        glm::vec3 far  = scene->camera->screenToWorld(
+            mouseScreen + glm::vec3(0, 0, scene->camera->getFarClip()));
         glm::vec3 dir  = glm::normalize(far - near);
-        
+
         if (std::abs(dir.y) > 1e-6f) {
             float t = -near.y / dir.y;
             if (t > 0.0f) {
