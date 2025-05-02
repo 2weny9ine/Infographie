@@ -4,6 +4,7 @@
 #include "modules/Scene/Scene.h"
 #include "modules/Image/Image.h"
 #include "modules/IlluminationClassique/IlluminationClassique.h"
+#include "modules/IlluminationModerne/IlluminationModerne.h"
 #include "modules/User_Camera_Movement/User_Camera_Movement.h"
 #include "modules/GUI/GUI.h"
 #include "events/MouseEventHandler/MouseEventHandler.h"
@@ -74,7 +75,8 @@ public:
 
     static Application& getInstance();
     
-    IlluminationClassique* getIllumination() { return illuminationClassique; }
+    IlluminationClassique* getIlluminationClassique() { return illuminationClassique; }
+    IlluminationModerne* getIlluminationModerne() { return illuminationModerne; }
     TextureManager& getTextureManager() { return TextureManager::get(); } //texture
 private:
     Application();
@@ -85,5 +87,6 @@ private:
     KeyEventHandler keyEventHandler;
     DragEventHandler dragEventHandler;
     IlluminationClassique* illuminationClassique;
+    IlluminationModerne* illuminationModerne;
     ImageFilterManager imageFilterManager;//texture
 };

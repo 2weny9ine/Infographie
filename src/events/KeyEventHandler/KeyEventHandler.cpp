@@ -62,7 +62,6 @@ void KeyEventHandler::handleKeyPressed(int key)
         }
     }
 
-    // Debug: Print all pressed keys
     for (int k : pressedKeys)
     {
         ofLogNotice() << k;
@@ -74,22 +73,17 @@ void KeyEventHandler::handleKeyReleased(int key)
     Application& app = Application::getInstance();
     User_Camera_Movement& userCameraMovement = app.getUserCameraMovement();
 
-    // Remove key from the set of pressed keys
     pressedKeys.erase(key);
 
-    // Reset CTRL flag when released
     if (key == OF_KEY_CONTROL)
     {
         ctrlPressed = false;
     }
 
-    // Reset duplicated flag when 4 is released
     if (key == 4)
     {
         duplicated = false;
     }
-
-    // Handle other key releases
 
         switch (key)
         {
@@ -169,7 +163,7 @@ void KeyEventHandler::update()
     if (ctrlPressed && pressedKeys.count(4) && !duplicated)
     {
         app.getScene().duplicateSelectedInstances();
-        duplicated = true; // Set flag to prevent multiple firings
+        duplicated = true;
         ofLogNotice() << "CTRL + D detected, duplicating instances";
     }
 }

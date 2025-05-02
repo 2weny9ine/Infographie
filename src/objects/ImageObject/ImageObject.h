@@ -24,7 +24,6 @@ public:
     ofColor customUserColor;
     ofPlanePrimitive plane;
 
-    // yacine
     virtual ofRectangle getScreenBoundingBox(ofCamera* cam) override;
     virtual void getWorldBounds(glm::vec3& outMin, glm::vec3& outMax) const override;
     virtual void drawBoundingBox() override;

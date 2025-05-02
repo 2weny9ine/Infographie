@@ -1,6 +1,7 @@
 #include "Scene.h"
 #include "Image.h"
 #include "IlluminationClassique.h"  
+#include "modules/IlluminationModerne/IlluminationModerne.h"  
 #include "ofMain.h"
 #include "GUI.h"
 #include "primitiveObject.h"
@@ -35,10 +36,7 @@ void Scene::setup(ofCamera* cam, GUI* gui)
     
     locator_buffer_head = 0;
     
-    // yacine
-    /**************************************************************************/
     cursor.setup();
-    /**************************************************************************/
     
     boundingBoxDirty = true;
 }
@@ -138,10 +136,7 @@ void Scene::update()
         }
     }
     
-    // yacine
-    /**************************************************************************/
     cursor.update(mouse_current_x, mouse_current_y, is_mouse_button_pressed);
-    /**************************************************************************/
 
     //img->update();
 }
@@ -164,19 +159,27 @@ void Scene::draw()
 
     grid->draw();
     glEnable(GL_DEPTH_TEST);
+    ofDisableArbTex();
 
-    if (illumination && illumination->getMode() != IlluminationClassique::Mode::AUCUN) {
-        illumination->draw();
-    } else {
+    if (illuminationClassique && illuminationClassique->getMode() != IlluminationClassique::Mode::AUCUN && !illuminationModerne->activated) {
+        illuminationClassique->draw();
+    }
+    else if (illuminationModerne && illuminationModerne->activated)
+    {
+        illuminationModerne->draw();
+    }
+    else {
         for (auto* obj : objects) {
             obj->draw();
         }
     }
 
-    if (materialPassEnabled && !selectedObjects.empty() && illumination) {
-        illumination->renderMaterialPass();
+    if (materialPassEnabled && !selectedObjects.empty() && illuminationClassique && illuminationClassique->getMode() != IlluminationClassique::Mode::AUCUN && !illuminationModerne->activated) {
+        illuminationClassique->renderMaterialPass();
     }
-
+    else if (materialPassEnabled && !selectedObjects.empty() && illuminationModerne && illuminationModerne->activated) {
+        illuminationModerne->renderMaterialPass();
+    }
     glDisable(GL_DEPTH_TEST);
 
     if (!selectedObjects.empty()) {

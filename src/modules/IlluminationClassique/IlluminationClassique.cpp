@@ -193,9 +193,6 @@ void IlluminationClassique::draw()
 
     update(ofGetLastFrameTime());
     
-    
-
-    
     ofEnableDepthTest();
     ofEnableLighting();
     appliquerEtatLumieres();
@@ -353,15 +350,15 @@ void IlluminationClassique::update(float dt)
     
     if (activeMouseLight && scene->camera) {
         glm::vec3 mouseScreen(ofGetMouseX(), ofGetMouseY(), 0);
-        
-        glm::vec3 vnear = scene->camera->screenToWorld(mouseScreen + glm::vec3(0, 0, scene->camera->getNearClip()));
-        glm::vec3 vfar  = scene->camera->screenToWorld(mouseScreen + glm::vec3(0, 0, scene->camera->getFarClip()));
-        glm::vec3 dir  = glm::normalize(vfar - vnear);
+
+        glm::vec3 n = scene->camera->screenToWorld(mouseScreen + glm::vec3(0, 0, scene->camera->getNearClip()));
+        glm::vec3 f  = scene->camera->screenToWorld(mouseScreen + glm::vec3(0, 0, scene->camera->getFarClip()));
+        glm::vec3 dir  = glm::normalize(f - n);
         
         if (std::abs(dir.y) > 1e-6f) {
-            float t = -vnear.y / dir.y;
+            float t = -n.y / dir.y;
             if (t > 0.0f) {
-                lightMouse.setGlobalPosition(vnear + dir * t);
+                lightMouse.setGlobalPosition(n + dir * t);
             }
         }
     }

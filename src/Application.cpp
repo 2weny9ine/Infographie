@@ -40,15 +40,16 @@ void Application::setup()
     
     illuminationClassique = new IlluminationClassique(&scene);
     illuminationClassique->setup();
-    scene.setIlluminationPtr(illuminationClassique);
-    gui.top_left->setIlluminationPtr(illuminationClassique);
-    //texture
+    scene.setIlluminationClassiquePtr(illuminationClassique);
+    gui.top_left->setIlluminationClassiquePtr(illuminationClassique);
+
+    illuminationModerne = new IlluminationModerne(&scene);
+    illuminationModerne->setup();
+    scene.setIlluminationModernePtr(illuminationModerne);
+    gui.top_left->setIlluminationModernePtr(illuminationModerne);
+
     TextureManager::get().setup();
     imageFilterManager.setup(&Application::getInstance().getTextureManager().getTexture("wood"));
-
-
-
-
 }
 
 void Application::update()
@@ -74,7 +75,7 @@ void Application::update()
     scene.isDrawingMode = isDrawingMode;
     
     illuminationClassique->update(ofGetLastFrameTime());
-
+    illuminationModerne->update(ofGetLastFrameTime());
 }
 
 
