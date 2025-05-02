@@ -136,6 +136,10 @@
     <ClCompile Include="src\Renderer.cpp">
       <Filter>src</Filter>
     </ClCompile>
+    <ClCompile Include="src\modules\Raytracing\Raytracing.cpp" />
+    <ClCompile Include="src\modules\Raytracing\Ray\Ray.cpp" />
+    <ClCompile Include="src\modules\Raytracing\Intersection\Intersection.cpp" />
+    <ClCompile Include="src\modules\ExportScene\ExportScene.cpp" />
   </ItemGroup>
   <ItemGroup>
     <Filter Include="addons">
@@ -641,5 +645,12 @@
     <ClInclude Include="src\modules\Properties\ModularProperties.h">
       <Filter>src</Filter>
     </ClInclude>
+    <ClInclude Include="src\modules\Raytracing\Raytracing.h" />
+    <ClInclude Include="src\modules\Raytracing\Ray\Ray.h" />
+    <ClInclude Include="src\modules\Raytracing\Intersection\Intersection.h" />
+    <ClInclude Include="src\modules\ExportScene\ExportScene.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="src\enums\SurfaceType.h" />
   </ItemGroup>
 </Project>

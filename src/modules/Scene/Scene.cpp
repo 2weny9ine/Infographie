@@ -10,36 +10,36 @@ void Scene::setup(ofCamera* cam, GUI* gui)
     grid = new Grid();
     this->gui = gui;
     camera = cam;
-
+    
     locator_count = 100;
     speed = 100.0f;
     radius = 3.0f;
-
+    
     mouse_press_x = 0;
     mouse_press_y = 0;
     mouse_current_x = 0;
     mouse_current_y = 0;
-
+    
     is_mouse_button_pressed = false;
     is_active_translation = false;
     is_active_rotation = false;
     is_active_proportion = false;
-
+    
     offset_x = 0.0f;
     offset_y = 0.0f;
     offset_z = 0.0f;
-
+    
     delta_x = speed;
     delta_y = speed;
     delta_z = speed;
-
+    
     locator_buffer_head = 0;
-
+    
     // yacine
     /**************************************************************************/
     cursor.setup();
     /**************************************************************************/
-
+    
     boundingBoxDirty = true;
 }
 
@@ -47,9 +47,9 @@ void Scene::update()
 {
     center_x = ofGetWidth() / 2.0f;
     center_y = ofGetHeight() / 2.0f;
-
+    
     ofVec3f mouseScreen(ofGetMouseX(), ofGetMouseY(), 0);
-
+    
     if (!isDrawing)
     {
         if (currentTransform == Scene::TransformMode::Translate)
@@ -57,26 +57,26 @@ void Scene::update()
             if (is_mouse_button_pressed)
             {
                 ofVec3f delta = mouseScreen - lastMouseScreen;
-
+                
                 ofVec3f right = camera->getXAxis(); // camera X axis
                 ofVec3f up = camera->getYAxis(); // camera Y axis
                 float sensitivity = 0.01f;
-
+                
                 for (Object3D* object : selectedObjects)
                 {
                     object->transformPosition(right * delta.x * sensitivity);
                     object->transformPosition(up * -delta.y * sensitivity);
                 }
-
+                
                 gui->bottom_left->localTransformations[0] += delta.x;
                 gui->bottom_left->localTransformations[1] += delta.y;
                 gui->bottom_left->localTransformations[2] += delta.z;
-
+                
                 boundingBoxDirty = true;
-
+                
                 update_Attributes();
             }
-
+            
             cursor.setState(CursorState::MOVE);
             lastMouseScreen = mouseScreen;
         }
@@ -85,7 +85,7 @@ void Scene::update()
             if (is_mouse_button_pressed)
             {
                 ofVec2f mouseDelta = -(mouseScreen - lastMouseScreen);
-
+                
                 for (Object3D* object : selectedObjects)
                 {
                     ofVec3f newScale = object->getScale();
@@ -97,16 +97,16 @@ void Scene::update()
                     newScale.z = max(1.0f, newScale.z);
                     object->setScale(newScale);
                 }
-
+                
                 gui->bottom_left->localTransformations[6] += mouseDelta.y * scaleFactor;
                 gui->bottom_left->localTransformations[7] += mouseDelta.y * scaleFactor;
                 gui->bottom_left->localTransformations[8] += mouseDelta.y * scaleFactor;
-
+                
                 boundingBoxDirty = true;
-
+                
                 update_Attributes();
             }
-
+            
             cursor.setState(CursorState::RESIZE);
             lastMouseScreen = mouseScreen;
         }
@@ -115,33 +115,35 @@ void Scene::update()
             if (is_mouse_button_pressed)
             {
                 ofVec2f mouseDelta = mouseScreen - lastMouseScreen;
-
+                
                 for (Object3D* object : selectedObjects)
                 {
                     ofVec3f delta = ofVec3f(mouseDelta.y * rotationSpeed,
                                             mouseDelta.x * rotationSpeed,
                                             (mouseDelta.x + mouseDelta.y) * rotationSpeed * 0.5f);
-
+                    
                     object->transformRotation(delta);
                 }
-
+                
                 gui->bottom_left->localTransformations[3] += mouseDelta.y * rotationSpeed;
                 gui->bottom_left->localTransformations[4] -= mouseDelta.x * rotationSpeed;
                 gui->bottom_left->localTransformations[5] += (mouseDelta.x + mouseDelta.y) * rotationSpeed * 0.5f;
-
+                
                 boundingBoxDirty = true;
-
+                
                 update_Attributes();
             }
             cursor.setState(CursorState::ROTATE);
             lastMouseScreen = mouseScreen;
         }
     }
-
+    
     // yacine
     /**************************************************************************/
     cursor.update(mouse_current_x, mouse_current_y, is_mouse_button_pressed);
     /**************************************************************************/
+
+    //img->update();
 }
 
 Scene::Scene()
@@ -151,62 +153,54 @@ Scene::Scene()
     scaleFactor = 0.2f;
     rotationSpeed = 0.5f;
     planeZ = 0.0f;
-
+    
     boundingBoxDirty = true;
 }
 
 void Scene::draw()
 {
-    // ---------- 3D ----------
     camera->begin();
     ofPushMatrix();
 
-    // Toujours afficher la grille
     grid->draw();
-
-    // Activer le test de profondeur pour le rendu des objets 3D
     glEnable(GL_DEPTH_TEST);
 
-    // Choix du mode de rendu selon le contexte
-    if (materialPassEnabled && illumination) {
-        // Passe matériaux
-        illumination->renderMaterialPass();
-    }
-    else if (illumination && illumination->getMode() != IlluminationClassique::Mode::AUCUN) {
-        // Passe shader classique (Lambert, Gouraud, Phong, Blinn-Phong)
+    if (illumination && illumination->getMode() != IlluminationClassique::Mode::AUCUN) {
         illumination->draw();
-    }
-    else {
-        // Rendu "brut" sans éclairage ni shader
+    } else {
         for (auto* obj : objects) {
             obj->draw();
         }
     }
 
-    // Désactiver le test de profondeur après le rendu des objets
+    if (materialPassEnabled && !selectedObjects.empty() && illumination) {
+        illumination->renderMaterialPass();
+    }
+
     glDisable(GL_DEPTH_TEST);
 
-    // Affichage de la bounding box si des objets sont sélectionnés
     if (!selectedObjects.empty()) {
         updateBoundingBoxIfNeeded();
         boundingBoxAll.draw();
     }
 
-    // Affichage du locator
     draw_locator(10.0f);
 
     ofPopMatrix();
     camera->end();
 
-    // Affichage du rectangle de sélection si le bouton de la souris est pressé
     if (is_mouse_button_pressed && currentTransform == TransformMode::None) {
         draw_zone(mouse_press_x, mouse_press_y, mouse_current_x, mouse_current_y);
     }
 
-    // Dessin des formes 2D
+    //2.3
     for (auto& shape : shapes) drawShape(shape);
     if (isDrawing) drawShape(currentShape);
+    //cursor.draw();
+
+    //img->draw();
 }
+
 
 
 void Scene::updateBoundingBoxIfNeeded()
@@ -262,12 +256,12 @@ void Scene::selectAllInBounds(float x1, float y1, float x2, float y2)
     float maxX = max(x1, x2);
     float minY = min(y1, y2);
     float maxY = max(y1, y2);
-
+    
     for (Object3D* object : objects)
     {
         ofVec3f objectPos = object->getPosition();
         glm::vec3 screenPos = camera->worldToScreen(objectPos);
-
+        
         if (screenPos.x >= minX && screenPos.x <= maxX &&
             screenPos.y >= minY && screenPos.y <= maxY)
         {
@@ -280,7 +274,7 @@ void Scene::selectAllInBounds(float x1, float y1, float x2, float y2)
         }
     }
     gui->bottom_left->updatePropertyControls();
-
+    
     boundingBoxDirty = true;
 }
 
@@ -310,7 +304,7 @@ void Scene::apply_Transformations(ofVec3f position, ofVec3f rotation, ofVec3f sc
             object->transformScale(scale);
         }
     }
-
+    
     boundingBoxDirty = true;
     updateBoundingBoxIfNeeded();
 }
@@ -318,31 +312,31 @@ void Scene::apply_Transformations(ofVec3f position, ofVec3f rotation, ofVec3f sc
 void Scene::duplicateSelectedInstances()
 {
     std::vector<Object3D*> newCopies;
-
+    
     for (Object3D* object : selectedObjects)
     {
         Object3D* copy = object->copy();
         copy->transformPosition(ofVec3f(100, 0, 100));
         newCopies.push_back(copy);
-
+        
         this->addObject(copy);
     }
-
+    
     this->resetSelection();
-
+    
     for (Object3D* object : newCopies)
     {
         object->setSelected(true);
         selectedObjects.push_back(object);
     }
-
+    
     boundingBoxDirty = true;
 }
 
 void Scene::draw_locator(float scale)
 {
     if (!nodeVisible) return;
-
+    
     ofSetLineWidth(4);
     ofSetColor(127);
     ofFill();
@@ -361,7 +355,7 @@ void Scene::draw_locator(float scale)
     {
         node.setPosition(0, 0, 0);
     }
-
+    
     node.setOrientation(ofVec3f(0, 0, 0));
     node.setScale(scale);
     node.draw();
@@ -377,10 +371,10 @@ void Scene::resetSelection()
 {
     for (Object3D* object : selectedObjects)
         object->setSelected(false);
-
+    
     selectedObjects.clear();
     gui->bottom_left->localTransformations = { 0,0,0,0,0,0,0,0,0 };
-
+    
     boundingBoxDirty = true;
 }
 
@@ -447,23 +441,23 @@ ofVec3f Scene::calculProfondeur(const ofVec2f& pointEcran, float profondeur)
 void Scene::finalizeDrawing()
 {
     if (!isDrawing) return;
-
+    
     float profondeurCible = 0.0f;
     ofVec3f debutScene = calculProfondeur(currentShape.startPos, profondeurCible);
     ofVec3f findScene = calculProfondeur(currentShape.endPos, profondeurCible);
     ofVec3f centreScene = (debutScene + findScene) * 0.5f;
-
+    
     PrimitiveObject* prim = new PrimitiveObject();
     prim->type = currentShape.type;
     prim->strokeColor = currentShape.strokeColor;
     prim->fillColor = currentShape.fillColor;
     prim->lineWidth = currentShape.lineWidth;
-
+    
     prim->setPosition(centreScene);
-
+    
     prim->positionInitiale = debutScene - centreScene;
     prim->positionFinale = findScene - centreScene;
-
+    
     addObject(prim);
     isDrawing = false;
 }
@@ -471,7 +465,7 @@ void Scene::finalizeDrawing()
 void Scene::drawShape(const Shape& shape)
 {
     ofSetLineWidth(shape.lineWidth);
-
+    
     if (shape.outline)
     {
         ofSetColor(shape.strokeColor);
@@ -482,7 +476,7 @@ void Scene::drawShape(const Shape& shape)
         ofSetColor(shape.fillColor);
         ofFill();
     }
-
+    
     switch (shape.type)
     {
         case PrimitiveType::POINT:
@@ -503,7 +497,7 @@ void Scene::drawShape(const Shape& shape)
             ofVertex(shape.endPos + perp);
             ofEndShape(true);
         }
-        break;
+            break;
         case PrimitiveType::RECTANGLE:
             ofDrawRectangle(shape.startPos.x, shape.startPos.y,
                             shape.endPos.x - shape.startPos.x,
@@ -514,7 +508,7 @@ void Scene::drawShape(const Shape& shape)
             float radius = shape.startPos.distance(shape.endPos);
             ofDrawCircle(shape.startPos, radius);
         }
-        break;
+            break;
         case PrimitiveType::ELLIPSE:
             ofDrawEllipse((shape.startPos.x + shape.endPos.x) / 2,
                           (shape.startPos.y + shape.endPos.y) / 2,
@@ -528,7 +522,7 @@ void Scene::drawShape(const Shape& shape)
             glm::vec2 p3 = glm::vec2((p1.x + p2.x) / 2, p1.y - abs(p2.x - p1.x));
             ofDrawTriangle(p1, p2, p3);
         }
-        break;
+            break;
     }
 }
 

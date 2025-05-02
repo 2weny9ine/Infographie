@@ -2,6 +2,7 @@
 #include "modules/GUI/GUI.h"
 #include "objects/Object3D.h"
 #include "modules/Properties/ModularProperties.h"
+#include "enums/SurfaceType.h"
 #include <iostream>
 #include <sstream>
 
@@ -121,9 +122,7 @@ void Bottom_Left_GUI::createShape(ofxDatGuiButtonEvent e)
     else if (selectedShape == "CYLINDER")
         modelObj = new Cylinder();
     else if (selectedShape == "CONE")
-    {
         modelObj = new Cone();
-    }
 
     if (modelObj)
     {
@@ -161,55 +160,52 @@ void Bottom_Left_GUI::updatePropertyControls()
         attributes_folder->children.clear();
 
     auto& selectedObjects = gui_manager->getScene()->selectedObjects;
-    if (selectedObjects.empty()) return;
+    if (selectedObjects.empty())
+        return;
 
-    // Find common properties among selected objects
-    std::unordered_map<std::string, Property> commonProps;
+    std::vector<Property> commonProps;
     bool firstObject = true;
 
     for (auto* obj : selectedObjects)
     {
         auto props = obj->getProperties();
-        std::unordered_map<std::string, Property> currentProps;
-
-        for (const auto& p : props)
-        {
-            currentProps[p.name] = p;
-        }
-
         if (firstObject)
         {
-            commonProps = currentProps;
+            commonProps = props;
             firstObject = false;
         }
         else
         {
-            for (auto it = commonProps.begin(); it != commonProps.end(); )
+            std::vector<Property> filtered;
+            for (const auto& cp : commonProps)
             {
-                if (currentProps.find(it->first) == currentProps.end())
+                auto it = std::find_if(props.begin(), props.end(), [&](const Property& p)
                 {
-                    it = commonProps.erase(it);
-                }
-                else
+                    return p.name == cp.name;
+                });
+                if (it != props.end())
                 {
-                    ++it;
+                    filtered.push_back(cp);
                 }
             }
+            commonProps = std::move(filtered);
         }
     }
 
-    // Dynamically create controls based on common properties
-    for (auto& [propName, prop] : commonProps)
+    for (const auto& prop : commonProps)
     {
+        const std::string& propName = prop.name;
         switch (prop.type)
         {
             case PropertyType::Float:
             case PropertyType::Int:
             case PropertyType::Percent:
             {
-                float val = std::holds_alternative<float>(prop.value)
-                    ? std::get<float>(prop.value)
-                    : static_cast<float>(std::get<int>(prop.value));
+                float val = 0.0f;
+                if (std::holds_alternative<float>(prop.value))
+                    val = std::get<float>(prop.value);
+                else if (std::holds_alternative<int>(prop.value))
+                    val = static_cast<float>(std::get<int>(prop.value));
 
                 auto slider = attributes_folder->addSlider(prop.name, prop.min, prop.max);
                 slider->setValue(val);
@@ -217,7 +213,9 @@ void Bottom_Left_GUI::updatePropertyControls()
                 slider->onSliderEvent([this, propName, prop](ofxDatGuiSliderEvent e) mutable
                 {
                     Property updatedProp = prop;
-                    updatedProp.value = (prop.type == PropertyType::Int) ? static_cast<int>(e.value) : e.value;
+                    updatedProp.value = (prop.type == PropertyType::Int)
+                        ? static_cast<int>(e.value)
+                        : e.value;
 
                     for (auto* obj : gui_manager->getScene()->selectedObjects)
                     {
@@ -227,8 +225,8 @@ void Bottom_Left_GUI::updatePropertyControls()
                         {
                             obj->setProperty(updatedProp);
                         }
-                        gui_manager->getScene()->update_Attributes();
                     }
+                    gui_manager->getScene()->update_Attributes();
                 });
                 break;
             }
@@ -372,6 +370,40 @@ void Bottom_Left_GUI::updatePropertyControls()
                 break;
             }
 
+            case PropertyType::SurfaceType:
+            {
+                int current = std::get<int>(prop.value);
+                const std::vector<std::pair<std::string, SurfaceType>> surfaceOptions = {
+                    {"NONE", SurfaceType::NONE},
+                    {"MIRROR", SurfaceType::MIRROR},
+                    {"GLASS", SurfaceType::GLASS }
+                };
+
+                for (const auto& [label, enumVal] : surfaceOptions)
+                {
+                    bool selected = (current == static_cast<int>(enumVal));
+                    auto toggle = attributes_folder->addToggle(label, selected);
+                    toggle->onToggleEvent([this, propName, prop, enumVal](ofxDatGuiToggleEvent e) mutable
+                    {
+                        Property updatedProp = prop;
+                        updatedProp.value = e.checked ? static_cast<int>(enumVal)
+                            : static_cast<int>(SurfaceType::NONE);
+
+                        for (auto* obj : gui_manager->getScene()->selectedObjects)
+                        {
+                            auto objProps = obj->getProperties();
+                            if (std::any_of(objProps.begin(), objProps.end(),
+                                            [&propName](const Property& p) { return p.name == propName; }))
+                            {
+                                obj->setProperty(updatedProp);
+                            }
+                        }
+                        gui_manager->getScene()->update_Attributes();
+                    });
+                }
+                break;
+            }
+
             default:
                 break;
         }
@@ -379,6 +411,7 @@ void Bottom_Left_GUI::updatePropertyControls()
 
     attributes_folder->expand();
 }
+
 
 bool Bottom_Left_GUI::isMouseOverGui(int x, int y) const
 {

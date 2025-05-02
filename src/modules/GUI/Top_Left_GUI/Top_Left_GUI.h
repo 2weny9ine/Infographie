@@ -34,6 +34,23 @@ public:
     
     void setIlluminationPtr(IlluminationClassique* ptr) { illumination = ptr; }
     
+    
+    
+    ofxDatGuiToggle* toggleAmbiante;
+    ofxDatGuiToggle* toggleDirectionnelle;
+    ofxDatGuiToggle* togglePonctuelle;
+    ofxDatGuiToggle* toggleProjecteur;
+    ofxDatGuiToggle* toggleMouseLight;
+    
+    
+    bool isAmbianteOn()       const { return toggleAmbiante      && toggleAmbiante->getEnabled(); }
+    bool isDirectionnelleOn() const { return toggleDirectionnelle&& toggleDirectionnelle->getEnabled(); }
+    bool isPonctuelleOn()     const { return togglePonctuelle    && togglePonctuelle->getEnabled(); }
+    bool isProjecteurOn()     const { return toggleProjecteur    && toggleProjecteur->getEnabled(); }
+    void setIllumination(IlluminationClassique* ptr) {
+        illumination = ptr;
+    }
+    
 private:
     GUI* gui_manager;
     ofxDatGui* gui;
@@ -80,4 +97,5 @@ private:
     
     
     
+    ofxDatGuiFolder* lightsFolder;
 };

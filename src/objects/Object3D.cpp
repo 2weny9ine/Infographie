@@ -1,7 +1,7 @@
 #include "Object3D.h"
 
 Object3D::Object3D()
-    : position(0), rotation(0), scale(1), color(ofColor::grey), opacity(1.0f), selected(false)
+    : position(0), rotation(0), scale(1), color(ofColor::grey), opacity(1.0f), selected(false), surfaceType(SurfaceType::NONE)
 {
     initializeDrawingTools();
 }
@@ -44,6 +44,7 @@ ofVec3f Object3D::getScale() const { return scale; }
 ofColor Object3D::getColor() const { return color; }
 float Object3D::getOpacity() const { return opacity; }
 bool Object3D::getSelected() const { return selected; }
+SurfaceType Object3D::getSurfaceType() const { return surfaceType; }
 
 void Object3D::setPosition(const ofVec3f& pos) { position = pos; }
 void Object3D::setRotation(const ofVec3f& rot) { rotation = rot; }
@@ -86,4 +87,15 @@ void Object3D::setProperty(const Property& prop)
     else if (prop.name == "scale.z") scale.z = std::get<float>(prop.value);
     else if (prop.name == "color") color = std::get<ofColor>(prop.value);
     else if (prop.name == "opacity") opacity = std::get<float>(prop.value);
+
+    else if (prop.name == "surface type")
+    {
+        if (auto valuePtr = std::get_if<int>(&prop.value))
+            surfaceType = static_cast<SurfaceType>(*valuePtr);
+    };
+}
+
+bool Object3D::intersect(const Ray& ray, Intersection& isect)
+{
+    return false;
 }

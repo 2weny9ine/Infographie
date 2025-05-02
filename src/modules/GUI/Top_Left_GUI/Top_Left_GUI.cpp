@@ -44,7 +44,7 @@ Top_Left_GUI::Top_Left_GUI()
     exportButton->onButtonEvent([this](ofxDatGuiButtonEvent e) {
         if (imagePtr) {
             imagePtr->setExportDuration(exportDurationSlider->getValue());
-            imagePtr->setExportTriggered(true);
+            imagePtr->triggerExport(true);
         }
     });
     
@@ -63,52 +63,119 @@ Top_Left_GUI::Top_Left_GUI()
     applyColors = false;
     
     
-    material_folder = gui->addFolder("Materials", ofColor::white);
-    
+    // Dossier : Matériaux
+    material_folder = gui->addFolder("Matériaux", ofColor::white);
+
     materialEffectToggle = material_folder->addButton("Activer Effet Matériau");
-    materialEffectEnabled = false;
-    materialEffectToggle->onButtonEvent([this](ofxDatGuiButtonEvent e) {
-        materialEffectEnabled = !materialEffectEnabled;
-        if(materialEffectEnabled) {
+    materialEffectToggle->onButtonEvent([this](ofxDatGuiButtonEvent) {
+        illumination->materialEffectEnabled = !illumination->materialEffectEnabled;
+        materialEffectEnabled = illumination->materialEffectEnabled;
+
+        if (materialEffectEnabled) {
             materialEffectToggle->setLabel("Désactiver Effet Matériau");
+            illumIdx = static_cast<int>(IlluminationClassique::Mode::PHONG);
         } else {
             materialEffectToggle->setLabel("Activer Effet Matériau");
+            illumIdx = static_cast<int>(IlluminationClassique::Mode::LAMBERT);
         }
-        ofLogNotice() << "Effet Matériau activé : " << materialEffectEnabled;
+
+        illumBtn->setLabel(illumNames[illumIdx]);
+        illumination->setMode(static_cast<IlluminationClassique::Mode>(illumIdx));
+        ofLogNotice() << "Effet Matériau : " << (materialEffectEnabled ? "activé" : "désactivé");
     });
-    
-    materialOptions = {"Mat", "Plastique", "Métallique"};
+
+    materialOptions = { "Mat", "Plastique", "Métallique" };
     currentMaterialIndex = 0;
+
     materialButton = material_folder->addButton(materialOptions[currentMaterialIndex]);
-    materialButton->onButtonEvent([this](ofxDatGuiButtonEvent e) {
+    materialButton->onButtonEvent([this](ofxDatGuiButtonEvent) {
         currentMaterialIndex = (currentMaterialIndex + 1) % materialOptions.size();
         materialButton->setLabel(materialOptions[currentMaterialIndex]);
         ofLogNotice() << "Matériau sélectionné : " << materialOptions[currentMaterialIndex];
     });
-    
-    
-    
-    illumFolder = gui->addFolder("Illumination", ofColor::white);
-    
-    illumNames = { "Off", "Lambert", "Gouraud", "Phong", "Blinn‑Phong" };
-    illumIdx   = 0;
-    illumBtn   = illumFolder->addButton(illumNames[illumIdx]);
-    
-    illumBtn->onButtonEvent([this](ofxDatGuiButtonEvent)
-    {
+
+    // Dossier : Illumination
+    illumFolder = gui->addFolder("Illumination", ofColor::purple);
+
+    illumNames = { "Off", "Lambert", "Gouraud", "Phong", "Blinn‑Phong", "Toon" };
+    illumIdx = 0;
+
+    illumBtn = illumFolder->addButton(illumNames[illumIdx]);
+    illumBtn->onButtonEvent([this](ofxDatGuiButtonEvent) {
         illumIdx = (illumIdx + 1) % illumNames.size();
         illumBtn->setLabel(illumNames[illumIdx]);
 
-        if(illumination){                       
-            illumination->setMode(
-               static_cast<IlluminationClassique::Mode>(illumIdx));
-            ofLogNotice() << "GUI set mode = " << illumIdx;   
+        if (illumination) {
+            illumination->setMode(static_cast<IlluminationClassique::Mode>(illumIdx));
+            ofLogNotice() << "Mode d’illumination : " << illumNames[illumIdx];
         } else {
-            ofLogError() << "illumination ptr is null in GUI";
+            ofLogError() << "Pointeur d’illumination nul.";
         }
     });
-
     
+
+    // Dossier : Types de lumières
+    lightsFolder = gui->addFolder("Lumières", ofColor::white);
+
+    toggleAmbiante        = lightsFolder->addToggle("Ambiante",       false);
+    toggleDirectionnelle  = lightsFolder->addToggle("Directionnelle", false);
+    togglePonctuelle      = lightsFolder->addToggle("Ponctuelle",     false);
+    toggleProjecteur      = lightsFolder->addToggle("Projecteur",     false);
+    toggleMouseLight      = lightsFolder->addToggle("Lumière Souris", false);
+
+    toggleAmbiante->onToggleEvent([this](ofxDatGuiToggleEvent e) {
+        if (illumination) illumination->activeLightAmbient = e.checked;
+        ofLogNotice() << "Ambiante : " << (e.checked ? "ON" : "OFF");
+    });
+    toggleDirectionnelle->onToggleEvent([this](ofxDatGuiToggleEvent e) {
+        if (illumination) illumination->activeLightDirectional = e.checked;
+        ofLogNotice() << "Directionnelle : " << (e.checked ? "ON" : "OFF");
+    });
+    togglePonctuelle->onToggleEvent([this](ofxDatGuiToggleEvent e) {
+        if (illumination) illumination->activeLightPoint = e.checked;
+        ofLogNotice() << "Ponctuelle : " << (e.checked ? "ON" : "OFF");
+    });
+    toggleProjecteur->onToggleEvent([this](ofxDatGuiToggleEvent e) {
+        if (illumination) illumination->activeLightSpot = e.checked;
+        ofLogNotice() << "Projecteur : " << (e.checked ? "ON" : "OFF");
+    });
+    toggleMouseLight->onToggleEvent([this](ofxDatGuiToggleEvent e) {
+        if (illumination) illumination->activeMouseLight = e.checked;
+        ofLogNotice() << "Lumière Souris : " << (e.checked ? "ON" : "OFF");
+    });
+    
+    auto sliderGlobalIntensity = lightsFolder->addSlider("Intensité ", 0.0f, 1.0f); 
+    sliderGlobalIntensity->setValue(1.0f);
+    sliderGlobalIntensity->onSliderEvent([this](ofxDatGuiSliderEvent e){
+        if (!illumination) return;
+        float I = e.value;
+
+     
+        ofFloatColor intensityColor(I, I, I);
+        
+        illumination->lightDirectional.setDiffuseColor(intensityColor);
+        illumination->lightPoint.setDiffuseColor(intensityColor);
+        illumination->lightSpot.setDiffuseColor(intensityColor);
+        illumination->lightMouse.setDiffuseColor(intensityColor);
+    });
+    
+    auto pickerGlobalColor = lightsFolder->addColorPicker("Couleur ", ofColor::white);
+    pickerGlobalColor->onColorPickerEvent([this](ofxDatGuiColorPickerEvent e){
+        if (!illumination) return;
+        
+
+        ofFloatColor color(
+            e.color.r / 255.0f,
+            e.color.g / 255.0f,
+            e.color.b / 255.0f
+        );
+
+        illumination->lightDirectional.setDiffuseColor(color);
+        illumination->lightPoint.setDiffuseColor(color);
+        illumination->lightSpot.setDiffuseColor(color);
+        illumination->lightMouse.setDiffuseColor(color);
+    });
+
     
     colorPickerRGB = color_folder->addColorPicker("Couleur (RGB)", ofColor::white);
     hueValue = color_folder->addSlider("Hue", 0, 255, 127);

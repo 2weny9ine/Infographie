@@ -20,6 +20,8 @@ public:
     virtual std::vector<Property> getProperties() const override;
     virtual void setProperty(const Property& prop) override;
 
+    bool intersect(const Ray& ray, Intersection& intersection) override;
+
 private:
     ofSpherePrimitive sphere;
     int resolution;

@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
+﻿<?xml version="1.0" encoding="utf-8"?>
 <Project DefaultTargets="Build" ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup Label="ProjectConfigurations">
     <ProjectConfiguration Include="Debug|x64">
@@ -121,6 +121,10 @@
     <ClCompile Include="..\..\..\addons\ofxGui\src\ofxSlider.cpp" />
     <ClCompile Include="..\..\..\addons\ofxGui\src\ofxSliderGroup.cpp" />
     <ClCompile Include="..\..\..\addons\ofxGui\src\ofxToggle.cpp" />
+    <ClCompile Include="src\modules\ExportScene\ExportScene.cpp" />
+    <ClCompile Include="src\modules\Raytracing\Intersection\Intersection.cpp" />
+    <ClCompile Include="src\modules\Raytracing\Ray\Ray.cpp" />
+    <ClCompile Include="src\modules\Raytracing\Raytracing.cpp" />
     <ClCompile Include="src\Application.cpp" />
     <ClCompile Include="src\events\DragEventHandler\DragEventHandler.cpp" />
     <ClCompile Include="src\events\KeyEventHandler\KeyEventHandler.cpp" />
@@ -270,6 +274,10 @@
     <ClInclude Include="..\..\..\addons\ofxGui\src\ofxSlider.h" />
     <ClInclude Include="..\..\..\addons\ofxGui\src\ofxSliderGroup.h" />
     <ClInclude Include="..\..\..\addons\ofxGui\src\ofxToggle.h" />
+    <ClInclude Include="src\modules\ExportScene\ExportScene.h" />
+    <ClInclude Include="src\modules\Raytracing\Intersection\Intersection.h" />
+    <ClInclude Include="src\modules\Raytracing\Ray\Ray.h" />
+    <ClInclude Include="src\modules\Raytracing\Raytracing.h" />
     <ClInclude Include="src\Application.h" />
     <ClInclude Include="src\events\DragEventHandler\DragEventHandler.h" />
     <ClInclude Include="src\events\KeyEventHandler\KeyEventHandler.h" />
@@ -302,6 +310,9 @@
     <ProjectReference Include="$(OF_ROOT)\libs\openFrameworksCompiled\project\vs\openframeworksLib.vcxproj">
       <Project>{5837595d-aca9-485c-8e76-729040ce4b0b}</Project>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="src\enums\SurfaceType.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ProjectExtensions>
