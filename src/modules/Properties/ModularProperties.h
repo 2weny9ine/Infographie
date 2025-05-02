@@ -25,6 +25,9 @@ struct Property {
     float         max = 1.0f;
     float         step = 0.1f;
     int           decimals = 2;
+
+    std::vector<std::string> options; 
+
 };
 
 class IPropertyProvider {

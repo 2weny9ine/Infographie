@@ -17,14 +17,14 @@ void Image::importImage(const std::string& path)
     auto* imageObject = new ImageObject();
     if (imageObject->loadImage(path))
     {
+        imageObject->setup();
         images.push_back(imageObject);
         scene.addObject(imageObject);
         showImage();
-    }
-    else
-    {
+
+    } else {
         delete imageObject;
-        ofLogError("Image::importImage") << "Impossible de charger l'image : " << path;
+        ofLog() << "Erreur l'image : " << path;
     }
 }
 
@@ -185,4 +185,3 @@ void Image::imageExport(const std::string& name,
 {
     exporter.exportFrames(name, extension);
 }
-

@@ -255,7 +255,7 @@ void Bottom_Left_GUI::updatePropertyControls()
 
             case PropertyType::String:
             {
-                std::string strVal = std::get<std::string>(prop.value);
+                /*std::string strVal = std::get<std::string>(prop.value);
                 auto textInput = attributes_folder->addTextInput(prop.name, strVal);
                 textInput->onTextInputEvent([this, propName, prop](ofxDatGuiTextInputEvent e) mutable
                 {
@@ -271,7 +271,80 @@ void Bottom_Left_GUI::updatePropertyControls()
                             obj->setProperty(updatedProp);
                         }
                     }
-                });
+                });*/
+                if (prop.name == "Filter") {
+                    std::string currentVal = std::get<std::string>(prop.value);
+                    std::vector<std::string> filters = { "None", "Emboss", "Sharpen", "EdgeDetect" };
+
+                    attributes_folder->addLabel("Texture Filter");
+
+                    for (const auto& filterName : filters) {
+                        bool isSelected = (filterName == currentVal);
+                        auto* toggle = attributes_folder->addToggle(filterName, isSelected);
+
+                        toggle->onToggleEvent([this, filterName, propName, prop](ofxDatGuiToggleEvent e) mutable {
+                            if (!e.checked) return; 
+
+                            Property updatedProp = prop;
+                            updatedProp.value = filterName;
+
+                            for (auto* obj : gui_manager->getScene()->selectedObjects) {
+                                auto objProps = obj->getProperties();
+                                if (std::any_of(objProps.begin(), objProps.end(),
+                                    [&propName](const Property& p) { return p.name == propName; })) {
+                                    obj->setProperty(updatedProp);
+                                }
+                            }
+
+    
+                            updatePropertyControls();
+                            });
+                    }
+                }
+                else if (prop.name == "TextureType") {
+                    std::string currentVal = std::get<std::string>(prop.value);
+                    std::vector<std::string> textures = { "wood", "tree", "brick", "checkerboard" };
+
+                    attributes_folder->addLabel("Texture Type");
+
+                    for (const auto& texName : textures) {
+                        bool isSelected = (texName == currentVal);
+                        auto* toggle = attributes_folder->addToggle(texName, isSelected);
+
+                        toggle->onToggleEvent([this, texName, propName, prop](ofxDatGuiToggleEvent e) mutable {
+                            if (!e.checked) return; 
+
+                            Property updatedProp = prop;
+                            updatedProp.value = texName;
+
+                            for (auto* obj : gui_manager->getScene()->selectedObjects) {
+                                auto objProps = obj->getProperties();
+                                if (std::any_of(objProps.begin(), objProps.end(),
+                                    [&propName](const Property& p) { return p.name == propName; })) {
+                                    obj->setProperty(updatedProp);
+                                }
+                            }
+
+                            updatePropertyControls();
+                            });
+                    }
+                }
+                else {
+                    std::string strVal = std::get<std::string>(prop.value);
+                    auto textInput = attributes_folder->addTextInput(prop.name, strVal);
+                    textInput->onTextInputEvent([this, propName, prop](ofxDatGuiTextInputEvent e) mutable {
+                        Property updatedProp = prop;
+                        updatedProp.value = e.text;
+
+                        for (auto* obj : gui_manager->getScene()->selectedObjects) {
+                            auto objProps = obj->getProperties();
+                            if (std::any_of(objProps.begin(), objProps.end(),
+                                [&propName](const Property& p) { return p.name == propName; })) {
+                                obj->setProperty(updatedProp);
+                            }
+                        }
+                        });
+                }
                 break;
             }
 

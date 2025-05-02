@@ -28,6 +28,22 @@ public:
     virtual void getWorldBounds(glm::vec3& outMin, glm::vec3& outMax) const override;
     virtual void drawBoundingBox() override;
 
+    //6.3
+    void enableToneMapping(bool enable) { toneMappingEnabled = enable; }
+    void setToneMappingExposure(float exposure) { toneMappingExposure = exposure; }
+    void setToneMappingGamma(float gamma) { toneMappingGamma = gamma; }
+    virtual std::vector<Property> getProperties() const override;
+    virtual void setProperty(const Property& prop) override;
+
+
 private:
     ofImage image;
+
+    //6.3
+    ofShader toneMappingShader;
+    bool toneMappingEnabled = false;
+    float toneMappingExposure = 1.0f;
+    float toneMappingGamma = 2.2f;
+
+
 };

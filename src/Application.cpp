@@ -24,6 +24,7 @@ void Application::setup()
 {
     ofSetWindowTitle("Infographie");
     ofLog() << "Application démarre...";
+    ofDisableArbTex();
 
     scene.setup(&user_camera_movement.camera, &gui);
     user_camera_movement.setup(scene);
@@ -46,6 +47,9 @@ void Application::setup()
     illuminationModerne->setup();
     scene.setIlluminationModernePtr(illuminationModerne);
     gui.top_left->setIlluminationModernePtr(illuminationModerne);
+
+    TextureManager::get().setup();
+    imageFilterManager.setup(&Application::getInstance().getTextureManager().getTexture("wood"));
 }
 
 void Application::update()
@@ -197,6 +201,9 @@ float Application::getTimeElapsed() const { return time_elapsed; }
 float Application::getTimeLast() const { return time_last; }
 bool Application::getIsDrawingMode() const { return isDrawingMode; }
 ofColor Application::getBackgroundColor() const { return backgroundColor; }
+
+ImageFilterManager& Application::getImageFilterManager() {return imageFilterManager;} //texture
+
 
 // Setters
 void Application::setScene(const Scene& scene) { this->scene = scene; }
