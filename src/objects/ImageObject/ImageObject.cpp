@@ -83,7 +83,6 @@ void ImageObject::draw()
     ofPopMatrix();
 }
 
-// yacine
 ofRectangle ImageObject::getScreenBoundingBox(ofCamera* cam)
 {
     glm::vec3 corners[4] = {

@@ -13,9 +13,6 @@
 
 #include "modules/BoundingBox/BoundingBox.h"
 
-//2.3
-/**************************************************************************/
-/**************************************************************************/
 struct Shape {
     PrimitiveType type;
     ofVec2f startPos;
@@ -25,8 +22,6 @@ struct Shape {
     float lineWidth;
     bool outline = false;
 };
-/**************************************************************************/
-/**************************************************************************/
 
 struct Locator {
     float position[3];
@@ -77,12 +72,9 @@ public:
     bool is_active_translation, is_active_rotation, is_active_proportion;
     bool is_mouse_button_pressed;
 
-    //yacine
-    /**************************************************************************/
-    bool isDrawingMode = false; // New flag
-    Cursor cursor;              // yacine 
-    bool isMouseOverObject(int mouseX, int mouseY); // yacine
-    /**************************************************************************/
+    bool isDrawingMode = false;
+    Cursor cursor;
+    bool isMouseOverObject(int mouseX, int mouseY);
 
     void draw_locator(float scale);
 
@@ -106,17 +98,14 @@ public:
 
     ofVec3f calculProfondeur(const ofVec2f& pointEcran, float profondeur);
 
-    //2.2
-    /**************************************************************************/
     void updateDrawingProperties(const ofColor& stroke, const ofColor& fill, float width, bool outline);
     void drawCursor();
-    //2.3
+
     void setPrimitiveType(PrimitiveType primitive);
     void startDrawing(int x, int y);
     void updateCurrentDrawing(int x, int y);
     void finalizeDrawing();
     void setOutlineEnabled(bool enabled);
-    /**************************************************************************/
 
     std::vector<Object3D*> selectedObjects;
     std::vector<Object3D*> objects;
@@ -130,7 +119,7 @@ private:
     IlluminationClassique* illuminationClassique;
     IlluminationModerne* illuminationModerne;
     bool materialPassEnabled = false; 
-    // 2.3
+
     std::vector<Shape> shapes;
     Shape currentShape;
     bool isDrawing = false;

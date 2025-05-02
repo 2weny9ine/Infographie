@@ -36,10 +36,7 @@ void Scene::setup(ofCamera* cam, GUI* gui)
     
     locator_buffer_head = 0;
     
-    // yacine
-    /**************************************************************************/
     cursor.setup();
-    /**************************************************************************/
     
     boundingBoxDirty = true;
 }
@@ -139,10 +136,7 @@ void Scene::update()
         }
     }
     
-    // yacine
-    /**************************************************************************/
     cursor.update(mouse_current_x, mouse_current_y, is_mouse_button_pressed);
-    /**************************************************************************/
 
     //img->update();
 }
