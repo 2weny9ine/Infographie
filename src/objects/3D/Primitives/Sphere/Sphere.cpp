@@ -176,6 +176,11 @@ std::vector<Property> Sphere::getProperties() const
     props.push_back(filterProp);
 
 
+    std::vector<Property> sphereProps = {
+        {"surface type", PropertyType::SurfaceType, PropertyValue{static_cast<int>(surfaceType)} }
+    };
+
+    props.insert(props.end(), sphereProps.begin(), sphereProps.end());
 
     return props;
 }
