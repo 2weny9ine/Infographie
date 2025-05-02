@@ -1,6 +1,7 @@
 #include "Scene.h"
 #include "Image.h"
 #include "IlluminationClassique.h"  
+#include "modules/IlluminationModerne/IlluminationModerne.h"  
 #include "ofMain.h"
 #include "GUI.h"
 #include "primitiveObject.h"
@@ -36,14 +37,11 @@ void Scene::setup(ofCamera* cam, GUI* gui)
     
     locator_buffer_head = 0;
     
-    // yacine
-    /**************************************************************************/
     cursor.setup();
-    /**************************************************************************/
+    
     topologie = new Topologie(this);
     topologie->setup();
-
-
+    
     boundingBoxDirty = true;
 }
 
@@ -142,12 +140,11 @@ void Scene::update()
         }
     }
     
-    // yacine
-    /**************************************************************************/
     cursor.update(mouse_current_x, mouse_current_y, is_mouse_button_pressed);
-    /**************************************************************************/
-    
+
+    //img->update();
     topologie->update( ofGetLastFrameTime() );
+
 }
 
 Scene::Scene()
@@ -168,10 +165,16 @@ void Scene::draw()
 
     grid->draw();
     glEnable(GL_DEPTH_TEST);
+    ofDisableArbTex();
 
-    if (illumination && illumination->getMode() != IlluminationClassique::Mode::AUCUN) {
-        illumination->draw();
-    } else {
+    if (illuminationClassique && illuminationClassique->getMode() != IlluminationClassique::Mode::AUCUN && !illuminationModerne->activated) {
+        illuminationClassique->draw();
+    }
+    else if (illuminationModerne && illuminationModerne->activated)
+    {
+        illuminationModerne->draw();
+    }
+    else {
         for (auto* obj : objects) {
             obj->draw();
         }
@@ -179,10 +182,12 @@ void Scene::draw()
     
     topologie->draw();
 
-    if (materialPassEnabled && !selectedObjects.empty() && illumination) {
-        illumination->renderMaterialPass();
+    if (materialPassEnabled && !selectedObjects.empty() && illuminationClassique && illuminationClassique->getMode() != IlluminationClassique::Mode::AUCUN && !illuminationModerne->activated) {
+        illuminationClassique->renderMaterialPass();
     }
-
+    else if (materialPassEnabled && !selectedObjects.empty() && illuminationModerne && illuminationModerne->activated) {
+        illuminationModerne->renderMaterialPass();
+    }
     glDisable(GL_DEPTH_TEST);
 
     if (!selectedObjects.empty()) {
@@ -199,14 +204,12 @@ void Scene::draw()
         draw_zone(mouse_press_x, mouse_press_y, mouse_current_x, mouse_current_y);
     }
 
-    for (auto& shape : shapes) {
-        drawShape(shape);
-    }
+    //2.3
+    for (auto& shape : shapes) drawShape(shape);
+    if (isDrawing) drawShape(currentShape);
+    //cursor.draw();
 
-    if (isDrawing) {
-        drawShape(currentShape);
-    }
-
+    //img->draw();
 }
 
 

@@ -35,7 +35,8 @@ bool ImageObject::loadImage(const std::string& path)
         }
 
         plane.set(imgWidth * scaleFactor, imgHeight * scaleFactor, 2, 2);
-        plane.mapTexCoords(imgWidth, 0, 0, imgHeight);
+        plane.mapTexCoordsFromTexture(image.getTexture());
+
     }
     else
     {
@@ -47,6 +48,12 @@ bool ImageObject::loadImage(const std::string& path)
 void ImageObject::setup()
 {
     ofLogNotice("ImageObject::setup") << "Setting up ImageObject.";
+    toneMappingShader.load("shaders/tone_mapping_330_vs.glsl", "shaders/tone_mapping_330_fs.glsl");
+    if (toneMappingShader.isLoaded())
+        ofLogNotice() << "Tone mapping shader loaded successfully.";
+    else
+        ofLogError() << "Failed to load tone mapping shader!";
+
 }
 
 void ImageObject::update(float dt)
@@ -65,25 +72,31 @@ void ImageObject::draw()
         ofScale(scale.x, scale.y, scale.z);
 
         if (applyUserColor)
-        {
             ofSetColor(customUserColor, 255);
-        }
         else
-        {
-            ofSetColor(255, 255, 255);
-        }
+            ofSetColor(255);
 
         if (image.isAllocated())
         {
+            if (toneMappingEnabled && toneMappingShader.isLoaded()) {
+                toneMappingShader.begin();
+                toneMappingShader.setUniformTexture("image", image.getTexture(), 0);
+                toneMappingShader.setUniform1f("tone_mapping_exposure", toneMappingExposure);
+                toneMappingShader.setUniform1f("tone_mapping_gamma", toneMappingGamma);
+                toneMappingShader.setUniform1i("tone_mapping_toggle", true); 
+            }
+
             image.getTexture().bind();
             plane.draw();
             image.getTexture().unbind();
+
+            if (toneMappingEnabled && toneMappingShader.isLoaded())
+                toneMappingShader.end();
         }
     }
     ofPopMatrix();
 }
 
-// yacine
 ofRectangle ImageObject::getScreenBoundingBox(ofCamera* cam)
 {
     glm::vec3 corners[4] = {
@@ -165,4 +178,47 @@ void ImageObject::applyFilter(const ofColor& filter)
 {
     applyUserColor = true;
     customUserColor = filter;
+}
+
+//6.3
+std::vector<Property> ImageObject::getProperties() const {
+    std::vector<Property> props = Object3D::getProperties();
+
+    props.push_back(Property{
+        "TM Exposure",
+        PropertyType::Float,
+        toneMappingExposure,
+        0.0f, 5.0f, 2
+        });
+
+    props.push_back(Property{
+        "TM Gamma",
+        PropertyType::Float,
+        toneMappingGamma,
+        0.0f, 5.0f, 2
+        });
+
+    props.push_back(Property{
+        "TM Toggle",
+        PropertyType::Bool,
+        toneMappingEnabled
+        });
+
+    return props;
+}
+
+//6.3
+void ImageObject::setProperty(const Property& property) {
+    if (property.name == "TM Exposure") {
+        toneMappingExposure = std::get<float>(property.value);
+    }
+    else if (property.name == "TM Gamma") {
+        toneMappingGamma = std::get<float>(property.value);
+    }
+    else if (property.name == "TM Toggle") {
+        toneMappingEnabled = std::get<bool>(property.value);
+    }
+    else {
+        Object3D::setProperty(property);
+    }
 }

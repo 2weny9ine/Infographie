@@ -119,3 +119,73 @@ Cube* Cube::copy() const
 {
     return new Cube(*this);
 }
+
+std::vector<Property> Cube::getProperties() const
+{
+    std::vector<Property> props = Object3D::getProperties();
+
+    std::vector<Property> cubeProps = {
+        {"surface type", PropertyType::SurfaceType, PropertyValue{static_cast<int>(surfaceType)} }
+    };
+
+
+    props.insert(props.end(), cubeProps.begin(), cubeProps.end());
+    return props;
+}
+
+bool Cube::intersect(const Ray& ray, Intersection& intersection)
+{
+    glm::vec3 euler{ rotation.x, rotation.y, rotation.z };
+    glm::quat q = glm::quat(glm::radians(euler));
+    glm::quat invQ = glm::inverse(q);
+
+    glm::vec3 localOrigin = invQ * ((ray.origin - position) / scale);
+    glm::vec3 localDir = glm::normalize(invQ * (ray.direction / scale));
+
+    float w2 = width * 0.5f;
+    float h2 = height * 0.5f;
+    float d2 = depth * 0.5f;
+
+    float tMin = -std::numeric_limits<float>::infinity();
+    float tMax = std::numeric_limits<float>::infinity();
+
+    auto slab = [&](float o, float d, float mn, float mx)
+    {
+        if (fabs(d) < 1e-6f)
+        {
+            if (o < mn || o > mx) return false;
+        }
+        else
+        {
+            float t1 = (mn - o) / d, t2 = (mx - o) / d;
+            if (t1 > t2) std::swap(t1, t2);
+            tMin = std::max(tMin, t1);
+            tMax = std::min(tMax, t2);
+            if (tMin > tMax) return false;
+        }
+        return true;
+    };
+
+    if (!slab(localOrigin.x, localDir.x, -w2, w2)) return false;
+    if (!slab(localOrigin.y, localDir.y, -h2, h2)) return false;
+    if (!slab(localOrigin.z, localDir.z, -d2, d2)) return false;
+
+    float t = (tMin > 0 ? tMin : tMax);
+    if (t < 0) return false;
+
+    glm::vec3 localHit = localOrigin + localDir * t;
+    glm::vec3 localN(0.0f);
+    if (fabs(localHit.x - w2) < 1e-3f) localN = { 1,0,0 };
+    else if (fabs(localHit.x + w2) < 1e-3f) localN = { -1,0,0 };
+    else if (fabs(localHit.y - h2) < 1e-3f) localN = { 0, 1,0 };
+    else if (fabs(localHit.y + h2) < 1e-3f) localN = { 0,-1,0 };
+    else if (fabs(localHit.z - d2) < 1e-3f) localN = { 0,0, 1 };
+    else if (fabs(localHit.z + d2) < 1e-3f) localN = { 0,0,-1 };
+
+    intersection.hit = true;
+    intersection.distance = t;
+    intersection.point = position + (q * (localHit * scale));
+    intersection.normal = glm::normalize(q * localN);
+    intersection.object = this;
+    return true;
+}

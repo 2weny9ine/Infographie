@@ -120,7 +120,7 @@ int Configuration::getInt(const std::string& key)
     catch (const std::exception& e)
     {
         ofLogError("Configuration") << "Invalid int value for key: " << key << " - " << e.what();
-        throw; // Rethrow the exception after logging
+        throw;
     }
 }
 

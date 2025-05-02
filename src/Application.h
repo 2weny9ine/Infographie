@@ -4,12 +4,16 @@
 #include "modules/Scene/Scene.h"
 #include "modules/Image/Image.h"
 #include "modules/IlluminationClassique/IlluminationClassique.h"
+#include "modules/IlluminationModerne/IlluminationModerne.h"
 #include "modules/User_Camera_Movement/User_Camera_Movement.h"
 #include "modules/GUI/GUI.h"
 #include "events/MouseEventHandler/MouseEventHandler.h"
 #include "events/WindowResizedEventHandler/WindowResizedEventHandler.h"
 #include "events/KeyEventHandler/KeyEventHandler.h"
 #include "events/DragEventHandler/DragEventHandler.h"
+#include "modules/Texture/TextureManager.h"
+#include "modules/Texture/ImageFilterManager.h"
+
 
 class Application : public ofBaseApp {
 public:
@@ -54,6 +58,10 @@ public:
     bool getIsDrawingMode() const;
     ofColor getBackgroundColor() const;
 
+    ImageFilterManager& getImageFilterManager();//texture
+   
+
+
     void setScene(const Scene& scene);
     void setRenderer(const Renderer& renderer);
     void setUserCameraMovement(const User_Camera_Movement& user_camera_movement);
@@ -67,7 +75,9 @@ public:
 
     static Application& getInstance();
     
-    IlluminationClassique* getIllumination() { return illuminationClassique; }
+    IlluminationClassique* getIlluminationClassique() { return illuminationClassique; }
+    IlluminationModerne* getIlluminationModerne() { return illuminationModerne; }
+    TextureManager& getTextureManager() { return TextureManager::get(); } //texture
 private:
     Application();
     ~Application();
@@ -77,4 +87,6 @@ private:
     KeyEventHandler keyEventHandler;
     DragEventHandler dragEventHandler;
     IlluminationClassique* illuminationClassique;
+    IlluminationModerne* illuminationModerne;
+    ImageFilterManager imageFilterManager;//texture
 };

@@ -3,6 +3,7 @@
 
 #include "Application.h"
 #include "modules/IlluminationClassique/IlluminationClassique.h"
+#include "modules/IlluminationModerne/IlluminationModerne.h"
 
 Top_Left_GUI::Top_Left_GUI()
 {
@@ -44,7 +45,7 @@ Top_Left_GUI::Top_Left_GUI()
     exportButton->onButtonEvent([this](ofxDatGuiButtonEvent e) {
         if (imagePtr) {
             imagePtr->setExportDuration(exportDurationSlider->getValue());
-            imagePtr->setExportTriggered(true);
+            imagePtr->triggerExport(true);
         }
     });
     
@@ -68,36 +69,59 @@ Top_Left_GUI::Top_Left_GUI()
 
     materialEffectToggle = material_folder->addButton("Activer Effet Matériau");
     materialEffectToggle->onButtonEvent([this](ofxDatGuiButtonEvent) {
-        illumination->materialEffectEnabled = !illumination->materialEffectEnabled;
-        materialEffectEnabled = illumination->materialEffectEnabled;
+        illuminationClassique->materialEffectEnabled = !illuminationClassique->materialEffectEnabled;
+        illuminationModerne->materialEffectEnabled = !illuminationModerne->materialEffectEnabled;
+        materialEffectEnabled = illuminationClassique->materialEffectEnabled;
 
         if (materialEffectEnabled) {
             materialEffectToggle->setLabel("Désactiver Effet Matériau");
-            illumIdx = static_cast<int>(IlluminationClassique::Mode::PHONG);
+            //if(illuminationClassique->getMode() != IlluminationClassique::Mode::AUCUN)
+            //illumIdx = static_cast<int>(IlluminationClassique::Mode::PHONG);
         } else {
             materialEffectToggle->setLabel("Activer Effet Matériau");
-            illumIdx = static_cast<int>(IlluminationClassique::Mode::LAMBERT);
+            //illumIdx = static_cast<int>(IlluminationClassique::Mode::LAMBERT);
         }
 
-        illumBtn->setLabel(illumNames[illumIdx]);
-        illumination->setMode(static_cast<IlluminationClassique::Mode>(illumIdx));
+        //illumBtn->setLabel(illumNames[illumIdx]);
+        //illuminationClassique->setMode(static_cast<IlluminationClassique::Mode>(illumIdx));
         ofLogNotice() << "Effet Matériau : " << (materialEffectEnabled ? "activé" : "désactivé");
     });
 
-    materialOptions = { "Mat", "Plastique", "Métallique" };
+    materialOptions = { "Mat", "Plastique", "Métallique", "PBR"};
     currentMaterialIndex = 0;
 
     materialButton = material_folder->addButton(materialOptions[currentMaterialIndex]);
-    materialButton->onButtonEvent([this](ofxDatGuiButtonEvent) {
+    auto sliderMetallicity = material_folder->addSlider("Metallicité ", 0.0f, 1.0f);
+    sliderMetallicity->onSliderEvent([this](ofxDatGuiSliderEvent e) {
+        illuminationModerne->metallicityAmount = e.value;
+        });
+    sliderMetallicity->setVisible(false);
+    auto sliderRugosity = material_folder->addSlider("Rugosité ", 0.0f, 1.0f);
+    sliderRugosity->onSliderEvent([this](ofxDatGuiSliderEvent e) {
+        illuminationModerne->roughnessAmount = e.value;
+        });
+    sliderRugosity->setVisible(false);
+    materialButton->onButtonEvent([this, sliderMetallicity, sliderRugosity](ofxDatGuiButtonEvent) {
         currentMaterialIndex = (currentMaterialIndex + 1) % materialOptions.size();
         materialButton->setLabel(materialOptions[currentMaterialIndex]);
         ofLogNotice() << "Matériau sélectionné : " << materialOptions[currentMaterialIndex];
+
+        if (currentMaterialIndex == 3 && illumBtn->getLabel() == "PBR" && illuminationModerne)
+        {
+            sliderMetallicity->setVisible(true);
+            sliderRugosity->setVisible(true);
+        }
+        else
+        {
+            sliderMetallicity->setVisible(false);
+            sliderRugosity->setVisible(false);
+        }
     });
 
     // Dossier : Illumination
     illumFolder = gui->addFolder("Illumination", ofColor::purple);
 
-    illumNames = { "Off", "Lambert", "Gouraud", "Phong", "Blinn‑Phong", "Toon" };
+    illumNames = { "Off", "Lambert", "Gouraud", "Phong", "Blinn‑Phong", "Toon", "PBR"};
     illumIdx = 0;
 
     illumBtn = illumFolder->addButton(illumNames[illumIdx]);
@@ -105,10 +129,18 @@ Top_Left_GUI::Top_Left_GUI()
         illumIdx = (illumIdx + 1) % illumNames.size();
         illumBtn->setLabel(illumNames[illumIdx]);
 
-        if (illumination) {
-            illumination->setMode(static_cast<IlluminationClassique::Mode>(illumIdx));
+        if (illuminationClassique && illuminationModerne && illumBtn->getLabel() != "PBR") {
+            illuminationModerne->activated = false;
+            illuminationClassique->setMode(static_cast<IlluminationClassique::Mode>(illumIdx));
             ofLogNotice() << "Mode d’illumination : " << illumNames[illumIdx];
-        } else {
+        }
+        else if (illuminationModerne && illuminationClassique && illumBtn->getLabel() == "PBR")
+        {
+            illuminationClassique->setMode(static_cast<IlluminationClassique::Mode>(0));
+            illuminationModerne->activated = true;
+            ofLogNotice() << "Mode d’illumination (Moderne) : " << illumNames[illumIdx];
+        }
+        else {
             ofLogError() << "Pointeur d’illumination nul.";
         }
     });
@@ -124,44 +156,53 @@ Top_Left_GUI::Top_Left_GUI()
     toggleMouseLight      = lightsFolder->addToggle("Lumière Souris", false);
 
     toggleAmbiante->onToggleEvent([this](ofxDatGuiToggleEvent e) {
-        if (illumination) illumination->activeLightAmbient = e.checked;
+        if (illuminationClassique) illuminationClassique->activeLightAmbient = e.checked;
+        if (illuminationModerne) illuminationModerne->activeLightAmbient = e.checked;
         ofLogNotice() << "Ambiante : " << (e.checked ? "ON" : "OFF");
     });
     toggleDirectionnelle->onToggleEvent([this](ofxDatGuiToggleEvent e) {
-        if (illumination) illumination->activeLightDirectional = e.checked;
+        if (illuminationClassique) illuminationClassique->activeLightDirectional = e.checked;
+        if (illuminationModerne) illuminationModerne->activeLightDirectional = e.checked;
         ofLogNotice() << "Directionnelle : " << (e.checked ? "ON" : "OFF");
     });
     togglePonctuelle->onToggleEvent([this](ofxDatGuiToggleEvent e) {
-        if (illumination) illumination->activeLightPoint = e.checked;
+        if (illuminationClassique) illuminationClassique->activeLightPoint = e.checked;
+        if (illuminationModerne) illuminationModerne->activeLightPoint = e.checked;
         ofLogNotice() << "Ponctuelle : " << (e.checked ? "ON" : "OFF");
     });
     toggleProjecteur->onToggleEvent([this](ofxDatGuiToggleEvent e) {
-        if (illumination) illumination->activeLightSpot = e.checked;
+        if (illuminationClassique) illuminationClassique->activeLightSpot = e.checked;
+        if (illuminationModerne) illuminationModerne->activeLightSpot = e.checked;
         ofLogNotice() << "Projecteur : " << (e.checked ? "ON" : "OFF");
     });
     toggleMouseLight->onToggleEvent([this](ofxDatGuiToggleEvent e) {
-        if (illumination) illumination->activeMouseLight = e.checked;
+        if (illuminationClassique) illuminationClassique->activeMouseLight = e.checked;
+        if (illuminationModerne) illuminationModerne->activeMouseLight = e.checked;
         ofLogNotice() << "Lumière Souris : " << (e.checked ? "ON" : "OFF");
     });
     
     auto sliderGlobalIntensity = lightsFolder->addSlider("Intensité ", 0.0f, 1.0f); 
     sliderGlobalIntensity->setValue(1.0f);
     sliderGlobalIntensity->onSliderEvent([this](ofxDatGuiSliderEvent e){
-        if (!illumination) return;
+        if (!illuminationClassique || !illuminationModerne) return;
         float I = e.value;
 
      
         ofFloatColor intensityColor(I, I, I);
         
-        illumination->lightDirectional.setDiffuseColor(intensityColor);
-        illumination->lightPoint.setDiffuseColor(intensityColor);
-        illumination->lightSpot.setDiffuseColor(intensityColor);
-        illumination->lightMouse.setDiffuseColor(intensityColor);
+        illuminationClassique->lightDirectional.setDiffuseColor(intensityColor);
+        illuminationClassique->lightPoint.setDiffuseColor(intensityColor);
+        illuminationClassique->lightSpot.setDiffuseColor(intensityColor);
+        illuminationClassique->lightMouse.setDiffuseColor(intensityColor);
+        illuminationModerne->lightDirectional.setDiffuseColor(intensityColor);
+        illuminationModerne->lightPoint.setDiffuseColor(intensityColor);
+        illuminationModerne->lightSpot.setDiffuseColor(intensityColor);
+        illuminationModerne->lightMouse.setDiffuseColor(intensityColor);
     });
     
     auto pickerGlobalColor = lightsFolder->addColorPicker("Couleur ", ofColor::white);
     pickerGlobalColor->onColorPickerEvent([this](ofxDatGuiColorPickerEvent e){
-        if (!illumination) return;
+        if (!illuminationClassique || !illuminationModerne) return;
         
 
         ofFloatColor color(
@@ -170,10 +211,14 @@ Top_Left_GUI::Top_Left_GUI()
             e.color.b / 255.0f
         );
 
-        illumination->lightDirectional.setDiffuseColor(color);
-        illumination->lightPoint.setDiffuseColor(color);
-        illumination->lightSpot.setDiffuseColor(color);
-        illumination->lightMouse.setDiffuseColor(color);
+        illuminationClassique->lightDirectional.setDiffuseColor(color);
+        illuminationClassique->lightPoint.setDiffuseColor(color);
+        illuminationClassique->lightSpot.setDiffuseColor(color);
+        illuminationClassique->lightMouse.setDiffuseColor(color);
+        illuminationModerne->lightDirectional.setDiffuseColor(color);
+        illuminationModerne->lightPoint.setDiffuseColor(color);
+        illuminationModerne->lightSpot.setDiffuseColor(color);
+        illuminationModerne->lightMouse.setDiffuseColor(color);
     });
 
     

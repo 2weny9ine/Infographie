@@ -25,26 +25,36 @@ void Application::setup()
 {
     ofSetWindowTitle("Infographie");
     ofLog() << "Application démarre…";
+    ofDisableArbTex();
+
 
     gui.setup(&scene);
-
-
     gui.top_left->setImage(scene.img);
 
-
+ 
     scene.setup(&user_camera_movement.camera, &gui);
     user_camera_movement.setup(scene);
 
 
     illuminationClassique = new IlluminationClassique(&scene);
     illuminationClassique->setup();
-    scene.setIlluminationPtr(illuminationClassique);
-    gui.top_left->setIlluminationPtr(illuminationClassique);
+    scene.setIlluminationClassiquePtr(illuminationClassique);
+    gui.top_left->setIlluminationClassiquePtr(illuminationClassique);
+
+
+    illuminationModerne = new IlluminationModerne(&scene);
+    illuminationModerne->setup();
+    scene.setIlluminationModernePtr(illuminationModerne);
+    gui.top_left->setIlluminationModernePtr(illuminationModerne);
 
 
     sceneFbo.allocate(ofGetWidth(), ofGetHeight(), GL_RGBA);
     scene.cursor.setState(CursorState::DEFAULT);
     backgroundColor = ofColor(31);
+
+
+    TextureManager::get().setup();
+    imageFilterManager.setup(&TextureManager::get().getTexture("wood"));
 }
 
 
@@ -71,7 +81,7 @@ void Application::update()
     scene.isDrawingMode = isDrawingMode;
     
     illuminationClassique->update(ofGetLastFrameTime());
-
+    illuminationModerne->update(ofGetLastFrameTime());
 }
 
 
@@ -105,13 +115,13 @@ void Application::draw()
 
     if (gui.top_left->colorFilterEnabled())
     {
-        ofColor rgbColor = gui.top_left->getRGBColor();
-        ofColor hsbColor = gui.top_left->getHSBColor();
-        scene.img->colorFilterSelected(scene, rgbColor, hsbColor);
+        ofColor rgb = gui.top_left->getRGBColor();
+        ofColor hsb = gui.top_left->getHSBColor();
+        scene.img->colorFilterSelected(scene, rgb, hsb);
     }
     else
     {
-        for (auto& imgObj : scene.img->images)
+        for (auto* imgObj : scene.img->getImages())
         {
             imgObj->applyUserColor = false;
         }
@@ -120,6 +130,7 @@ void Application::draw()
 
 
     scene.img->imageExport("exportImage", "png");
+    scene.img->exportFrames("exportImage", "png");
     scene.drawCursor();
 }
 
@@ -196,6 +207,9 @@ float Application::getTimeElapsed() const { return time_elapsed; }
 float Application::getTimeLast() const { return time_last; }
 bool Application::getIsDrawingMode() const { return isDrawingMode; }
 ofColor Application::getBackgroundColor() const { return backgroundColor; }
+
+ImageFilterManager& Application::getImageFilterManager() {return imageFilterManager;} //texture
+
 
 // Setters
 void Application::setScene(const Scene& scene) { this->scene = scene; }

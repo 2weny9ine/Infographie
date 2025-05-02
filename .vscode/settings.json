@@ -5,6 +5,12 @@
         "*.dbclient-js": "javascript",
         "xstring": "cpp",
         "xutility": "cpp",
-        "vector": "cpp"
+        "vector": "cpp",
+        "sstream": "cpp",
+        "set": "cpp",
+        "fstream": "cpp",
+        "iomanip": "cpp",
+        "cmath": "cpp",
+        "algorithm": "cpp"
     }
 }
